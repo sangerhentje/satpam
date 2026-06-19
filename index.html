@@ -6,7 +6,7 @@
     <title>Kehadiran Sekuriti</title>
     
     <!-- === PWA META TAGS === -->
-    <meta name="theme-color" content="#92400e">
+    <meta name="theme-color" content="#92400e"> <!-- Warna Coklat Tua (Satpam) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
@@ -14,7 +14,9 @@
     <link id="pwaManifest" rel="manifest">
     <!-- ======================= -->
 
+    <!-- Tailwind CSS untuk styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF & jsPDF-AutoTable untuk ekspor PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     
@@ -35,6 +37,7 @@
 </head>
 <body class="bg-stone-200 min-h-screen font-sans selection:bg-amber-200">
 
+    <!-- Container Utama: Akan merentang 100% di HP, dan max-w-md (layar HP) jika dibuka di Laptop -->
     <div class="w-full sm:max-w-md mx-auto min-h-screen bg-stone-50 sm:shadow-2xl sm:border-x border-stone-300 relative flex flex-col overflow-x-hidden">
 
         <!-- LAYAR LOADING AWAL -->
@@ -49,6 +52,7 @@
             </div>
         </div>
 
+        <!-- CONTAINER KONTEN VIEWPORT (Lebih responsif di layar kecil) -->
         <div class="flex-1 px-4 sm:px-6 py-6 relative mt-2 w-full">
 
             <!-- DASHBOARD MENU UTAMA -->
@@ -57,6 +61,7 @@
                     <button id="btnSetupSheet" title="Setup Database" class="w-8 h-8 rounded-full bg-stone-200/80 hover:bg-amber-100 text-stone-700 hover:text-amber-900 transition-all flex items-center justify-center shadow-sm border border-stone-300">
                         ⚙️
                     </button>
+                    <div id="setupMessage" class="hidden absolute top-10 right-0 w-64 bg-stone-900 text-white text-[10px] p-2.5 rounded-xl shadow-xl border border-stone-700 z-50"></div>
                 </div>
 
                 <div class="text-center mb-6">
@@ -112,11 +117,14 @@
                     </div>
                 </div>
 
-                <!-- TOMBOL INSTALL PWA -->
+                <!-- TOMBOL INSTALL PWA (DIPINDAHKAN KE SINI DENGAN CONTAINER BARU) -->
                 <div id="pwaContainer" class="hidden mt-8 pt-6 border-t border-stone-200 mb-4">
                     <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-amber-800 border border-amber-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </div>
                         <h3 class="text-sm font-bold text-amber-900 mb-1">Install Aplikasi Sekuriti</h3>
-                        <p class="text-xs text-amber-700 mb-4 font-medium">Pasang di layar utama HP Anda.</p>
+                        <p class="text-xs text-amber-700 mb-4 font-medium">Pasang di layar utama HP Anda untuk akses yang lebih cepat tanpa perlu membuka browser.</p>
                         <button id="btnInstallPwa" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl shadow transition-colors text-sm flex items-center justify-center gap-2">
                             📲 Pasang Sekarang
                         </button>
@@ -135,25 +143,29 @@
                     </button>
                     <div class="text-center mb-4">
                         <h2 class="text-xl font-black text-stone-800">Sistem Absensi</h2>
+                        <p class="text-stone-500 text-xs">Isi data kehadiran di bawah ini</p>
                     </div>
 
-                    <!-- BAGIAN LOKASI & REFRESH MAP -->
-                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 mb-4">
+                    <!-- MODIFIKASI: SECTION GPS VISUAL & REFRESH -->
+                    <div class="mb-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
                         <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-stone-700">Status Koordinat GPS</label>
-                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-white border border-stone-300 hover:bg-stone-100 text-stone-700 px-2.5 py-1 rounded-lg font-bold transition-colors shadow-sm flex items-center gap-1">
-                                🔄 Segarkan
+                            <span class="text-xs font-bold text-stone-700">Lokasi Saat Ini</span>
+                            <button type="button" onclick="dapatkanLokasi(true)" id="btnRefreshGps" class="text-[10px] bg-white border border-stone-300 shadow-sm hover:bg-stone-100 text-stone-700 px-2 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-all active:scale-95">
+                                🔄 Segarkan GPS
                             </button>
                         </div>
-                        <div id="lokasiStatus" class="p-2 rounded-lg text-[11px] text-center font-medium bg-amber-100 text-amber-800 border border-amber-200/50">
-                            Mencari titik lokasi...
+                        
+                        <div id="mapContainer" class="hidden w-full h-32 sm:h-40 rounded-lg overflow-hidden border border-stone-300 mb-2 shadow-inner relative">
+                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
+                            <div class="absolute inset-0 border-2 border-amber-500/30 rounded-lg pointer-events-none"></div>
                         </div>
-                        <!-- Peta Satelit -->
-                        <div id="mapContainer" class="hidden mt-2 w-full h-32 rounded-lg overflow-hidden border border-stone-300 shadow-inner relative">
-                            <div class="absolute inset-0 bg-stone-100 flex items-center justify-center -z-10 text-[10px] text-stone-400">Memuat Peta...</div>
-                            <iframe id="mapIframe" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
+
+                        <div id="lokasiStatus" class="p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
+                            <svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Mencari titik lokasi GPS...
                         </div>
                     </div>
+                    <!-- AKHIR MODIFIKASI SECTION GPS -->
 
                     <form id="formAbsensi" class="space-y-4">
                         <div>
@@ -175,16 +187,17 @@
                         </div>
                         
                         <div id="containerLokasi" class="hidden transition-all duration-300">
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="lokasi">Area Patroli</label>
-                            <input type="text" id="lokasi" name="lokasi" placeholder="Misal: Lobby Utama..." class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none bg-stone-50">
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="lokasi">Lokasi / Area Patroli</label>
+                            <input type="text" id="lokasi" name="lokasi" placeholder="Misal: Lobby Utama, Parkir Timur..." class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-stone-50">
                         </div>
                         
                         <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
-                            <label class="block text-xs font-bold text-stone-700 mb-2" for="foto">Foto Selfie Realtime</label>
-                            <input type="file" id="foto" accept="image/*" capture="user" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 cursor-pointer mb-2">
+                            <label class="block text-xs font-bold text-stone-700 mb-2" for="foto">Foto Selfie (Kamera Depan)</label>
+                            <input type="file" id="foto" accept="image/*" capture="user" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer mb-2 transition-colors">
+                            <p class="text-[10px] text-stone-400 mb-3 leading-tight">*Mohon izinkan akses lokasi agar koordinat tampil di foto.</p>
                             
                             <div id="previewContainer" class="hidden border rounded-lg overflow-hidden relative bg-stone-100">
-                                <img id="previewFoto" class="w-full h-auto" src="" alt="Preview">
+                                <img id="previewFoto" class="w-full h-auto" src="" alt="Preview Foto Watermark">
                                 <div id="watermarkLoading" class="absolute inset-0 bg-white/80 flex items-center justify-center hidden">
                                     <span class="text-xs font-bold text-amber-800 animate-pulse">Memproses Watermark...</span>
                                 </div>
@@ -192,32 +205,76 @@
                             <input type="hidden" id="fotoWatermarkBase64" name="fotoWatermarkBase64">
                         </div>
                         
-                        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center text-sm">
-                            Kirim Laporan
+                        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center text-sm tracking-wide">
+                            Kirim Laporan Kehadiran
                         </button>
                     </form>
                     <div id="pesanArea" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
                 </div>
 
-                <!-- TAB JADWAL & REKAP (Singkat untuk layout) -->
-                <div id="tabJadwal" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto"><button onclick="goHome()" class="mb-4 text-xs font-semibold text-stone-500">⬅ Kembali</button><div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800">Jadwal Shift</h2></div><div class="flex justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold"><button id="btnPrevMonth">⬅️</button><span class="textBulanTahun flex-1 text-center">Loading</span><button id="btnNextMonth">➡️</button></div><div class="w-full overflow-x-auto border rounded-xl"><table class="w-full text-xs min-w-[300px]"><thead><tr class="bg-stone-100"><th class="p-2">TGL</th><th class="p-2">PAGI</th><th class="p-2">SIANG</th><th class="p-2">MALAM</th></tr></thead><tbody id="tabelJadwalBody"></tbody></table></div></div>
-                <div id="tabKehadiran" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto"><button onclick="goHome()" class="mb-4 text-xs font-semibold text-stone-500">⬅ Kembali</button><h2 class="text-xl font-black text-center mb-4 text-stone-800">Hadir Aktual</h2><div class="w-full overflow-x-auto border rounded-xl"><table class="w-full text-xs"><thead><tr class="bg-stone-100"><th class="p-3 text-left">Nama</th><th class="p-3 text-center">Hadir</th></tr></thead><tbody id="tabelKehadiranAktual"></tbody></table></div></div>
-                <div id="tabFoto" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto"><button onclick="goHome()" class="mb-4 text-xs font-semibold text-stone-500">⬅ Kembali</button><h2 class="text-xl font-black text-center mb-4 text-stone-800">Foto TNI</h2><div class="w-full overflow-x-auto border rounded-xl"><table class="w-full text-xs"><thead><tr class="bg-stone-100"><th class="p-3 text-left">Nama</th><th class="p-3 text-center">Jumlah</th></tr></thead><tbody id="tabelFotoTNI"></tbody></table></div></div>
+                <!-- TAB 2: JADWAL SEKURITI -->
+                <div id="tabJadwal" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
+                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                        Kembali ke Menu
+                    </button>
+                    
+                    <div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800 uppercase tracking-wide">Jadwal Shift</h2></div>
+                    <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold border border-stone-200">
+                        <button id="btnPrevMonth" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button>
+                        <span class="textBulanTahun text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span>
+                        <button id="btnNextMonth" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button>
+                    </div>
+                    <div class="w-full overflow-x-auto table-scroll mb-4 border border-stone-200 rounded-xl">
+                        <table class="w-full border-collapse text-[11px] sm:text-xs min-w-[300px]" id="tableJadwal">
+                            <thead><tr class="bg-stone-100 border-b border-stone-200"><th class="px-2 py-3 font-black text-stone-800 text-center">TANGGAL</th><th class="px-2 py-3 font-black text-stone-800 text-center">PAGI</th><th class="px-2 py-3 font-black text-stone-800 text-center">SIANG</th><th class="px-2 py-3 font-black text-stone-800 text-center">MALAM</th></tr></thead>
+                            <tbody id="tabelJadwalBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="bg-stone-50 p-4 rounded-xl mb-4 border border-stone-200"><h3 class="text-xs font-black text-stone-800 uppercase tracking-wider text-center mb-3">Target Hari Masuk</h3><div class="flex justify-center w-full overflow-x-auto"><table class="w-full max-w-xs text-xs border border-stone-200 rounded-lg overflow-hidden bg-white"><tbody id="tabelRekapBody"></tbody></table></div></div>
+                    <button id="btnDownloadJadwal" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan Jadwal (PDF)</button>
+                </div>
+
+                <!-- TAB 3: REKAP KEHADIRAN AKTUAL -->
+                <div id="tabKehadiran" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
+                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                        Kembali ke Menu
+                    </button>
+                    
+                    <div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800">Akumulasi Hadir</h2><p class="text-stone-500 text-xs">Total kehadiran terverifikasi bulan ini</p></div>
+                    <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold border border-stone-200"><button id="btnPrevMonthKehadiran" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button><span class="textBulanTahun text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span><button id="btnNextMonthKehadiran" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button></div>
+                    <div class="w-full overflow-x-auto border border-stone-200 rounded-2xl shadow-sm bg-white mb-4"><table class="w-full text-xs sm:text-sm"><thead><tr class="bg-stone-100 border-b border-stone-200"><th class="px-4 py-3 font-black text-stone-800 text-left">Nama Personil</th><th class="px-4 py-3 font-black text-stone-800 text-center w-24">Hadir</th></tr></thead><tbody id="tabelKehadiranAktual"></tbody></table></div>
+                    <button id="btnDownloadKehadiran" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan Hadir (PDF)</button>
+                </div>
+
+                <!-- TAB 4: REKAP FOTO TNI -->
+                <div id="tabFoto" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
+                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                        Kembali ke Menu
+                    </button>
+                    
+                    <div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800">Rekap Foto TNI</h2><p class="text-stone-500 text-xs">Laporan kegiatan bersama personil TNI</p></div>
+                    <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold border border-stone-200"><button id="btnPrevMonthFoto" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button><span class="textBulanTahun text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span><button id="btnNextMonthFoto" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button></div>
+                    <div class="w-full overflow-x-auto border border-stone-200 rounded-2xl shadow-sm bg-white mb-4"><table class="w-full text-xs sm:text-sm"><thead><tr class="bg-stone-100 border-b border-stone-200"><th class="px-4 py-3 font-black text-stone-800 text-left">Nama Personil</th><th class="px-4 py-3 font-black text-stone-800 text-center w-24">Jumlah</th></tr></thead><tbody id="tabelFotoTNI"></tbody></table></div>
+                    <button id="btnDownloadFoto" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan TNI (PDF)</button>
+                </div>
 
             </div> <!-- Akhir Konten Utama -->
-        </div>
-    </div>
+        </div> <!-- Akhir App Viewport -->
+    </div> <!-- Akhir Container Utama Aplikasi -->
 
-    <!-- LIGHTBOX / MODAL FOTO -->
+    <!-- LIGHTBOX / MODAL FOTO TNI WATERMARK -->
     <div id="modalLightbox" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
         <div class="relative w-full max-w-sm" onclick="event.stopPropagation()">
-            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white font-bold text-lg">✕ Tutup</button>
-            <div class="bg-white rounded-2xl overflow-hidden">
-                <img id="imgLightbox" src="" alt="Foto" class="w-full h-auto">
-                <div class="bg-stone-900 p-4 text-white text-xs">
-                    <p class="font-bold text-sm text-amber-400" id="lbNama">-</p>
-                    <p id="lbWaktu" class="text-stone-200">-</p>
-                    <p id="lbLokasi" class="text-stone-300 text-[10px] mt-1">-</p>
+            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white hover:text-stone-300 font-bold text-lg">✕ Tutup</button>
+            <div class="bg-white rounded-2xl overflow-hidden shadow-2xl relative border border-stone-700">
+                <img id="imgLightbox" src="" alt="Pratinjau Foto Watermark" class="w-full h-auto">
+                <div class="absolute bottom-0 left-0 right-0 bg-stone-900/80 backdrop-blur-sm p-4 text-white text-xs space-y-1">
+                    <p class="font-bold text-sm text-amber-400" id="lbNama">Udin</p>
+                    <p id="lbWaktu" class="text-stone-200">Kamis, 18 Juni 2026 | 08:30</p>
+                    <p id="lbLokasi" class="text-stone-300 text-[10px] mt-1 leading-tight border-t border-stone-600 pt-1">📍 Lat: -6.224, Lon: 106.81 | Pos Utama, Sudirman</p>
                 </div>
             </div>
         </div>
@@ -228,6 +285,7 @@
         const GAS_URL = "https://script.google.com/macros/s/AKfycbxDNGkvG88TKb5SvWsOrR_QQhsWOdEHTGWggUIxW0oO-u7zJ8EVmCGOqbGEvMXI0Fxk/exec"; 
         // ==============================================================================
 
+        // === KONSTANTA & VARIABEL GLOBAL ===
         const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         const namaBulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
@@ -235,60 +293,150 @@
 
         let dataPersonil = []; let polaShift = []; let logHariIni = []; let databaseLogsHistoris = []; 
         let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
-        let currentLat = null; let currentLon = null; let currentAddress = "Mencari...";
+        let currentLat = null; let currentLon = null; let currentAddress = "Alamat sedang dicari...";
 
         const defaultThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkZPVE88L3RleHQ+PC9zdmc+";
 
-        function setupPWA() { /* ... setup PWA standard ... */ }
-        function formatTanggalID(dateObj) { return dateObj.getDate() + " " + namaBulan[dateObj.getMonth()] + " " + dateObj.getFullYear(); }
-        function escapeHtml(unsafe) { return (unsafe || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        // === FITUR PWA (PROGRESSIVE WEB APP) ===
+        function setupPWA() {
+            const manifestJSON = {
+                "name": "Portal Sekuriti Shift",
+                "short_name": "Sekuriti",
+                "start_url": window.location.href,
+                "display": "standalone",
+                "background_color": "#fafaf9", // stone-50
+                "theme_color": "#92400e", // amber-800
+                "icons": [{
+                    "src": "https://cdn-icons-png.flaticon.com/512/2592/2592317.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                }]
+            };
+            const stringManifest = JSON.stringify(manifestJSON);
+            const blobManifest = new Blob([stringManifest], {type: 'application/json'});
+            document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(blobManifest));
 
-        // FUNGSI UNTUK MERENDER GAMBAR GOOGLE DRIVE AGAR BISA DITAMPILKAN DI KARTU
-        function getDriveDirectViewUrl(url) {
-            if (!url) return defaultThumbSVG;
-            if (url.includes("drive.google.com")) {
-                const matchId = url.match(/\/d\/(.*?)\//) || url.match(/id=([a-zA-Z0-9_-]+)/);
-                if (matchId && matchId[1]) {
-                    return `https://drive.google.com/uc?export=view&id=${matchId[1]}`;
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                const pwaContainer = document.getElementById('pwaContainer');
+                const installBtn = document.getElementById('btnInstallPwa');
+                if (pwaContainer && installBtn) {
+                    pwaContainer.classList.remove('hidden'); 
+                    installBtn.addEventListener('click', async () => {
+                        pwaContainer.classList.add('hidden');
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        deferredPrompt = null;
+                    });
                 }
-            }
-            return url;
+            });
         }
 
+        // === FUNGSI HELPER ===
+        function formatTanggalID(dateObj, includeDay = false, isShortMonth = false) {
+            if (!dateObj || isNaN(dateObj.getTime())) return "-";
+            const tgl = dateObj.getDate();
+            const bulan = isShortMonth ? namaBulanShort[dateObj.getMonth()] : namaBulan[dateObj.getMonth()];
+            const tahun = dateObj.getFullYear();
+            if (includeDay) {
+                const hari = namaHari[dateObj.getDay()];
+                return hari + ", " + tgl + " " + bulan + " " + tahun;
+            }
+            return tgl + " " + bulan + " " + tahun;
+        }
+
+        function escapeHtml(unsafe) {
+            return (unsafe || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // === INISIALISASI SAAT DOM LOAD ===
         document.addEventListener("DOMContentLoaded", () => {
             setupPWA();
+
             const dToday = new Date();
             const txtTanggalHariIni = document.getElementById('txtTanggalHariIni');
-            if (txtTanggalHariIni) txtTanggalHariIni.innerText = dToday.getDate() + " " + namaBulanShort[dToday.getMonth()];
+            if (txtTanggalHariIni) {
+                txtTanggalHariIni.innerText = dToday.getDate() + " " + namaBulanShort[dToday.getMonth()];
+            }
 
             const statusSelect = document.getElementById('status');
             const containerLokasi = document.getElementById('containerLokasi');
-            if (statusSelect) {
+            const lokasiInput = document.getElementById('lokasi');
+
+            if (statusSelect && containerLokasi && lokasiInput) {
                 statusSelect.addEventListener('change', function() {
-                    if (this.value === 'Patroli') containerLokasi.classList.remove('hidden');
-                    else containerLokasi.classList.add('hidden');
+                    if (this.value === 'Patroli') {
+                        containerLokasi.classList.remove('hidden');
+                        lokasiInput.required = true; 
+                        lokasiInput.placeholder = "Misal: Lobby Utama, Parkir Timur...";
+                        lokasiInput.focus();
+                    } else {
+                        containerLokasi.classList.add('hidden');
+                        lokasiInput.required = false; 
+                        lokasiInput.value = '';
+                    }
                 });
             }
 
-            // Setup Foto Preview ...
+            const prevAction = () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderJadwal(); };
+            const nextAction = () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderJadwal(); };
+
+            ['btnPrevMonth', 'btnPrevMonthKehadiran', 'btnPrevMonthFoto'].forEach(id => {
+                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', prevAction);
+            });
+            ['btnNextMonth', 'btnNextMonthKehadiran', 'btnNextMonthFoto'].forEach(id => {
+                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', nextAction);
+            });
+
+            const btnDownloadJadwal = document.getElementById('btnDownloadJadwal');
+            const btnDownloadKehadiran = document.getElementById('btnDownloadKehadiran');
+            const btnDownloadFoto = document.getElementById('btnDownloadFoto');
+            if (btnDownloadJadwal) btnDownloadJadwal.addEventListener('click', downloadJadwalPDF);
+            if (btnDownloadKehadiran) btnDownloadKehadiran.addEventListener('click', downloadKehadiranPDF);
+            if (btnDownloadFoto) btnDownloadFoto.addEventListener('click', downloadFotoTNIPDF);
+
+            const btnSetupSheet = document.getElementById('btnSetupSheet');
+            if (btnSetupSheet) btnSetupSheet.addEventListener('click', triggerAutoSetup);
+
             const fotoInput = document.getElementById('foto');
-            if (fotoInput) {
+            const previewFoto = document.getElementById('previewFoto');
+            const fotoWatermarkBase64 = document.getElementById('fotoWatermarkBase64');
+
+            if (fotoInput && previewFoto && fotoWatermarkBase64) {
                 fotoInput.addEventListener('change', function(e) {
                     const file = e.target.files[0]; if (!file) return;
                     document.getElementById('previewContainer').classList.remove('hidden');
+                    document.getElementById('watermarkLoading').classList.remove('hidden');
+
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const img = new Image();
                         img.onload = function() {
-                            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
                             canvas.width = img.width; canvas.height = img.height;
                             ctx.drawImage(img, 0, 0);
-                            // ... simple watermark ...
-                            ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
-                            ctx.fillStyle = 'white'; ctx.font = "20px Arial";
-                            ctx.fillText(new Date().toLocaleTimeString() + " | " + currentAddress, 10, canvas.height - 15);
-                            document.getElementById('previewFoto').src = canvas.toDataURL('image/jpeg', 0.8);
-                            document.getElementById('fotoWatermarkBase64').value = document.getElementById('previewFoto').src;
+
+                            const fontSize = Math.max(16, Math.floor(canvas.width * 0.025)); 
+                            const padding = fontSize;
+                            const rectHeight = (fontSize * 3) + (padding * 2);
+                            
+                            ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+                            ctx.fillRect(0, canvas.height - rectHeight, canvas.width, rectHeight);
+                            ctx.fillStyle = 'white'; ctx.font = fontSize + "px Arial"; ctx.textBaseline = 'top';
+
+                            const waktuSekarang = formatTanggalID(new Date(), true, false) + " | " + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + " WIB";
+                            const teksKoordinat = currentLat ? "Lat: " + currentLat.toFixed(5) + ", Lon: " + currentLon.toFixed(5) : "Koordinat tidak tersedia";
+                            
+                            ctx.fillText(waktuSekarang + " | " + teksKoordinat, padding, canvas.height - rectHeight + padding);
+                            ctx.fillText("Pos/Alamat: " + currentAddress, padding, canvas.height - rectHeight + padding + (fontSize * 1.5), canvas.width - (padding * 2));
+
+                            const hasilWatermark = canvas.toDataURL('image/jpeg', 0.8);
+                            previewFoto.src = hasilWatermark; fotoWatermarkBase64.value = hasilWatermark;
+                            document.getElementById('watermarkLoading').classList.add('hidden');
                         };
                         img.src = event.target.result;
                     };
@@ -299,160 +447,327 @@
             ambilDataDariGAS();
         });
 
+        // === FUNGSI FETCH KE API GAS ===
         async function ambilDataDariGAS() {
             try {
+                if (GAS_URL === "https://script.google.com/macros/s/AKfycbz_URL_ANDA_DISINI/exec") {
+                    throw new Error("Tolong ganti variabel GAS_URL dengan URL Web App Anda terlebih dahulu.");
+                }
+
                 const response = await fetch(GAS_URL + "?action=getData");
                 const result = await response.json();
-                if (result.status === 'success') inisialisasiApp(result.payload);
+
+                if (result.status === 'success') {
+                    inisialisasiApp(result.payload);
+                } else {
+                    throw new Error(result.message);
+                }
             } catch (error) {
-                console.error("Gagal", error);
-                inisialisasiApp({ personil: ["Data Gagal Dimuat"], polaShift: [], logHariIni: [] });
+                console.error("Gagal menarik data:", error);
+                inisialisasiApp({ personil: [], polaShift: [], logHariIni: [], databaseLogsHistoris: [] });
             }
         }
 
+        // === FUNGSI TAB & MENU ===
         window.openMenu = function(tabId) {
-            document.getElementById('dashboardMenu').classList.add('hidden');
-            document.getElementById('kontenUtama').classList.remove('hidden');
-            ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto'].forEach(id => {
-                document.getElementById(id).style.display = id === tabId ? 'block' : 'none';
+            const dashboardMenu = document.getElementById('dashboardMenu');
+            const kontenUtama = document.getElementById('kontenUtama');
+            if (dashboardMenu && kontenUtama) {
+                dashboardMenu.classList.add('hidden');
+                kontenUtama.classList.remove('hidden');
+            }
+            const allTabs = ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto'];
+            allTabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.classList.replace(id === tabId ? 'hidden' : 'block', id === tabId ? 'block' : 'hidden'); }
             });
         };
 
         window.goHome = function() {
-            document.getElementById('kontenUtama').classList.add('hidden');
-            document.getElementById('dashboardMenu').classList.remove('hidden');
+            const dashboardMenu = document.getElementById('dashboardMenu');
+            const kontenUtama = document.getElementById('kontenUtama');
+            if (dashboardMenu && kontenUtama) {
+                kontenUtama.classList.add('hidden');
+                dashboardMenu.classList.remove('hidden');
+            }
         };
 
-        function inisialisasiApp(data) {
-            dataPersonil = data.personil || []; polaShift = data.polaShift || []; logHariIni = data.logHariIni || [];
-            
+        window.openLightbox = function(nama, waktu, lokasi, src) {
+            document.getElementById('imgLightbox').src = src;
+            document.getElementById('lbNama').innerText = nama;
+            document.getElementById('lbWaktu').innerText = waktu;
+            document.getElementById('lbLokasi').innerText = lokasi;
+            document.getElementById('modalLightbox').classList.remove('hidden');
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('modalLightbox').classList.add('hidden');
+        };
+
+        // === FUNGSI LOGIKA UTAMA ===
+        function inisialisasiApp(dataDariServer) {
+            dataPersonil = dataDariServer.personil || [];
+            polaShift = dataDariServer.polaShift || [];
+            logHariIni = dataDariServer.logHariIni || [];
+            databaseLogsHistoris = dataDariServer.databaseLogsHistoris || [];
+
             const selectNama = document.getElementById('nama');
-            if (selectNama && selectNama.options.length <= 1) {
+            if (selectNama && selectNama.options.length <= 1) { 
+                selectNama.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
                 dataPersonil.forEach(nama => {
-                    let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama; selectNama.appendChild(opt);
+                    let opt = document.createElement('option');
+                    opt.value = nama;
+                    opt.innerHTML = nama;
+                    selectNama.appendChild(opt);
                 });
             }
+
             renderJadwal();
-            document.getElementById('layarLoading').style.display = 'none';
-            document.getElementById('dashboardMenu').classList.remove('hidden');
+
+            const layarLoading = document.getElementById('layarLoading');
+            const dashboardMenu = document.getElementById('dashboardMenu');
+            const kontenUtama = document.getElementById('kontenUtama');
+            
+            if (layarLoading) layarLoading.style.display = 'none';
+            
+            if (dashboardMenu) {
+                if (!kontenUtama || kontenUtama.classList.contains('hidden')) {
+                    dashboardMenu.classList.remove('hidden');
+                }
+            }
+
             dapatkanLokasi();
         }
 
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
             if (!polaShift || polaShift.length === 0) return null;
-            // Simplifikasi perhitungan untuk demo (Anchor Date = 20 Juni 2026)
-            const diffDays = Math.floor((tanggalObj - anchorDate) / (1000 * 60 * 60 * 24));
-            let cycleIndex = diffDays % polaShift.length; if (cycleIndex < 0) cycleIndex += polaShift.length;
-            
-            const shiftHariIni = polaShift[cycleIndex];
-            const parts = waktuStr.split(":"); const menitAbsen = parseInt(parts[0])*60 + parseInt(parts[1]);
 
-            let shiftIndex = 0; let batasMsk = 7*60; let batasPlg = 15*60;
-            if (menitAbsen >= 300 && menitAbsen < 720) { shiftIndex = 0; } 
-            else if (menitAbsen >= 720 && menitAbsen < 1200) { shiftIndex = 1; batasMsk = 15*60; batasPlg = 23*60; } 
-            else { shiftIndex = 2; batasMsk = 23*60; batasPlg = 7*60; }
+            const diffTime = Date.UTC(tanggalObj.getFullYear(), tanggalObj.getMonth(), tanggalObj.getDate()) - 
+                             Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let cycleIndex = diffDays % polaShift.length;
+            if (cycleIndex < 0) cycleIndex += polaShift.length;
 
-            const personilJadwal = shiftHariIni ? shiftHariIni[shiftIndex] : null;
-            let isSwap = personilJadwal && (nama !== personilJadwal);
-            
+            const shiftHariIni = polaShift[cycleIndex]; 
+            const parts = waktuStr.split(":");
+            const hh = parseInt(parts[0], 10);
+            const mm = parseInt(parts[1], 10);
+            const menitAbsen = hh * 60 + mm;
+
+            let shiftIndex = 0; let shiftTipe = "Pagi"; let batasMenitMasuk = 7 * 60; let batasMenitPulang = 15 * 60; 
+
+            if (menitAbsen >= 300 && menitAbsen < 720) { shiftIndex = 0; shiftTipe = "Pagi"; batasMenitMasuk = 7 * 60; batasMenitPulang = 15 * 60; } 
+            else if (menitAbsen >= 720 && menitAbsen < 1200) { shiftIndex = 1; shiftTipe = "Siang"; batasMenitMasuk = 15 * 60; batasMenitPulang = 23 * 60; } 
+            else { shiftIndex = 2; shiftTipe = "Malam"; batasMenitMasuk = 23 * 60; batasMenitPulang = 7 * 60; }
+
+            const personilTerjadwal = shiftHariIni[shiftIndex];
+            let isSwap = (nama !== personilTerjadwal);
+            let swapInfo = isSwap ? "Ganti " + personilTerjadwal : "";
             let tipeWarning = ""; let infoWarning = "";
-            if (status === "Check-In (Masuk)" && menitAbsen > batasMsk) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - batasMsk)+"mnt"; }
-            if (status === "Check-Out (Pulang)" && menitAbsen < batasPlg) { tipeWarning = "Pulang Cepat"; infoWarning = (batasPlg - menitAbsen)+"mnt"; }
 
-            if (isSwap || tipeWarning) return { isSwap: isSwap, swapInfo: "Tukar " + personilJadwal, tipeWarning: tipeWarning, infoWarning: infoWarning };
+            if (status === "Check-In (Masuk)") {
+                if (menitAbsen > batasMenitMasuk) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - batasMenitMasuk) + " mnt"; }
+            } else if (status === "Check-Out (Pulang)") {
+                if (menitAbsen < batasMenitPulang) { tipeWarning = "Pulang Cepat"; infoWarning = (batasMenitPulang - menitAbsen) + " mnt"; }
+            }
+
+            if (isSwap || tipeWarning) { return { isSwap: isSwap, swapInfo: swapInfo, tipeWarning: tipeWarning, infoWarning: infoWarning }; }
             return null;
         }
 
-        // ==============================================================================
-        // FUNGSI RENDER DASHBOARD CARD (SESUAI GAMBAR REFERENSI & BADGE SWAP/TELAT)
-        // ==============================================================================
         function renderLiveDashboardFeeds() {
             const cardsOnDuty = document.getElementById('cardsOnDuty');
-            if (!cardsOnDuty) return;
-            cardsOnDuty.innerHTML = '';
-
-            const today = new Date();
-            const dateStr = today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
-
-            if (logHariIni.length === 0) {
-                cardsOnDuty.innerHTML = '<p class="text-center text-stone-400 text-xs py-4">Belum ada data.</p>';
-            } else {
-                logHariIni.forEach(petugas => {
-                    if(petugas.status === "Foto dengan TNI") return; // Pisahkan tabel TNI
-
-                    // Logika Styling Card Mirip Gambar
-                    const isCheckIn = petugas.status.includes('In') || petugas.status.includes('Masuk');
-                    const isCheckOut = petugas.status.includes('Out') || petugas.status.includes('Pulang');
+            if (cardsOnDuty) {
+                cardsOnDuty.innerHTML = '';
+                if (logHariIni.length === 0) {
+                    cardsOnDuty.innerHTML = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada absensi hari ini.</p>';
+                } else {
+                    // MODIFIKASI: Desain Card UI mirip gambar referensi
+                    const tanggalHariIniStr = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
                     
-                    let statusText = petugas.status.toUpperCase();
-                    let statusColor = "text-blue-600";
-                    if (isCheckIn) { statusText = "CHECKIN"; statusColor = "text-green-600"; }
-                    if (isCheckOut) { statusText = "CHECKOUT"; statusColor = "text-red-600"; }
-
-                    // Ambil info Swap & Kedisiplinan
-                    const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, petugas.waktu, today);
-                    let badgesHtml = '';
-                    if (infoDisiplin) {
-                        if (infoDisiplin.isSwap) {
-                            badgesHtml += `<span class="inline-block px-1.5 py-0.5 mt-1 text-[9px] font-bold rounded bg-indigo-100 text-indigo-800 border border-indigo-200">🔄 ${escapeHtml(infoDisiplin.swapInfo)}</span> `;
-                        }
-                        if (infoDisiplin.tipeWarning) {
-                            const bColor = infoDisiplin.tipeWarning === "Terlambat" ? "bg-orange-100 text-orange-800 border-orange-200" : "bg-red-100 text-red-800 border-red-200";
-                            badgesHtml += `<span class="inline-block px-1.5 py-0.5 mt-1 text-[9px] font-bold rounded border ${bColor}">⚠️ ${escapeHtml(infoDisiplin.tipeWarning)} (${escapeHtml(infoDisiplin.infoWarning)})</span>`;
-                        }
-                    }
-
-                    const imgSrc = getDriveDirectViewUrl(petugas.foto);
-
-                    const card = document.createElement('div');
-                    card.className = "flex bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden mb-3 h-36"; // Set fixed height
-                    card.innerHTML = `
-                        <!-- Kiri: Foto Proporsional -->
-                        <div class="w-1/3 bg-stone-100 flex-shrink-0 relative border-r border-stone-200">
-                            <img src="${imgSrc}" class="absolute inset-0 w-full h-full object-cover" alt="Foto Absen" onerror="this.src='${defaultThumbSVG}'">
-                        </div>
+                    logHariIni.forEach(petugas => {
+                        let statusColor = "text-green-600";
+                        let statusText = "CHECKIN";
                         
-                        <!-- Kanan: Rincian Data -->
-                        <div class="w-2/3 p-3 flex flex-col relative bg-white">
-                            <table class="text-[10px] text-stone-700 font-bold mb-1 w-full">
-                                <tr><td class="w-12 pb-0.5 align-top">NIK</td><td class="pb-0.5 align-top">: -</td></tr>
-                                <tr><td class="pb-0.5 align-top">Nama</td><td class="pb-0.5 align-top">: ${escapeHtml(petugas.nama)}</td></tr>
-                                <tr><td class="pb-0.5 align-top">Tanggal</td><td class="pb-0.5 align-top">: ${dateStr}</td></tr>
-                                <tr><td class="pb-0.5 align-top">Jam</td><td class="pb-0.5 align-top">: ${dateStr} ${escapeHtml(petugas.waktu)}</td></tr>
-                            </table>
-                            
-                            <!-- Badges Kedisiplinan -->
-                            <div class="leading-tight mb-2 flex flex-wrap gap-1">${badgesHtml}</div>
-                            
-                            <!-- Status Super Besar -->
-                            <div class="absolute bottom-2 right-3 text-right">
-                                <span class="text-xl font-black ${statusColor} tracking-widest">${statusText}</span>
+                        if (petugas.status === 'Check-Out (Pulang)') {
+                            statusColor = "text-red-600";
+                            statusText = "CHECKOUT";
+                        } else if (petugas.status === 'Patroli') {
+                            statusColor = "text-blue-600";
+                            statusText = "PATROLI";
+                        } else if (petugas.status === 'Foto dengan TNI') {
+                            statusColor = "text-stone-800";
+                            statusText = "GIAT TNI";
+                        }
+
+                        // Mengubah URL Google Drive menjadi link download langsung agar bisa tampil di img src, atau gunakan fallback
+                        let imgSrc = petugas.foto;
+                        if (imgSrc && imgSrc.includes('drive.google.com/file/d/')) {
+                            const fileId = imgSrc.split('/d/')[1].split('/')[0];
+                            imgSrc = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                        } else if (!imgSrc) {
+                            imgSrc = defaultThumbSVG;
+                        }
+
+                        const card = document.createElement('div');
+                        card.className = "flex bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden mb-3 hover:shadow-md transition-shadow";
+                        
+                        card.innerHTML = `
+                            <div class="w-1/3 bg-stone-100 border-r border-stone-200 relative shrink-0">
+                                <img src="${imgSrc}" class="w-full h-full object-cover min-h-[120px] max-h-[140px]" alt="Foto ${escapeHtml(petugas.nama)}" onerror="this.src='${defaultThumbSVG}'">
                             </div>
-                        </div>
-                    `;
-                    cardsOnDuty.appendChild(card);
-                });
+                            <div class="w-2/3 p-3 flex flex-col justify-between">
+                                <table class="text-[10px] text-stone-700 font-medium mb-1">
+                                    <tr><td class="w-12 pb-1 font-bold text-stone-500">Nama</td><td class="pb-1 font-bold text-stone-800">: ${escapeHtml(petugas.nama)}</td></tr>
+                                    <tr><td class="pb-1 font-bold text-stone-500">Tanggal</td><td class="pb-1">: ${tanggalHariIniStr}</td></tr>
+                                    <tr><td class="pb-1 align-top font-bold text-stone-500">Jam</td><td class="pb-1">: ${escapeHtml(petugas.waktu)}<br><span class="text-[8px] text-stone-400">WIB</span></td></tr>
+                                </table>
+                                <div class="text-right mt-auto pt-2 border-t border-stone-100">
+                                    <span class="text-lg font-black tracking-wider uppercase ${statusColor}">${statusText}</span>
+                                </div>
+                            </div>
+                        `;
+                        cardsOnDuty.appendChild(card);
+                    });
+                }
+            }
+
+            const cardsFotoTNI = document.getElementById('cardsFotoTNIHariIni');
+            if (cardsFotoTNI) {
+                cardsFotoTNI.innerHTML = '';
+                const tniLogs = logHariIni.filter(item => item.status === 'Foto dengan TNI');
+                
+                if (tniLogs.length === 0) {
+                    cardsFotoTNI.innerHTML = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada foto TNI hari ini.</p>';
+                } else {
+                    tniLogs.forEach(petugas => {
+                        const card = document.createElement('div');
+                        card.className = "flex items-center justify-between p-3 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow";
+                        const thumbSrc = petugas.foto || defaultThumbSVG;
+                        const safeNama = escapeHtml(petugas.nama); const safeWaktu = escapeHtml(petugas.waktu);
+                        card.innerHTML = '<div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-lg bg-stone-800 flex items-center justify-center text-amber-500 font-black text-sm">TNI</div><div><h4 class="text-xs font-bold text-stone-800">' + safeNama + '</h4><span class="text-[10px] text-stone-500 font-bold">Laporan | ' + safeWaktu + '</span></div></div><button onclick="openLightbox(\'' + safeNama + '\', \'Hari ini | ' + safeWaktu + '\', \'Pos Jaga\', \'' + thumbSrc + '\')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity"><img src="' + thumbSrc + '" class="w-full h-full object-cover"></button>';
+                        cardsFotoTNI.appendChild(card);
+                    });
+                }
             }
         }
 
-        // ==============================================================================
-        // FUNGSI LOKASI & REFRESH PETA SATELIT
-        // ==============================================================================
+        function renderJadwal() {
+            const tbodyJadwal = document.getElementById('tabelJadwalBody');
+            const tbodyRekap = document.getElementById('tabelRekapBody');
+            if (!tbodyJadwal || !tbodyRekap) return;
+
+            tbodyJadwal.innerHTML = ''; tbodyRekap.innerHTML = '';
+            let rekapTargetShift = {}; let rekapKehadiranDinamis = {}; let rekapFotoTNIDinamis = {};
+
+            if (dataPersonil.length > 0) { dataPersonil.forEach(nama => { rekapTargetShift[nama] = 0; rekapKehadiranDinamis[nama] = 0; rekapFotoTNIDinamis[nama] = 0; }); }
+
+            const startDate = new Date(currentYear, currentMonth, 13);
+            const endDate = new Date(currentYear, currentMonth + 1, 12);
+
+            const elsBulanTahun = document.querySelectorAll('.textBulanTahun');
+            elsBulanTahun.forEach(el => {
+                if (startDate.getFullYear() === endDate.getFullYear()) { el.innerText = "13 " + namaBulan[startDate.getMonth()] + " - 12 " + namaBulan[endDate.getMonth()] + " " + startDate.getFullYear(); } 
+                else { el.innerText = "13 " + namaBulan[startDate.getMonth()] + " " + startDate.getFullYear() + " - 12 " + namaBulan[endDate.getMonth()] + " " + endDate.getFullYear(); }
+            });
+
+            if (!polaShift || polaShift.length === 0) return;
+
+            let loopDate = new Date(startDate); let rowColorIndex = 0; 
+
+            while (loopDate <= endDate) {
+                const currentDate = new Date(loopDate);
+                const diffTime = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
+                let cycleIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24)) % polaShift.length;
+                if (cycleIndex < 0) cycleIndex += polaShift.length; 
+
+                const shiftHariIni = polaShift[cycleIndex];
+                if(rekapTargetShift[shiftHariIni[0]] !== undefined) rekapTargetShift[shiftHariIni[0]]++;
+                if(rekapTargetShift[shiftHariIni[1]] !== undefined) rekapTargetShift[shiftHariIni[1]]++;
+                if(rekapTargetShift[shiftHariIni[2]] !== undefined) rekapTargetShift[shiftHariIni[2]]++;
+
+                const currentDateStr = currentDate.toISOString().split('T')[0];
+                
+                if (databaseLogsHistoris) {
+                    databaseLogsHistoris.forEach(log => {
+                        if (log.tanggal === currentDateStr) {
+                            if (log.status === "Check-In (Masuk)" && rekapKehadiranDinamis[log.nama] !== undefined) { rekapKehadiranDinamis[log.nama]++; }
+                            if (log.tni && rekapFotoTNIDinamis[log.nama] !== undefined) { rekapFotoTNIDinamis[log.nama]++; }
+                        }
+                    });
+                }
+
+                const dHariIni = new Date(2026, 5, 18); const dHariIniStr = dHariIni.toISOString().split('T')[0];
+                if (currentDateStr === dHariIniStr && logHariIni) {
+                    logHariIni.forEach(log => {
+                        if (log.status === "Check-In (Masuk)" && rekapKehadiranDinamis[log.nama] !== undefined) { rekapKehadiranDinamis[log.nama]++; }
+                        if (log.status === "Foto dengan TNI" && rekapFotoTNIDinamis[log.nama] !== undefined) { rekapFotoTNIDinamis[log.nama]++; }
+                    });
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = rowColorIndex % 2 === 0 ? "bg-white hover:bg-stone-50" : "bg-stone-50 hover:bg-stone-100";
+                const formatTgl = currentDate.getDate() + " " + namaBulanShort[currentDate.getMonth()];
+                tr.innerHTML = '<td class="px-2 py-2 text-center whitespace-nowrap font-bold text-stone-600 border-r border-stone-200">' + escapeHtml(formatTgl) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[0]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[1]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[2]) + '</td>';
+                tbodyJadwal.appendChild(tr);
+
+                loopDate.setDate(loopDate.getDate() + 1); rowColorIndex++;
+            }
+
+            Object.keys(rekapTargetShift).forEach(nama => {
+                if(rekapTargetShift[nama] > 0) {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-stone-50 border-b border-stone-200";
+                    tr.innerHTML = '<td class="px-4 py-2 font-bold text-stone-700 border-r border-stone-200">' + escapeHtml(nama) + '</td><td class="px-4 py-2 text-center font-black text-amber-800 w-24">' + rekapTargetShift[nama] + ' Hari</td>';
+                    tbodyRekap.appendChild(tr);
+                }
+            });
+
+            const tbodyKehadiran = document.getElementById('tabelKehadiranAktual');
+            if (tbodyKehadiran) {
+                tbodyKehadiran.innerHTML = '';
+                Object.keys(rekapKehadiranDinamis).forEach((nama, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
+                    tr.innerHTML = '<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">' + escapeHtml(nama) + '</td><td class="px-4 py-3 text-center text-amber-800 font-black text-sm">' + rekapKehadiranDinamis[nama] + ' Hari</td>';
+                    tbodyKehadiran.appendChild(tr);
+                });
+            }
+
+            const tbodyFotoTNI = document.getElementById('tabelFotoTNI');
+            if (tbodyFotoTNI) {
+                tbodyFotoTNI.innerHTML = '';
+                Object.keys(rekapFotoTNIDinamis).forEach((nama, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
+                    tr.innerHTML = '<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">' + escapeHtml(nama) + '</td><td class="px-4 py-3 text-center text-stone-800 font-black text-sm">' + rekapFotoTNIDinamis[nama] + ' Kali</td>';
+                    tbodyFotoTNI.appendChild(tr);
+                });
+            }
+            renderLiveDashboardFeeds();
+        }
+
         function dapatkanLokasi(isRefresh = false) {
             const lokasiStatus = document.getElementById('lokasiStatus');
             const mapContainer = document.getElementById('mapContainer');
-            const mapIframe = document.getElementById('mapIframe');
+            const mapFrame = document.getElementById('mapFrame');
+            const btnRefreshGps = document.getElementById('btnRefreshGps');
+            
             if (!lokasiStatus) return;
 
-            if (isRefresh) {
-                lokasiStatus.innerHTML = "🔄 Menyegarkan satelit...";
-                lokasiStatus.className = "p-2 rounded-lg text-[11px] text-center font-bold bg-amber-100 text-amber-800 border border-amber-300";
-                if(mapContainer) mapContainer.classList.add('hidden');
-            }
-
             if (!navigator.geolocation) {
+                lokasiStatus.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 border border-red-200 flex justify-center items-center gap-2";
                 lokasiStatus.innerHTML = "❌ Browser tidak mendukung GPS.";
                 return;
+            }
+
+            // UI Sedang Loading
+            lokasiStatus.className = "p-2.5 rounded-lg text-xs text-center font-bold bg-amber-100 text-amber-900 flex justify-center items-center gap-2 shadow-sm border border-amber-300/50";
+            lokasiStatus.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ' + (isRefresh ? 'Menyegarkan titik satelit...' : 'Mencari titik satelit GPS...');
+            
+            if(isRefresh && btnRefreshGps) {
+                btnRefreshGps.disabled = true;
+                btnRefreshGps.classList.add('opacity-50');
             }
 
             navigator.geolocation.getCurrentPosition(
@@ -460,53 +775,116 @@
                     currentLat = position.coords.latitude;
                     currentLon = position.coords.longitude;
                     
-                    lokasiStatus.className = "p-2 rounded-lg text-[11px] text-center font-bold bg-stone-800 text-amber-400 shadow-inner border border-stone-900";
-                    lokasiStatus.innerHTML = "📍 Koordinat: " + currentLat.toFixed(5) + ", " + currentLon.toFixed(5);
+                    // Tampilkan Peta Google Maps Embed
+                    if(mapContainer && mapFrame) {
+                        mapFrame.src = `https://maps.google.com/maps?q=${currentLat},${currentLon}&z=16&output=embed`;
+                        mapContainer.classList.remove('hidden');
+                    }
+
+                    lokasiStatus.className = "p-2.5 rounded-lg text-[11px] text-center font-bold bg-stone-800 text-amber-400 shadow-sm border border-stone-900";
+                    lokasiStatus.innerHTML = "📍 GPS Terkunci: " + currentLat.toFixed(5) + ", " + currentLon.toFixed(5);
                     
                     try {
                         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLon}`);
                         const data = await res.json();
                         if(data && data.display_name) {
                             currentAddress = data.display_name.split(',').slice(0, 3).join(', ');
-                            lokasiStatus.innerHTML += "<br><span class='text-[9px] text-stone-300 font-medium'>" + escapeHtml(currentAddress) + "</span>";
+                            lokasiStatus.innerHTML += "<br><span class='text-[10px] text-stone-300 font-medium'>" + escapeHtml(currentAddress) + "</span>";
                         }
                     } catch (e) {
                         currentAddress = "Lat: " + currentLat.toFixed(5) + ", Lon: " + currentLon.toFixed(5);
                     }
 
-                    // Tampilkan Map OpenStreetMap Satelit / Layer
-                    if (mapContainer && mapIframe) {
-                        const bboxStr = `${currentLon-0.002},${currentLat-0.002},${currentLon+0.002},${currentLat+0.002}`;
-                        // Menggunakan Mapnik layer (OSM Standard)
-                        mapIframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bboxStr}&layer=mapnik&marker=${currentLat},${currentLon}`;
-                        mapContainer.classList.remove('hidden');
+                    if(isRefresh && btnRefreshGps) {
+                        btnRefreshGps.disabled = false;
+                        btnRefreshGps.classList.remove('opacity-50');
                     }
                 },
                 function(error) {
-                    lokasiStatus.className = "p-2 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 border border-red-200";
-                    lokasiStatus.innerHTML = "⚠️ Gagal deteksi GPS (Coba ke luar ruangan).";
-                    if(mapContainer) mapContainer.classList.add('hidden');
+                    lokasiStatus.className = "p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 shadow-sm border border-red-200";
+                    let msg = "Gagal mendeteksi lokasi.";
+                    if (error.code === 1) msg = "Izin lokasi diblokir oleh browser/HP.";
+                    else if (error.code === 2) msg = "Sinyal GPS tidak ditemukan (Coba ke tempat terbuka).";
+                    else if (error.code === 3) msg = "Pencarian GPS Timeout (Sinyal lemah).";
+                    lokasiStatus.innerHTML = "⚠️ " + msg;
+                    currentAddress = "Lokasi tidak ditemukan";
+
+                    if(isRefresh && btnRefreshGps) {
+                        btnRefreshGps.disabled = false;
+                        btnRefreshGps.classList.remove('opacity-50');
+                    }
                 },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000, 
+                    maximumAge: 0
+                }
             );
         }
 
-        function renderJadwal() { /* Render jadwal table simplified for space */ }
+        async function triggerAutoSetup() { /* ... kode setup otomatis via GAS (di-hide agar simpel) ... */ }
+        function downloadJadwalPDF() { /* ... */ }
+        function downloadKehadiranPDF() { /* ... */ }
+        function downloadFotoTNIPDF() { /* ... */ }
 
-        // Event Submit Form
+        // === EVENT LISTENER SUBMIT FORM ABSENSI ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmit');
-            const msg = document.getElementById('pesanArea');
-            btn.disabled = true; btn.innerHTML = 'Memproses...';
+            const pesanArea = document.getElementById('pesanArea');
+            const fotoWatermarkBase64 = document.getElementById('fotoWatermarkBase64');
             
-            // Simulasi POST ke GAS
-            setTimeout(() => {
-                msg.classList.remove('hidden');
-                msg.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-green-100 text-green-800";
-                msg.innerHTML = "Berhasil! Data terkirim.";
-                setTimeout(() => { goHome(); }, 2000);
-            }, 1500);
+            if (!fotoWatermarkBase64 || !fotoWatermarkBase64.value) { alert("Tunggu foto selesai diproses."); return; }
+
+            btn.disabled = true; btn.innerHTML = 'Memproses Data...'; btn.classList.replace('bg-amber-800', 'bg-stone-400');
+            pesanArea.classList.add('hidden');
+
+            const formSelf = this;
+
+            const payloadData = {
+                action: "submitAbsensi",
+                data: {
+                    nama: document.getElementById('nama').value,
+                    status: document.getElementById('status').value,
+                    lokasi: document.getElementById('lokasi').value,
+                    fotoWatermarkBase64: fotoWatermarkBase64.value
+                }
+            };
+
+            try {
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' }, 
+                    body: JSON.stringify(payloadData)
+                });
+                
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-amber-100 text-amber-900 shadow-sm block border border-amber-300";
+                    pesanArea.innerHTML = escapeHtml(result.message);
+                    
+                    formSelf.reset();
+                    document.getElementById('previewContainer').classList.add('hidden');
+                    document.getElementById('previewFoto').src = ""; fotoWatermarkBase64.value = "";
+                    document.getElementById('containerLokasi').classList.add('hidden'); document.getElementById('lokasi').required = false;
+
+                    btn.disabled = false; btn.innerHTML = 'Kirim Laporan Kehadiran'; btn.classList.replace('bg-stone-400', 'bg-amber-800');
+                    
+                    ambilDataDariGAS(); 
+                    
+                    setTimeout(() => { 
+                        pesanArea.classList.add('hidden'); 
+                        goHome(); 
+                    }, 2500);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 shadow-sm block border border-red-200";
+                pesanArea.innerHTML = "Gagal: " + escapeHtml(error.message);
+                btn.disabled = false; btn.innerHTML = 'Coba Lagi'; btn.classList.replace('bg-stone-400', 'bg-amber-800');
+            }
         });
     </script>
 </body>
