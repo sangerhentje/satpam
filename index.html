@@ -810,7 +810,7 @@
             if (cardsOnDuty) {
                 cardsOnDuty.innerHTML = '';
                 
-                const logsOnDuty = logHariIni.filter(item => item.status !== 'Foto dengan TNI');
+                const logsOnDuty = logHariIni.filter(item => item.status !== 'Foto dengan TNI' && item.status !== 'Patroli');
                 
                 if (logsOnDuty.length === 0) {
                     cardsOnDuty.innerHTML = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada aktivitas hari ini.</p>';
