@@ -583,34 +583,78 @@
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
             if (!polaShift || polaShift.length === 0) return null;
 
-            const diffTime = Date.UTC(tanggalObj.getFullYear(), tanggalObj.getMonth(), tanggalObj.getDate()) - 
-                             Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            let cycleIndex = diffDays % polaShift.length;
-            if (cycleIndex < 0) cycleIndex += polaShift.length;
-
-            const shiftHariIni = polaShift[cycleIndex]; 
             const parts = waktuStr.split(":");
             const hh = parseInt(parts[0], 10);
             const mm = parseInt(parts[1], 10);
             const menitAbsen = hh * 60 + mm;
 
-            let shiftIndex = 0; let shiftTipe = "Pagi"; let batasMenitMasuk = 7 * 60; let batasMenitPulang = 15 * 60; 
+            let shiftIndex = 0;
+            let tipeWarning = ""; 
+            let infoWarning = "";
+            let isPrevDaySchedule = false;
 
-            if (menitAbsen >= 300 && menitAbsen < 720) { shiftIndex = 0; shiftTipe = "Pagi"; batasMenitMasuk = 7 * 60; batasMenitPulang = 15 * 60; } 
-            else if (menitAbsen >= 720 && menitAbsen < 1200) { shiftIndex = 1; shiftTipe = "Siang"; batasMenitMasuk = 15 * 60; batasMenitPulang = 23 * 60; } 
-            else { shiftIndex = 2; shiftTipe = "Malam"; batasMenitMasuk = 23 * 60; batasMenitPulang = 7 * 60; }
+            // Logika pendeteksian shift berdasarkan Tipe Status & Jam Absen
+            if (status === "Check-In (Masuk)") {
+                if (menitAbsen >= 5 * 60 && menitAbsen < 13 * 60) {
+                    shiftIndex = 0; // Pagi (07:00 - 15:00)
+                    if (menitAbsen > 7 * 60) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 7 * 60) + " mnt"; }
+                } else if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
+                    shiftIndex = 1; // Siang (15:00 - 23:00)
+                    if (menitAbsen > 15 * 60) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 15 * 60) + " mnt"; }
+                } else {
+                    shiftIndex = 2; // Malam (23:00 - 07:00)
+                    if (menitAbsen > 23 * 60) {
+                        tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 23 * 60) + " mnt";
+                    } else if (menitAbsen < 5 * 60) {
+                        tipeWarning = "Terlambat"; infoWarning = ((24 * 60 - 23 * 60) + menitAbsen) + " mnt";
+                        isPrevDaySchedule = true; // Lewat tengah malam (milik jadwal kemarin)
+                    }
+                }
+            } else if (status === "Check-Out (Pulang)") {
+                if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
+                    shiftIndex = 0; // Pulang Pagi
+                    if (menitAbsen < 15 * 60) { tipeWarning = "Pulang Cepat"; infoWarning = (15 * 60 - menitAbsen) + " mnt"; }
+                } else if (menitAbsen >= 21 * 60 || menitAbsen < 5 * 60) {
+                    shiftIndex = 1; // Pulang Siang
+                    if (menitAbsen >= 21 * 60 && menitAbsen < 23 * 60) {
+                        tipeWarning = "Pulang Cepat"; infoWarning = (23 * 60 - menitAbsen) + " mnt";
+                    } else if (menitAbsen < 5 * 60) {
+                        isPrevDaySchedule = true; // Pulang lewat dari 23:00 masuk hari berikutnya
+                    }
+                } else {
+                    shiftIndex = 2; // Pulang Malam (pagi harinya)
+                    isPrevDaySchedule = true; 
+                    if (menitAbsen < 7 * 60) {
+                        tipeWarning = "Pulang Cepat"; infoWarning = (7 * 60 - menitAbsen) + " mnt";
+                    }
+                }
+            } else {
+                // Untuk Patroli / Foto TNI (estimasi shift)
+                if (menitAbsen >= 7 * 60 && menitAbsen < 15 * 60) shiftIndex = 0;
+                else if (menitAbsen >= 15 * 60 && menitAbsen < 23 * 60) shiftIndex = 1;
+                else {
+                    shiftIndex = 2;
+                    if (menitAbsen < 7 * 60) isPrevDaySchedule = true;
+                }
+            }
 
+            // Penentuan tanggal patokan shift untuk mendeteksi 'Swap' dengan benar
+            let checkDate = new Date(tanggalObj.getTime());
+            if (isPrevDaySchedule) {
+                checkDate.setDate(checkDate.getDate() - 1);
+            }
+
+            const diffTime = Date.UTC(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate()) - 
+                             Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let cycleIndex = diffDays % polaShift.length;
+            if (cycleIndex < 0) cycleIndex += polaShift.length;
+
+            const shiftHariIni = polaShift[cycleIndex];
             const personilTerjadwal = shiftHariIni[shiftIndex];
+            
             let isSwap = (nama !== personilTerjadwal);
             let swapInfo = isSwap ? "Ganti " + personilTerjadwal : "";
-            let tipeWarning = ""; let infoWarning = "";
-
-            if (status === "Check-In (Masuk)") {
-                if (menitAbsen > batasMenitMasuk) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - batasMenitMasuk) + " mnt"; }
-            } else if (status === "Check-Out (Pulang)") {
-                if (menitAbsen < batasMenitPulang) { tipeWarning = "Pulang Cepat"; infoWarning = (batasMenitPulang - menitAbsen) + " mnt"; }
-            }
 
             if (isSwap || tipeWarning) { return { isSwap: isSwap, swapInfo: swapInfo, tipeWarning: tipeWarning, infoWarning: infoWarning }; }
             return null;
