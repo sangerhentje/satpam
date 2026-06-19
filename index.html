@@ -290,6 +290,10 @@
         let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
         let currentLat = null; let currentLon = null; let currentAddress = "Alamat sedang dicari...";
 
+        // Variabel untuk menyimpan Base64 Cache Foto dari Apps Script
+        window.imageCache = window.imageCache || {};
+        window.currentLightboxFileId = null;
+
         const defaultThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkZPVE88L3RleHQ+PC9zdmc+";
 
         // === FITUR PWA (PROGRESSIVE WEB APP) ===
@@ -469,6 +473,33 @@
             }
         }
 
+        // === FUNGSI FOTO PROXY DARI GAS ===
+        function loadFotoViaGAS(fileId, imgClass) {
+            if (!fileId || window.imageCache[fileId]) return; // Cegah pemuatan ganda
+            window.imageCache[fileId] = 'loading'; 
+            
+            fetch(GAS_URL + "?action=getFotoBase64&id=" + fileId)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success' && data.base64) {
+                        const dataUri = 'data:image/jpeg;base64,' + data.base64;
+                        window.imageCache[fileId] = dataUri;
+                        // Temukan semua gambar dengan ID ini lalu update sumbernya
+                        document.querySelectorAll('.' + imgClass).forEach(el => el.src = dataUri);
+                        
+                        // Perbarui gambar di lightbox secara live jika kebetulan sedang dibuka
+                        if (window.currentLightboxFileId === fileId) {
+                            document.getElementById('imgLightbox').src = dataUri;
+                        }
+                    } else {
+                        window.imageCache[fileId] = null; 
+                    }
+                }).catch(e => {
+                    console.error("Gagal memuat foto via GAS:", e);
+                    window.imageCache[fileId] = null;
+                });
+        }
+
         // === FUNGSI TAB & MENU ===
         window.openMenu = function(tabId) {
             const dashboardMenu = document.getElementById('dashboardMenu');
@@ -493,7 +524,15 @@
             }
         };
 
-        window.openLightbox = function(nama, waktu, lokasi, src) {
+        window.openLightbox = function(nama, waktu, lokasi, fileId) {
+            window.currentLightboxFileId = fileId;
+            let src = defaultThumbSVG;
+            
+            // Cek apakah foto sudah ada di cache dari GAS
+            if (fileId && window.imageCache[fileId] && window.imageCache[fileId] !== 'loading') {
+                src = window.imageCache[fileId];
+            }
+            
             document.getElementById('imgLightbox').src = src;
             document.getElementById('lbNama').innerText = nama;
             document.getElementById('lbWaktu').innerText = waktu;
@@ -502,6 +541,7 @@
         };
 
         window.closeLightbox = function() {
+            window.currentLightboxFileId = null;
             document.getElementById('modalLightbox').classList.add('hidden');
         };
 
@@ -581,7 +621,6 @@
             if (cardsOnDuty) {
                 cardsOnDuty.innerHTML = '';
                 
-                // FILTER: Hanya ambil data yang BUKAN 'Foto dengan TNI' untuk Kartu On Duty
                 const logsOnDuty = logHariIni.filter(item => item.status !== 'Foto dengan TNI');
                 
                 if (logsOnDuty.length === 0) {
@@ -609,7 +648,10 @@
                             if (match) fileId = match[1];
                         }
                         
-                        let imgSrc = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w800` : defaultThumbSVG;
+                        // Setel placeholder awal, dan siapkan identitas unik untuk pembaruan DOM
+                        let imgClass = fileId ? `foto-gas-${fileId}` : '';
+                        let imgSrc = (fileId && window.imageCache[fileId] && window.imageCache[fileId] !== 'loading') 
+                                        ? window.imageCache[fileId] : defaultThumbSVG;
 
                         const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, petugas.waktu, new Date()); 
                         let badgesHtml = '';
@@ -626,7 +668,7 @@
                         
                         card.innerHTML = `
                             <div class="w-1/3 bg-stone-100 border-r border-stone-200 relative shrink-0">
-                                <img src="${imgSrc}" class="w-full h-full object-cover min-h-[120px] max-h-[140px]" alt="Foto ${escapeHtml(petugas.nama)}" onerror="this.src='${defaultThumbSVG}'">
+                                <img src="${imgSrc}" class="w-full h-full object-cover min-h-[120px] max-h-[140px] ${imgClass}" alt="Foto ${escapeHtml(petugas.nama)}" onerror="this.src='${defaultThumbSVG}'">
                             </div>
                             <div class="w-2/3 p-3 flex flex-col justify-between">
                                 <table class="text-[10px] text-stone-700 font-medium mb-1">
@@ -640,6 +682,11 @@
                             </div>
                         `;
                         cardsOnDuty.appendChild(card);
+
+                        // Memicu fetch ke GAS jika gambar belum di cache
+                        if (fileId && (!window.imageCache || !window.imageCache[fileId])) {
+                            loadFotoViaGAS(fileId, imgClass);
+                        }
                     });
                 }
             }
@@ -663,11 +710,29 @@
                             if (match) fileId = match[1];
                         }
                         
-                        let thumbSrc = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w800` : defaultThumbSVG;
+                        let imgClass = fileId ? `foto-gas-${fileId}` : '';
+                        let thumbSrc = (fileId && window.imageCache[fileId] && window.imageCache[fileId] !== 'loading') 
+                                        ? window.imageCache[fileId] : defaultThumbSVG;
 
                         const safeNama = escapeHtml(petugas.nama); const safeWaktu = escapeHtml(petugas.waktu);
-                        card.innerHTML = '<div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-lg bg-stone-800 flex items-center justify-center text-amber-500 font-black text-sm">TNI</div><div><h4 class="text-xs font-bold text-stone-800">' + safeNama + '</h4><span class="text-[10px] text-stone-500 font-bold">Laporan | ' + safeWaktu + '</span></div></div><button onclick="openLightbox(\'' + safeNama + '\', \'Hari ini | ' + safeWaktu + '\', \'Pos Jaga\', \'' + thumbSrc + '\')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity"><img src="' + thumbSrc + '" class="w-full h-full object-cover" onerror="this.src=\'' + defaultThumbSVG + '\'"></button>';
+                        
+                        card.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-stone-800 flex items-center justify-center text-amber-500 font-black text-sm">TNI</div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-stone-800">${safeNama}</h4>
+                                    <span class="text-[10px] text-stone-500 font-bold">Laporan | ${safeWaktu}</span>
+                                </div>
+                            </div>
+                            <button onclick="openLightbox('${safeNama}', 'Hari ini | ${safeWaktu}', 'Pos Jaga', '${fileId}')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity shrink-0">
+                                <img src="${thumbSrc}" class="w-full h-full object-cover ${imgClass}" onerror="this.src='${defaultThumbSVG}'">
+                            </button>
+                        `;
                         cardsFotoTNI.appendChild(card);
+
+                        if (fileId && (!window.imageCache || !window.imageCache[fileId])) {
+                            loadFotoViaGAS(fileId, imgClass);
+                        }
                     });
                 }
             }
