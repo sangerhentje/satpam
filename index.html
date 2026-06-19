@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portal Sekuriti</title>
+    <title>Kehadiran Sekuriti</title>
     
     <!-- === PWA META TAGS === -->
     <meta name="theme-color" content="#92400e"> 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
-    <link class="apple-touch-icon" href="./512.png">
+    <link rel="apple-touch-icon" href="./512.png">
     <link id="pwaManifest" rel="manifest">
     <!-- ======================= -->
 
@@ -64,68 +64,50 @@
 
                 <div class="text-center mb-6">
                     <h1 class="text-2xl font-black text-stone-800 tracking-tight">Portal Sekuriti</h1>
-                    <p class="text-amber-800 text-xs mt-0.5 font-bold uppercase tracking-wider">Aplikasi Keamanan Terpadu</p>
+                    <p class="text-amber-800 text-xs mt-0.5 font-bold uppercase tracking-wider">Kehadiran & Monitoring Shift</p>
                 </div>
                 
-                <!-- GRID MENU UTAMA TERSTRUKTUR -->
-                <div class="space-y-3 mb-6">
-                    <!-- Baris 1: Kehadiran (Memanjang / Full Width) -->
-                    <button onclick="openMenu('tabForm')" class="w-full bg-white p-4 rounded-2xl shadow-sm border border-stone-200 hover:border-amber-700 hover:shadow-md transition-all flex items-center justify-between group border-l-4 border-l-amber-500">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-                            </div>
-                            <div class="text-left">
-                                <span class="block font-black text-sm text-stone-800 uppercase tracking-wide">Kehadiran</span>
-                                <span class="block text-[10px] text-stone-400">Absen masuk & pulang harian</span>
-                            </div>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+                    <!-- Tombol Laporan Patroli (Menu Utama Baru) -->
+                    <button onclick="openMenu('tabPatroli')" class="col-span-2 bg-blue-600 p-4 sm:p-5 rounded-2xl shadow-sm border border-blue-700 hover:bg-blue-700 hover:shadow-md transition-all flex items-center justify-center gap-4 group text-left">
+                        <div class="w-12 h-12 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                         </div>
-                        <span class="text-stone-400 group-hover:translate-x-1 transition-transform">➡️</span>
+                        <div>
+                            <span class="block font-black text-sm sm:text-base text-white tracking-wide uppercase">Laporan Patroli</span>
+                            <span class="block text-[10px] sm:text-xs text-blue-200 mt-0.5">Catat rute & area pengecekan</span>
+                        </div>
                     </button>
 
-                    <!-- Baris 2: Patroli & Lapor Kejadian (Dua Kolom sejajar) -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="openMenu('tabPatroli')" class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 hover:border-blue-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center border-l-4 border-l-blue-500">
-                            <div class="w-10 h-10 rounded-xl bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                            </div>
-                            <span class="font-bold text-xs text-stone-700 uppercase tracking-wide">Patroli</span>
-                        </button>
-
-                        <button onclick="openMenu('tabKejadian')" class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 hover:border-red-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center border-l-4 border-l-red-500">
-                            <div class="w-10 h-10 rounded-xl bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                            </div>
-                            <span class="font-bold text-xs text-stone-700 uppercase tracking-wide">Lapor Kejadian</span>
-                        </button>
-                    </div>
-
-                    <!-- Baris 3: Rekap Kehadiran, Rekap Foto TNI, Jadwal Shift -->
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="openMenu('tabKehadiran')" class="bg-white p-3 rounded-xl shadow-sm border border-stone-200 hover:border-amber-600 hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 group text-center">
-                            <div class="w-8 h-8 rounded-lg bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
-                                <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108" /></svg>
-                            </div>
-                            <span class="font-bold text-[9px] text-stone-600 uppercase tracking-tight leading-tight">Rekap Hadir</span>
-                        </button>
-
-                        <button onclick="openMenu('tabFoto')" class="bg-white p-3 rounded-xl shadow-sm border border-stone-200 hover:border-stone-500 hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 group text-center">
-                            <div class="w-8 h-8 rounded-lg bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center transition-colors">
-                                <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15" /></svg>
-                            </div>
-                            <span class="font-bold text-[9px] text-stone-600 uppercase tracking-tight leading-tight">Foto TNI</span>
-                        </button>
-
-                        <button onclick="openMenu('tabJadwal')" class="bg-white p-3 rounded-xl shadow-sm border border-stone-200 hover:border-stone-500 hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 group text-center">
-                            <div class="w-8 h-8 rounded-lg bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center transition-colors">
-                                <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008z" /></svg>
-                            </div>
-                            <span class="font-bold text-[9px] text-stone-600 uppercase tracking-tight leading-tight">Jadwal Shift</span>
-                        </button>
-                    </div>
+                    <button onclick="openMenu('tabForm')" class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200 hover:border-amber-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-3 group text-center">
+                        <div class="w-12 h-12 rounded-full bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        </div>
+                        <span class="font-bold text-[11px] sm:text-xs text-stone-700">Absen Hadir</span>
+                    </button>
+                    
+                    <button onclick="openMenu('tabJadwal')" class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200 hover:border-stone-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-3 group text-center">
+                        <div class="w-12 h-12 rounded-full bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center transition-colors">
+                            <svg class="w-6 h-6 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008z" /></svg>
+                        </div>
+                        <span class="font-bold text-[11px] sm:text-xs text-stone-700">Jadwal Shift</span>
+                    </button>
+                    
+                    <button onclick="openMenu('tabKehadiran')" class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200 hover:border-amber-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-3 group text-center">
+                        <div class="w-12 h-12 rounded-full bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108" /></svg>
+                        </div>
+                        <span class="font-bold text-[11px] sm:text-xs text-stone-700">Rekap Hadir</span>
+                    </button>
+                    
+                    <button onclick="openMenu('tabFoto')" class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200 hover:border-stone-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-3 group text-center">
+                        <div class="w-12 h-12 rounded-full bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center transition-colors">
+                            <svg class="w-6 h-6 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15" /></svg>
+                        </div>
+                        <span class="font-bold text-[11px] sm:text-xs text-stone-700">Rekap Foto TNI</span>
+                    </button>
                 </div>
 
-                <!-- FEEDS AKTIVITAS HARI INI -->
                 <div class="space-y-5 sm:space-y-6">
                     <div class="bg-stone-100/80 p-4 rounded-2xl border border-stone-200/80 shadow-inner">
                         <div class="flex items-center justify-between mb-3">
@@ -161,81 +143,15 @@
             <!-- CONTAINER KONTEN SETIAP TAB -->
             <div class="hidden w-full" id="kontenUtama">
 
-                <!-- TAB 1: FORM KEHADIRAN -->
-                <div id="tabForm" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 mx-auto hidden">
-                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        Kembali ke Menu
-                    </button>
-                    <div class="text-center mb-4">
-                        <h2 class="text-xl font-black text-stone-800">Sistem Kehadiran</h2>
-                        <p class="text-stone-500 text-xs">Isi data kehadiran di bawah ini</p>
-                    </div>
-
-                    <!-- KOTAK GPS -->
-                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-stone-700">Informasi GPS</label>
-                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-stone-200 hover:bg-amber-200 text-stone-800 py-1.5 px-3 rounded-lg font-bold flex items-center gap-1 transition-colors border border-stone-300">
-                                🔄 Segarkan GPS
-                            </button>
-                        </div>
-                        <div id="lokasiStatus" class="mb-2 p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
-                            Mencari titik lokasi GPS...
-                        </div>
-                        <div id="mapContainer" class="hidden w-full h-32 rounded-lg overflow-hidden border border-stone-300">
-                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
-                        </div>
-                    </div>
-
-                    <form id="formAbsensi" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="nama">Nama Petugas</label>
-                            <select id="nama" name="nama" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
-                                <option value="" disabled selected>-- Pilih Nama Anda --</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="status">Status Tugas</label>
-                            <select id="status" name="status" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
-                                <option value="" disabled selected>-- Pilih Status --</option>
-                                <option value="Check-In (Masuk)">Check-In (Masuk)</option>
-                                <option value="Check-Out (Pulang)">Check-Out (Pulang)</option>
-                                <option value="Foto dengan TNI">Foto dengan TNI</option>
-                            </select>
-                        </div>
-                        
-                        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
-                            <label class="block text-xs font-bold text-stone-700 mb-2" for="foto">Foto Selfie (Kamera Depan)</label>
-                            <input type="file" id="foto" accept="image/*" capture="user" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer mb-2 transition-colors">
-                            <p class="text-[10px] text-stone-400 mb-3 leading-tight">*Mohon izinkan akses lokasi agar koordinat tampil di foto.</p>
-                            
-                            <div id="previewContainer" class="hidden border rounded-lg overflow-hidden relative bg-stone-100">
-                                <img id="previewFoto" class="w-full h-auto" src="" alt="Preview Foto Watermark">
-                                <div id="watermarkLoading" class="absolute inset-0 bg-white/80 flex items-center justify-center hidden">
-                                    <span class="text-xs font-bold text-amber-800 animate-pulse">Memproses Watermark...</span>
-                                </div>
-                            </div>
-                            <input type="hidden" id="fotoWatermarkBase64" name="fotoWatermarkBase64">
-                        </div>
-                        
-                        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center text-sm tracking-wide">
-                            Kirim Kehadiran
-                        </button>
-                    </form>
-                    <div id="pesanArea" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
-                </div>
-
-                <!-- TAB 2: LAPORAN PATROLI -->
+                <!-- TAB: LAPORAN PATROLI -->
                 <div id="tabPatroli" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 mx-auto hidden">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-blue-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         Kembali ke Menu
                     </button>
                     <div class="text-center mb-4">
-                        <h2 class="text-xl font-black text-blue-950">Patroli Lapangan</h2>
-                        <p class="text-stone-500 text-xs">Pencatatan kondisi titik rawan lingkungan sekolah</p>
+                        <h2 class="text-xl font-black text-blue-900">Form Patroli</h2>
+                        <p class="text-stone-500 text-xs">Pencatatan rute dan kondisi area lapangan</p>
                     </div>
 
                     <!-- KOTAK GPS -->
@@ -317,82 +233,74 @@
                     <div id="pesanAreaPatroli" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
                 </div>
 
-                <!-- TAB 3: FORMULIR LAPORAN KEJADIAN -->
-                <div id="tabKejadian" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 mx-auto hidden">
-                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-red-800 transition-colors">
+                <!-- TAB 1: FORM ABSENSI (ASLI) -->
+                <div id="tabForm" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 mx-auto hidden">
+                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         Kembali ke Menu
                     </button>
                     <div class="text-center mb-4">
-                        <h2 class="text-xl font-black text-red-950">Laporan Kejadian</h2>
-                        <p class="text-stone-500 text-xs">Pencatatan insiden mendesak di lingkungan sekolah</p>
+                        <h2 class="text-xl font-black text-stone-800">Sistem Absensi</h2>
+                        <p class="text-stone-500 text-xs">Isi data kehadiran di bawah ini</p>
                     </div>
 
-                    <!-- KOTAK GPS -->
+                    <!-- KOTAK GPS DENGAN PETA -->
                     <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 mb-4">
                         <div class="flex justify-between items-center mb-2">
                             <label class="block text-xs font-bold text-stone-700">Informasi GPS</label>
-                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-stone-200 hover:bg-red-200 text-stone-800 py-1.5 px-3 rounded-lg font-bold flex items-center gap-1 transition-colors border border-stone-300">
+                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-stone-200 hover:bg-amber-200 text-stone-800 py-1.5 px-3 rounded-lg font-bold flex items-center gap-1 transition-colors border border-stone-300">
                                 🔄 Segarkan GPS
                             </button>
                         </div>
-                        <div id="lokasiStatusKejadian" class="mb-2 p-2.5 rounded-lg text-xs text-center font-medium bg-red-100 text-red-800 flex justify-center items-center gap-2 border border-red-200/50">
-                            Menunggu sinyal GPS...
+                        <div id="lokasiStatus" class="mb-2 p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
+                            <svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Mencari titik lokasi GPS...
+                        </div>
+                        <div id="mapContainer" class="hidden w-full h-32 rounded-lg overflow-hidden border border-stone-300">
+                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
                         </div>
                     </div>
 
-                    <form id="formKejadian" class="space-y-4">
+                    <form id="formAbsensi" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="namaKejadian">Nama Satpam Pelapor</label>
-                            <select id="namaKejadian" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all bg-white">
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="nama">Nama Petugas</label>
+                            <select id="nama" name="nama" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
                                 <option value="" disabled selected>-- Pilih Nama Anda --</option>
                             </select>
                         </div>
-
+                        
                         <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="kategoriKejadian">Kategori Insiden</label>
-                            <select id="kategoriKejadian" onchange="toggleKategoriLainnya()" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all bg-white">
-                                <option value="" disabled selected>-- Pilih Kategori --</option>
-                                <option value="Kehilangan / Pencurian">Kehilangan / Pencurian</option>
-                                <option value="Kerusakan Fasilitas / Vandalism">Kerusakan Fasilitas / Vandalism</option>
-                                <option value="Perkelahian / Perundungan (Bullying)">Perkelahian / Perundungan (Bullying)</option>
-                                <option value="Kecelakaan Fisik / Cedera Siswa">Kecelakaan Fisik / Cedera Siswa</option>
-                                <option value="Lainnya">Lainnya...</option>
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="status">Status Tugas</label>
+                            <select id="status" name="status" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
+                                <option value="" disabled selected>-- Pilih Status --</option>
+                                <option value="Check-In (Masuk)">Check-In (Masuk)</option>
+                                <option value="Check-Out (Pulang)">Check-Out (Pulang)</option>
+                                <option value="Foto dengan TNI">Foto dengan TNI</option>
                             </select>
                         </div>
-
-                        <!-- INPUT CATEGORY LAINNYA (Dinamis) -->
-                        <div id="containerKategoriLainnya" class="hidden transition-all duration-300">
-                            <label class="block text-xs font-bold text-red-700 mb-1.5" for="kategoriLainnya">Tulis Kategori Kejadian</label>
-                            <input type="text" id="kategoriLainnya" placeholder="Tulis kejadian lainnya..." class="w-full px-3 py-2.5 text-sm border border-red-300 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all bg-red-50">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="kronologiKejadian">Kronologi Kejadian</label>
-                            <textarea id="kronologiKejadian" rows="4" required placeholder="Tulis urutan kejadian secara mendetail (Siapa, Kapan, Mengapa)..." class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all bg-white"></textarea>
-                        </div>
-
+                        
                         <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
-                            <label class="block text-xs font-bold text-stone-700 mb-2" for="fotoKejadian">Foto Bukti TKP (Kamera Utama)</label>
-                            <input type="file" id="fotoKejadian" accept="image/*" capture="environment" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-red-100 file:text-red-900 hover:file:bg-red-200 cursor-pointer mb-2 transition-colors">
+                            <label class="block text-xs font-bold text-stone-700 mb-2" for="foto">Foto Selfie (Kamera Depan)</label>
+                            <input type="file" id="foto" accept="image/*" capture="user" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer mb-2 transition-colors">
+                            <p class="text-[10px] text-stone-400 mb-3 leading-tight">*Mohon izinkan akses lokasi agar koordinat tampil di foto.</p>
                             
-                            <div id="previewContainerKejadian" class="hidden border rounded-lg overflow-hidden relative bg-stone-100">
-                                <img id="previewFotoKejadian" class="w-full h-auto" src="" alt="Preview Foto Watermark">
-                                <div id="watermarkLoadingKejadian" class="absolute inset-0 bg-white/80 flex items-center justify-center hidden">
-                                    <span class="text-xs font-bold text-red-800 animate-pulse">Memproses Watermark...</span>
+                            <div id="previewContainer" class="hidden border rounded-lg overflow-hidden relative bg-stone-100">
+                                <img id="previewFoto" class="w-full h-auto" src="" alt="Preview Foto Watermark">
+                                <div id="watermarkLoading" class="absolute inset-0 bg-white/80 flex items-center justify-center hidden">
+                                    <span class="text-xs font-bold text-amber-800 animate-pulse">Memproses Watermark...</span>
                                 </div>
                             </div>
-                            <input type="hidden" id="fotoWatermarkBase64Kejadian">
+                            <input type="hidden" id="fotoWatermarkBase64" name="fotoWatermarkBase64">
                         </div>
-
-                        <button type="submit" id="btnSubmitKejadian" class="w-full mt-2 bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center text-sm tracking-wide">
-                            Kirim Laporan Kejadian
+                        
+                        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center text-sm tracking-wide">
+                            Kirim Laporan Kehadiran
                         </button>
                     </form>
-                    <div id="pesanAreaKejadian" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
+                    <div id="pesanArea" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
                 </div>
 
-                <!-- TAB 4: JADWAL SEKURITI -->
+                <!-- TAB 2: JADWAL SEKURITI -->
                 <div id="tabJadwal" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
@@ -415,7 +323,7 @@
                     <button id="btnDownloadJadwal" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
-                <!-- TAB 5: REKAP KEHADIRAN AKTUAL -->
+                <!-- TAB 3: REKAP KEHADIRAN AKTUAL -->
                 <div id="tabKehadiran" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
@@ -428,7 +336,7 @@
                     <button id="btnDownloadKehadiran" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
-                <!-- TAB 6: REKAP FOTO TNI -->
+                <!-- TAB 4: REKAP FOTO TNI -->
                 <div id="tabFoto" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
@@ -480,7 +388,7 @@
 
     <script>
         // ==============================================================================
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwsPmfL36CjmAl0tKa5G-lVPQD3JVGxzD9_0krpiKn_2Vr__vf8xm0UX27qvkJBGzb5/exec"; 
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyDc1gc3LSUk07POzjoyytpG9GvNydCM9ExLmFJWfW6wGx7azLYrqytkgfQePJhcYxB/exec"; 
         // ==============================================================================
 
         // === KONSTANTA & VARIABEL GLOBAL ===
@@ -626,43 +534,47 @@
             });
         }
 
-        // === FUNGSI SINKRONISASI DATABASE (IKON ⚙️) ===
-        async function triggerAutoSetup() {
-            const setupMessage = document.getElementById('setupMessage');
-            if (!setupMessage) return;
-            setupMessage.classList.remove('hidden');
-            setupMessage.innerText = "⏳ Memproses konfigurasi database & pembuatan tabel...";
-            try {
-                const response = await fetch(GAS_URL + "?action=setupDatabase");
-                const result = await response.json();
-                if (result.status === 'success') {
-                    setupMessage.innerText = result.message;
-                } else {
-                    setupMessage.innerText = "❌ Gagal: " + result.message;
-                }
-            } catch (error) {
-                setupMessage.innerText = "❌ Error: " + error.toString();
+        // === INISIALISASI SAAT DOM LOAD ===
+        document.addEventListener("DOMContentLoaded", () => {
+            setupPWA();
+
+            const dToday = new Date();
+            const txtTanggalHariIni = document.getElementById('txtTanggalHariIni');
+            if (txtTanggalHariIni) {
+                txtTanggalHariIni.innerText = dToday.getDate() + " " + namaBulanShort[dToday.getMonth()];
             }
-            setTimeout(() => setupMessage.classList.add('hidden'), 5000);
-        }
+
+            const prevAction = () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderJadwal(); };
+            const nextAction = () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderJadwal(); };
+
+            ['btnPrevMonth', 'btnPrevMonthKehadiran', 'btnPrevMonthFoto'].forEach(id => {
+                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', prevAction);
+            });
+            ['btnNextMonth', 'btnNextMonthKehadiran', 'btnNextMonthFoto'].forEach(id => {
+                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', nextAction);
+            });
+
+            const btnDownloadJadwal = document.getElementById('btnDownloadJadwal');
+            const btnDownloadKehadiran = document.getElementById('btnDownloadKehadiran');
+            const btnDownloadFoto = document.getElementById('btnDownloadFoto');
+            if (btnDownloadJadwal) btnDownloadJadwal.addEventListener('click', downloadJadwalPDF);
+            if (btnDownloadKehadiran) btnDownloadKehadiran.addEventListener('click', downloadKehadiranPDF);
+            if (btnDownloadFoto) btnDownloadFoto.addEventListener('click', downloadFotoTNIPDF);
+
+            const btnSetupSheet = document.getElementById('btnSetupSheet');
+            if (btnSetupSheet) btnSetupSheet.addEventListener('click', triggerAutoSetup);
+
+            // Mendaftarkan logic watermark ke form absensi biasa dan patroli
+            attachWatermarkEvent('foto', 'previewContainer', 'watermarkLoading', 'previewFoto', 'fotoWatermarkBase64');
+            attachWatermarkEvent('fotoPatroli', 'previewContainerPatroli', 'watermarkLoadingPatroli', 'previewFotoPatroli', 'fotoWatermarkBase64Patroli');
+
+            ambilDataDariGAS();
+        });
 
         // === FUNGSI FETCH KE API GAS ===
         async function ambilDataDariGAS() {
-            const layarLoading = document.getElementById('layarLoading');
-            const setupMessage = document.getElementById('setupMessage');
-            
             try {
-                // Tambahkan timeout manual 15 detik agar tidak nyangkut selamanya
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
-                
-                const response = await fetch(GAS_URL + "?action=getData", { signal: controller.signal });
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                const response = await fetch(GAS_URL + "?action=getData");
                 const result = await response.json();
 
                 if (result.status === 'success') {
@@ -672,29 +584,13 @@
                 }
             } catch (error) {
                 console.error("Gagal menarik data:", error);
-                
-                // Matikan loading secara paksa jika terjadi error
-                if (layarLoading) { layarLoading.style.display = 'none'; }
-                const dashboardMenu = document.getElementById('dashboardMenu');
-                if (dashboardMenu) { dashboardMenu.classList.remove('hidden'); }
-                
-                // Tampilkan pesan error di layar agar Anda tahu apa yang salah
-                if (setupMessage) {
-                    setupMessage.classList.remove('hidden');
-                    let errMsg = error.name === 'AbortError' ? "Koneksi Timeout (Sinyal Lemah/URL Salah)" : error.toString();
-                    setupMessage.innerText = "⚠️ Error Koneksi: " + errMsg;
-                    setupMessage.className = "hidden absolute top-10 right-0 w-64 bg-red-900 text-white text-[10px] p-3 rounded-xl shadow-xl border border-red-700 z-50 text-center";
-                    setTimeout(() => setupMessage.classList.add('hidden'), 8000);
-                }
-                
-                // Inisialisasi dengan data kosong agar aplikasi tetap bisa diputar
                 inisialisasiApp({ personil: [], polaShift: [], logHariIni: [], databaseLogsHistoris: [] });
             }
         }
 
         // === FUNGSI FOTO PROXY DARI GAS ===
         function loadFotoViaGAS(fileId, imgClass) {
-            if (!fileId || window.imageCache[fileId]) return; 
+            if (!fileId || window.imageCache[fileId]) return; // Cegah pemuatan ganda
             window.imageCache[fileId] = 'loading'; 
             
             fetch(GAS_URL + "?action=getFotoBase64&id=" + fileId)
@@ -703,8 +599,10 @@
                     if (data.status === 'success' && data.base64) {
                         const dataUri = 'data:image/jpeg;base64,' + data.base64;
                         window.imageCache[fileId] = dataUri;
+                        // Temukan semua gambar dengan ID ini lalu update sumbernya
                         document.querySelectorAll('.' + imgClass).forEach(el => el.src = dataUri);
                         
+                        // Perbarui gambar di lightbox secara live jika kebetulan sedang dibuka
                         if (window.currentLightboxFileId === fileId) {
                             document.getElementById('imgLightbox').src = dataUri;
                         }
@@ -725,14 +623,11 @@
                 dashboardMenu.classList.add('hidden');
                 kontenUtama.classList.remove('hidden');
             }
-            const allTabs = ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto', 'tabPatroli', 'tabKejadian'];
+            const allTabs = ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto', 'tabPatroli'];
             allTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) { el.classList.replace(id === tabId ? 'hidden' : 'block', id === tabId ? 'block' : 'hidden'); }
             });
-
-            // Sinkronkan GPS khusus halaman jika form dibuka
-            dapatkanLokasi();
         };
 
         window.goHome = function() {
@@ -748,6 +643,7 @@
             window.currentLightboxFileId = fileId;
             let src = defaultThumbSVG;
             
+            // Cek apakah foto sudah ada di cache dari GAS
             if (fileId && window.imageCache[fileId] && window.imageCache[fileId] !== 'loading') {
                 src = window.imageCache[fileId];
             }
@@ -785,21 +681,6 @@
             document.getElementById('btnSubmitPatroli').classList.remove('hidden');
         };
 
-        // Laporan Kejadian Dinamis Kategori
-        window.toggleKategoriLainnya = function() {
-            const selectKategori = document.getElementById('kategoriKejadian');
-            const containerLainnya = document.getElementById('containerKategoriLainnya');
-            const inputLainnya = document.getElementById('kategoriLainnya');
-            
-            if (selectKategori.value === 'Lainnya') {
-                containerLainnya.classList.remove('hidden');
-                inputLainnya.required = true;
-            } else {
-                containerLainnya.classList.add('hidden');
-                inputLainnya.required = false;
-            }
-        }
-
         // === FUNGSI LOGIKA UTAMA ===
         function inisialisasiApp(dataDariServer) {
             dataPersonil = dataDariServer.personil || [];
@@ -807,18 +688,25 @@
             logHariIni = dataDariServer.logHariIni || [];
             databaseLogsHistoris = dataDariServer.databaseLogsHistoris || [];
 
-            // Sinkronisasi seluruh Dropdown Petugas
-            const idsDropdown = ['nama', 'namaPatroli', 'namaKejadian'];
-            idsDropdown.forEach(idDropdown => {
-                const selectEl = document.getElementById(idDropdown);
-                if (selectEl && selectEl.options.length <= 1) { 
-                    selectEl.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
-                    dataPersonil.forEach(nama => {
-                        let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama;
-                        selectEl.appendChild(opt);
-                    });
-                }
-            });
+            // Populasi menu dropdown nama petugas untuk Form Absensi
+            const selectNama = document.getElementById('nama');
+            if (selectNama && selectNama.options.length <= 1) { 
+                selectNama.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
+                dataPersonil.forEach(nama => {
+                    let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama;
+                    selectNama.appendChild(opt);
+                });
+            }
+
+            // Populasi menu dropdown nama petugas untuk Form Patroli
+            const selectNamaPatroli = document.getElementById('namaPatroli');
+            if (selectNamaPatroli && selectNamaPatroli.options.length <= 1) { 
+                selectNamaPatroli.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
+                dataPersonil.forEach(nama => {
+                    let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama;
+                    selectNamaPatroli.appendChild(opt);
+                });
+            }
 
             renderJadwal();
 
@@ -826,7 +714,7 @@
             const dashboardMenu = document.getElementById('dashboardMenu');
             const kontenUtama = document.getElementById('kontenUtama');
             
-            if (layarLoading) { layarLoading.style.display = 'none'; }
+            if (layarLoading) layarLoading.style.display = 'none';
             
             if (dashboardMenu) {
                 if (!kontenUtama || kontenUtama.classList.contains('hidden')) {
@@ -839,13 +727,10 @@
 
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
             if (!polaShift || polaShift.length === 0) return null;
-            if (!waktuStr || typeof waktuStr !== 'string') return null;
 
             const parts = waktuStr.split(":");
             const hh = parseInt(parts[0], 10);
             const mm = parseInt(parts[1], 10);
-            if (isNaN(hh) || isNaN(mm)) return null;
-
             const menitAbsen = hh * 60 + mm;
 
             let shiftIndex = 0;
@@ -853,41 +738,43 @@
             let infoWarning = "";
             let isPrevDaySchedule = false;
 
+            // Logika pendeteksian shift berdasarkan Tipe Status & Jam Absen
             if (status === "Check-In (Masuk)") {
                 if (menitAbsen >= 5 * 60 && menitAbsen < 13 * 60) {
-                    shiftIndex = 0; 
+                    shiftIndex = 0; // Pagi (07:00 - 15:00)
                     if (menitAbsen > 7 * 60) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 7 * 60) + " mnt"; }
                 } else if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
-                    shiftIndex = 1; 
+                    shiftIndex = 1; // Siang (15:00 - 23:00)
                     if (menitAbsen > 15 * 60) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 15 * 60) + " mnt"; }
                 } else {
-                    shiftIndex = 2; 
+                    shiftIndex = 2; // Malam (23:00 - 07:00)
                     if (menitAbsen > 23 * 60) {
                         tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 23 * 60) + " mnt";
                     } else if (menitAbsen < 5 * 60) {
                         tipeWarning = "Terlambat"; infoWarning = ((24 * 60 - 23 * 60) + menitAbsen) + " mnt";
-                        isPrevDaySchedule = true; 
+                        isPrevDaySchedule = true; // Lewat tengah malam (milik jadwal kemarin)
                     }
                 }
             } else if (status === "Check-Out (Pulang)") {
                 if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
-                    shiftIndex = 0; 
+                    shiftIndex = 0; // Pulang Pagi
                     if (menitAbsen < 15 * 60) { tipeWarning = "Pulang Cepat"; infoWarning = (15 * 60 - menitAbsen) + " mnt"; }
                 } else if (menitAbsen >= 21 * 60 || menitAbsen < 5 * 60) {
-                    shiftIndex = 1; 
+                    shiftIndex = 1; // Pulang Siang
                     if (menitAbsen >= 21 * 60 && menitAbsen < 23 * 60) {
                         tipeWarning = "Pulang Cepat"; infoWarning = (23 * 60 - menitAbsen) + " mnt";
                     } else if (menitAbsen < 5 * 60) {
-                        isPrevDaySchedule = true; 
+                        isPrevDaySchedule = true; // Pulang lewat dari 23:00 masuk hari berikutnya
                     }
                 } else {
-                    shiftIndex = 2; 
+                    shiftIndex = 2; // Pulang Malam (pagi harinya)
                     isPrevDaySchedule = true; 
                     if (menitAbsen < 7 * 60) {
                         tipeWarning = "Pulang Cepat"; infoWarning = (7 * 60 - menitAbsen) + " mnt";
                     }
                 }
             } else {
+                // Untuk Patroli / Foto TNI (estimasi shift)
                 if (menitAbsen >= 7 * 60 && menitAbsen < 15 * 60) shiftIndex = 0;
                 else if (menitAbsen >= 15 * 60 && menitAbsen < 23 * 60) shiftIndex = 1;
                 else {
@@ -896,6 +783,7 @@
                 }
             }
 
+            // Penentuan tanggal patokan shift untuk mendeteksi 'Swap' dengan benar
             let checkDate = new Date(tanggalObj.getTime());
             if (isPrevDaySchedule) {
                 checkDate.setDate(checkDate.getDate() - 1);
@@ -908,8 +796,6 @@
             if (cycleIndex < 0) cycleIndex += polaShift.length;
 
             const shiftHariIni = polaShift[cycleIndex];
-            if (!shiftHariIni) return null;
-            
             const personilTerjadwal = shiftHariIni[shiftIndex];
             
             let isSwap = (nama !== personilTerjadwal);
@@ -942,10 +828,7 @@
                         } else if (petugas.status === 'Patroli') {
                             statusColor = "text-blue-600";
                             statusText = "PATROLI";
-                        } else if (petugas.status === 'Laporan Kejadian') {
-                            statusColor = "text-red-600";
-                            statusText = "INSIDEN";
-                        }
+                        } 
 
                         let fileId = null;
                         if (petugas.foto) {
@@ -954,6 +837,7 @@
                             if (match) fileId = match[1];
                         }
                         
+                        // Setel placeholder awal, dan siapkan identitas unik untuk pembaruan DOM
                         let imgClass = fileId ? `foto-gas-${fileId}` : '';
                         let imgSrc = (fileId && window.imageCache[fileId] && window.imageCache[fileId] !== 'loading') 
                                         ? window.imageCache[fileId] : defaultThumbSVG;
@@ -968,13 +852,11 @@
                             }
                         }
 
+                        // Deteksi jika ini adalah record Patroli, render Area-nya
                         let ekstraLokasiHtml = '';
                         if (petugas.status === 'Patroli') {
                             let ruteArea = petugas.lokasi.split(" | ")[0] || petugas.lokasi;
                             ekstraLokasiHtml = `<tr><td class="pb-1 align-top font-bold text-stone-500">Area</td><td class="pb-1">: <span class="font-bold text-blue-700">${escapeHtml(ruteArea)}</span></td></tr>`;
-                        } else if (petugas.status === 'Laporan Kejadian') {
-                            let ruteArea = petugas.lokasi.split(" | ")[0] || petugas.lokasi;
-                            ekstraLokasiHtml = `<tr><td class="pb-1 align-top font-bold text-stone-500">Kategori</td><td class="pb-1">: <span class="font-bold text-red-700">${escapeHtml(ruteArea)}</span></td></tr>`;
                         }
 
                         const card = document.createElement('div');
@@ -998,6 +880,7 @@
                         `;
                         cardsOnDuty.appendChild(card);
 
+                        // Memicu fetch ke GAS jika gambar belum di cache
                         if (fileId && (!window.imageCache || !window.imageCache[fileId])) {
                             loadFotoViaGAS(fileId, imgClass);
                         }
@@ -1090,11 +973,9 @@
                 if (cycleIndex < 0) cycleIndex += polaShift.length; 
 
                 const shiftHariIni = polaShift[cycleIndex];
-                if (shiftHariIni) {
-                    if(rekapTargetShift[shiftHariIni[0]] !== undefined) rekapTargetShift[shiftHariIni[0]]++;
-                    if(rekapTargetShift[shiftHariIni[1]] !== undefined) rekapTargetShift[shiftHariIni[1]]++;
-                    if(rekapTargetShift[shiftHariIni[2]] !== undefined) rekapTargetShift[shiftHariIni[2]]++;
-                }
+                if(rekapTargetShift[shiftHariIni[0]] !== undefined) rekapTargetShift[shiftHariIni[0]]++;
+                if(rekapTargetShift[shiftHariIni[1]] !== undefined) rekapTargetShift[shiftHariIni[1]]++;
+                if(rekapTargetShift[shiftHariIni[2]] !== undefined) rekapTargetShift[shiftHariIni[2]]++;
 
                 const currentDateStr = currentDate.toISOString().split('T')[0];
                 
@@ -1129,10 +1010,7 @@
                 const tr = document.createElement('tr');
                 tr.className = rowColorIndex % 2 === 0 ? "bg-white hover:bg-stone-50" : "bg-stone-50 hover:bg-stone-100";
                 const formatTgl = currentDate.getDate() + " " + namaBulanShort[currentDate.getMonth()];
-                
-                if (shiftHariIni) {
-                    tr.innerHTML = '<td class="px-2 py-2 text-center whitespace-nowrap font-bold text-stone-600 border-r border-stone-200">' + escapeHtml(formatTgl) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[0]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[1]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[2]) + '</td>';
-                }
+                tr.innerHTML = '<td class="px-2 py-2 text-center whitespace-nowrap font-bold text-stone-600 border-r border-stone-200">' + escapeHtml(formatTgl) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[0]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[1]) + '</td><td class="px-2 py-2 text-center font-medium text-stone-700">' + escapeHtml(shiftHariIni[2]) + '</td>';
                 tbodyJadwal.appendChild(tr);
 
                 loopDate.setDate(loopDate.getDate() + 1); rowColorIndex++;
@@ -1180,8 +1058,7 @@
         function dapatkanLokasi(isRefresh = false) {
             const arrStatusObj = [
                 document.getElementById('lokasiStatus'),
-                document.getElementById('lokasiStatusPatroli'),
-                document.getElementById('lokasiStatusKejadian')
+                document.getElementById('lokasiStatusPatroli')
             ];
             
             const mapContainer = document.getElementById('mapContainer');
@@ -1202,7 +1079,7 @@
             arrStatusObj.forEach(el => {
                 if(el) {
                     el.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-amber-100 text-amber-900 flex justify-center items-center gap-2 shadow-sm border border-amber-300/50";
-                    el.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mencari satelit GPS...';
+                    el.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mencari titik satelit GPS...';
                 }
             });
 
@@ -1255,6 +1132,8 @@
             );
         }
 
+        async function triggerAutoSetup() { }
+
         // === FUNGSI PRATINJAU DOKUMEN HTML (ANTI-BLOCK) ===
         function showPdfPreview(htmlContent, doc, filename) {
             window.currentPdfDoc = doc;
@@ -1299,6 +1178,7 @@
                     styles: { fontSize: 8, cellPadding: 3 }
                 });
 
+                // Merakit Pratinjau HTML yang persis dengan PDF
                 const tableData = getTableData('tableJadwal');
                 let rowsHtml = tableData.rows.map((row, idx) => `
                     <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
@@ -1404,6 +1284,7 @@
                     styles: { fontSize: 9, cellPadding: 4 }
                 });
 
+                // Merakit Pratinjau HTML Kehadiran
                 const rekapTableData = getTableData(document.querySelector('#tabKehadiran table'));
                 let rekapRows = rekapTableData.rows.map((row, idx) => `
                     <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
@@ -1518,6 +1399,7 @@
                     styles: { fontSize: 9, cellPadding: 4 }
                 });
 
+                // Merakit Pratinjau HTML Foto TNI
                 const tniTableData = getTableData(document.querySelector('#tabFoto table'));
                 let tniRows = tniTableData.rows.map((row, idx) => `
                     <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
@@ -1579,18 +1461,14 @@
             }
         }
 
-        // === EVENT LISTENER SUBMIT FORM KEHADIRAN ===
+        // === EVENT LISTENER SUBMIT FORM ABSENSI (ASLI) ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmit');
             const pesanArea = document.getElementById('pesanArea');
             const fotoWatermarkBase64 = document.getElementById('fotoWatermarkBase64');
             
-            if (!fotoWatermarkBase64 || !fotoWatermarkBase64.value) { 
-                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 border border-red-200 block";
-                pesanArea.innerHTML = "Harap tunggu foto selesai diproses.";
-                return; 
-            }
+            if (!fotoWatermarkBase64 || !fotoWatermarkBase64.value) { alert("Tunggu foto selesai diproses."); return; }
 
             btn.disabled = true; btn.innerHTML = 'Memproses Data...'; btn.classList.replace('bg-amber-800', 'bg-stone-400');
             pesanArea.classList.add('hidden');
@@ -1619,7 +1497,7 @@
                     document.getElementById('previewContainer').classList.add('hidden');
                     document.getElementById('previewFoto').src = ""; fotoWatermarkBase64.value = "";
 
-                    btn.disabled = false; btn.innerHTML = 'Kirim Kehadiran'; btn.classList.replace('bg-stone-400', 'bg-amber-800');
+                    btn.disabled = false; btn.innerHTML = 'Kirim Laporan Kehadiran'; btn.classList.replace('bg-stone-400', 'bg-amber-800');
                     ambilDataDariGAS(); setTimeout(() => { pesanArea.classList.add('hidden'); goHome(); }, 2500);
                 } else { throw new Error(result.message); }
             } catch (error) {
@@ -1636,16 +1514,8 @@
             const pesanArea = document.getElementById('pesanAreaPatroli');
             const fotoBase64 = document.getElementById('fotoWatermarkBase64Patroli');
             
-            if (!fotoBase64 || !fotoBase64.value) { 
-                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 border border-red-200 block";
-                pesanArea.innerHTML = "Harap tunggu foto selesai diproses.";
-                return; 
-            }
-            if (!selectedStatusPatroli) { 
-                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 border border-red-200 block";
-                pesanArea.innerHTML = "Pilih Kondisi Area (Aman/Temuan)!";
-                return; 
-            }
+            if (!fotoBase64 || !fotoBase64.value) { alert("Tunggu foto selesai diproses."); return; }
+            if (!selectedStatusPatroli) { alert("Pilih Kondisi Area (Aman/Temuan)!"); return; }
 
             btn.disabled = true; btn.innerHTML = 'Memproses Data...'; btn.classList.replace('bg-blue-800', 'bg-stone-400');
             pesanArea.classList.add('hidden');
@@ -1653,6 +1523,7 @@
             const area = document.getElementById('areaPatroli').value;
             const catatan = document.getElementById('catatanPatroli').value;
             
+            // Format lokasi khusus patroli agar kompatibel 100% dengan Backend Google Sheets saat ini
             let stringLokasi = area + " | " + selectedStatusPatroli;
             if (selectedStatusPatroli === 'TEMUAN') stringLokasi += " | Catatan: " + catatan;
 
@@ -1660,7 +1531,7 @@
                 action: "submitAbsensi",
                 data: {
                     nama: document.getElementById('namaPatroli').value,
-                    status: "Patroli", 
+                    status: "Patroli", // Status dikunci agar langsung disalurkan ke Tab "Patroli" oleh backend
                     lokasi: stringLokasi,
                     fotoWatermarkBase64: fotoBase64.value
                 }
@@ -1694,65 +1565,6 @@
                 pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 shadow-sm block border border-red-200";
                 pesanArea.innerHTML = "Gagal: " + escapeHtml(error.message);
                 btn.disabled = false; btn.innerHTML = 'Coba Lagi'; btn.classList.replace('bg-stone-400', 'bg-blue-800');
-            }
-        });
-
-        // === EVENT LISTENER SUBMIT FORM KEJADIAN ===
-        document.getElementById('formKejadian').addEventListener('submit', async function(e) {
-            e.preventDefault(); 
-            const btn = document.getElementById('btnSubmitKejadian');
-            const pesanArea = document.getElementById('pesanAreaKejadian');
-            const fotoBase64 = document.getElementById('fotoWatermarkBase64Kejadian');
-            
-            if (!fotoBase64 || !fotoBase64.value) { 
-                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 border border-red-200 block";
-                pesanArea.innerHTML = "Harap tunggu foto TKP selesai diproses.";
-                return; 
-            }
-
-            btn.disabled = true; btn.innerHTML = 'Mengirim Laporan Kejadian...'; btn.classList.replace('bg-red-700', 'bg-stone-400');
-            pesanArea.classList.add('hidden');
-
-            let kategori = document.getElementById('kategoriKejadian').value;
-            if (kategori === 'Lainnya') {
-                kategori = "Lainnya: " + document.getElementById('kategoriLainnya').value;
-            }
-            const kronologi = document.getElementById('kronologiKejadian').value;
-            
-            let stringLokasiKejadian = kategori + " | Kronologi: " + kronologi;
-
-            const payloadData = {
-                action: "submitAbsensi",
-                data: {
-                    nama: document.getElementById('namaKejadian').value,
-                    status: "Laporan Kejadian", 
-                    lokasi: stringLokasiKejadian,
-                    fotoWatermarkBase64: fotoBase64.value
-                }
-            };
-
-            try {
-                const response = await fetch(GAS_URL, {
-                    method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payloadData)
-                });
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-900 shadow-sm block border border-red-300";
-                    pesanArea.innerHTML = "✅ " + escapeHtml(result.message);
-                    
-                    this.reset();
-                    document.getElementById('previewContainerKejadian').classList.add('hidden');
-                    document.getElementById('previewFotoKejadian').src = ""; fotoBase64.value = "";
-                    document.getElementById('containerKategoriLainnya').classList.add('hidden');
-
-                    btn.disabled = false; btn.innerHTML = 'Kirim Laporan Kejadian'; btn.classList.replace('bg-stone-400', 'bg-red-700');
-                    ambilDataDariGAS(); setTimeout(() => { pesanArea.classList.add('hidden'); goHome(); }, 2500);
-                } else { throw new Error(result.message); }
-            } catch (error) {
-                pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-red-100 text-red-800 shadow-sm block border border-red-200";
-                pesanArea.innerHTML = "Gagal: " + escapeHtml(error.message);
-                btn.disabled = false; btn.innerHTML = 'Coba Lagi'; btn.classList.replace('bg-stone-400', 'bg-red-700');
             }
         });
 
