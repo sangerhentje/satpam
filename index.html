@@ -614,7 +614,6 @@
             });
         }
 
-        // === STREAMING_CHUNK: Coding the special watermark for incident photos... ===
         // === FUNGSI WATERMARK KHUSUS LAPORAN KEJADIAN (TANPA KOORDINAT / GPS) ===
         function attachWatermarkEventKejadian(inputId, previewContainerId, loadingId, previewImgId, hiddenBase64Id) {
             const fotoInput = document.getElementById(inputId);
@@ -657,7 +656,6 @@
             });
         }
 
-        // === STREAMING_CHUNK: Initializing components on DOM load... ===
         // === INISIALISASI SAAT DOM LOAD ===
         document.addEventListener("DOMContentLoaded", () => {
             setupPWA();
@@ -823,7 +821,6 @@
             document.getElementById('btnSubmitPatroli').classList.remove('hidden');
         };
 
-        // === STREAMING_CHUNK: Processing main application data and auto duty logic... ===
         // === FUNGSI LOGIKA UTAMA ===
         function inisialisasiApp(dataDariServer) {
             dataPersonil = dataDariServer.personil || [];
@@ -946,7 +943,7 @@
             dapatkanLokasi();
         }
 
-        // === STREAMING_CHUNK: Tuning shift scheduling criteria bypass for backup support... ===
+        // === LOGIKA SHIFT SCHEDULING BYPASS UNTUK STATUS PERBANTUAN ===
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
             // BYPASS LOGIKA JIKA STATUS ADALAH PERBANTUAN PENGAMANAN (BEBAS SWAP/TERLAMBAT)
             if (status === "Check-In (Perbantuan Pengamanan)" || status === "Check-Out (Perbantuan Pengamanan)") {
@@ -1032,7 +1029,7 @@
             return null;
         }
 
-        // === STREAMING_CHUNK: Updating the dashboard feed with new status support... ===
+        // === PEMBUATAN FEED DASHBOARD DENGAN DUKUNGAN STATUS BARU ===
         function renderLiveDashboardFeeds() {
             const cardsOnDuty = document.getElementById('cardsOnDuty');
             if (cardsOnDuty) {
@@ -1164,7 +1161,7 @@
             }
         }
 
-        // === STREAMING_CHUNK: Processing shift data calculations... ===
+        // === PERHITUNGAN DAN RENDERING DATA JADWAL & REKAP ===
         function renderJadwal() {
             const tbodyJadwal = document.getElementById('tabelJadwalBody');
             const tbodyRekap = document.getElementById('tabelRekapBody');
@@ -1285,7 +1282,7 @@
             renderLiveDashboardFeeds();
         }
 
-        // === STREAMING_CHUNK: Implementing GPS geolocation lock... ===
+        // === PENGOLAHAN DAN PENGUNCIAN KOORDINAT GEOLOKASI GPS ===
         function dapatkanLokasi(isRefresh = false) {
             const arrStatusObj = [
                 document.getElementById('lokasiStatus'),
@@ -1363,7 +1360,40 @@
             );
         }
 
-        async function triggerAutoSetup() { }
+        // === FUNGSI UTAMA SETUP DATABASE INTEGRASI GOOGLE SHEETS ===
+        async function triggerAutoSetup() { 
+            const setupMessage = document.getElementById('setupMessage');
+            if (!setupMessage) return;
+            
+            // Tampilkan popup pemrosesan setup
+            setupMessage.className = "absolute top-10 right-0 w-64 bg-stone-900 text-white text-[10px] p-2.5 rounded-xl shadow-xl border border-stone-700 z-50 block";
+            setupMessage.innerHTML = "⏳ Menghubungkan server untuk memicu setup database...";
+            
+            try {
+                const response = await fetch(GAS_URL + "?action=setupDatabase");
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    setupMessage.innerHTML = "✅ " + escapeHtml(result.message);
+                    setupMessage.className = "absolute top-10 right-0 w-64 bg-green-900 text-white text-[11px] font-bold p-2.5 rounded-xl shadow-xl border border-green-700 z-50 block";
+                    
+                    // Segarkan dashboard data dan hilangkan popup setelah 3 detik
+                    setTimeout(() => {
+                        setupMessage.classList.add('hidden');
+                        ambilDataDariGAS();
+                    }, 3500);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                setupMessage.innerHTML = "❌ Setup Gagal: " + escapeHtml(error.message);
+                setupMessage.className = "absolute top-10 right-0 w-64 bg-red-950 text-white text-[11px] font-bold p-2.5 rounded-xl shadow-xl border border-red-800 z-50 block";
+                
+                setTimeout(() => {
+                    setupMessage.classList.add('hidden');
+                }, 5000);
+            }
+        }
 
         // === FUNGSI PRATINJAU DOKUMEN HTML (ANTI-BLOCK) ===
         function showPdfPreview(htmlContent, doc, filename) {
@@ -1391,7 +1421,7 @@
             }
         }
         
-        // === STREAMING_CHUNK: Coding PDF and document preview builders... ===
+        // === PEMBUATAN PDF LAPORAN JADWAL SHIFT ===
         function downloadJadwalPDF() {
             try {
                 const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1448,7 +1478,7 @@
             }
         }
         
-        // === STREAMING_CHUNK: Assembling Attendance PDF report elements... ===
+        // === PEMBUATAN PDF REKAP KEHADIRAN AKTUAL ===
         function downloadKehadiranPDF() {
             try {
                 const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1588,6 +1618,7 @@
             }
         }
         
+        // === PEMBUATAN PDF LAPORAN REKAP FOTO TNI ===
         function downloadFotoTNIPDF() {
             try {
                 const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1701,8 +1732,7 @@
             }
         }
 
-        // === STREAMING_CHUNK: Handling forms submissions & saving state... ===
-        // === EVENT LISTENER SUBMIT FORM ABSENSI ===
+        // === SUBMIT ABSENSI ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmit');
@@ -1752,7 +1782,7 @@
             }
         });
 
-        // === EVENT LISTENER SUBMIT FORM PATROLI ===
+        // === SUBMIT LAPOR PATROLI ===
         document.getElementById('formPatroli').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmitPatroli');
@@ -1815,7 +1845,7 @@
             }
         });
 
-        // === EVENT LISTENER SUBMIT FORM KEJADIAN ===
+        // === SUBMIT LAPOR KEJADIAN ===
         document.getElementById('formKejadian').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmitKejadian');
