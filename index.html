@@ -293,16 +293,29 @@
 
         // === FITUR PWA (PROGRESSIVE WEB APP) ===
         function setupPWA() {
+            let absoluteIconUrl = './512.png';
+            let absoluteStartUrl = './';
+
+            try {
+                const base = window.location.href;
+                // Cegah error Invalid URL jika dijalankan di dalam Blob/Preview
+                if (!base.startsWith('blob:') && !base.startsWith('about:')) {
+                    absoluteIconUrl = new URL('512.png', base).href;
+                    absoluteStartUrl = new URL('./', base).href;
+                }
+            } catch (error) {
+                console.warn("Menggunakan path relatif untuk PWA:", error);
+            }
+
             const manifestJSON = {
                 "name": "Portal Sekuriti Shift",
                 "short_name": "Sekuriti",
-                "start_url": window.location.href,
+                "start_url": absoluteStartUrl,
                 "display": "standalone",
                 "background_color": "#fafaf9",
                 "theme_color": "#92400e",
                 "icons": [{
-                    // Mengubah src ke file lokal 512.png milik Anda
-                    "src": "./512.png",
+                    "src": absoluteIconUrl,
                     "sizes": "512x512",
                     "type": "image/png",
                     "purpose": "any maskable"
@@ -311,6 +324,21 @@
             const stringManifest = JSON.stringify(manifestJSON);
             const blobManifest = new Blob([stringManifest], {type: 'application/json'});
             document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(blobManifest));
+
+            // Menyuntikkan Service Worker mini agar Chrome Desktop memunculkan Ikon Install di Address Bar
+            try {
+                if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+                    const swCode = `
+                        self.addEventListener('install', (e) => { self.skipWaiting(); });
+                        self.addEventListener('activate', (e) => { e.waitUntil(clients.claim()); });
+                        self.addEventListener('fetch', (e) => { });
+                    `;
+                    const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(console.error);
+                }
+            } catch(e) {
+                console.warn("Service Worker tidak dapat diregistrasi di lingkungan ini.");
+            }
 
             let deferredPrompt = null;
             const pwaContainer = document.getElementById('pwaContainer');
@@ -338,8 +366,7 @@
                 });
             }
 
-            // PERBAIKAN: Selalu tampilkan kotak PWA setelah 1.5 detik sebagai petunjuk 
-            // edukasi bagi pengguna iOS/iPhone atau pengguna mode Preview.
+            // Selalu tampilkan kotak PWA setelah 1.5 detik sebagai petunjuk 
             setTimeout(() => {
                 if (pwaContainer) pwaContainer.classList.remove('hidden');
             }, 1500);
