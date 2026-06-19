@@ -275,7 +275,7 @@
 
     <script>
         // ==============================================================================
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxDNGkvG88TKb5SvWsOrR_QQhsWOdEHTGWggUIxW0oO-u7zJ8EVmCGOqbGEvMXI0Fxk/exec"; 
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyDc1gc3LSUk07POzjoyytpG9GvNydCM9ExLmFJWfW6wGx7azLYrqytkgfQePJhcYxB/exec"; 
         // ==============================================================================
 
         // === KONSTANTA & VARIABEL GLOBAL ===
@@ -905,10 +905,16 @@
                 
                 let historyBody = [];
                 databaseLogsHistoris.forEach(log => {
-                    let logDate = new Date(log.tanggal);
+                    // Mencegah pergeseran hari karena timezone
+                    let dParts = log.tanggal.split('-');
+                    let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                    
                     if (logDate >= startDate && logDate <= endDate) {
                         if (log.status === "Check-In (Masuk)" || log.status === "Check-Out (Pulang)") {
-                            let datetime = log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal;
+                            let formattedDate = `${parseInt(dParts[2])}/${parseInt(dParts[1])}/${dParts[0]}`;
+                            
+                            // Gunakan displayTimestamp dari backend jika tersedia untuk output PDF utuh
+                            let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${formattedDate} ${log.waktu}` : formattedDate);
                             let keterangan = log.lokasi && log.lokasi !== "-" ? log.lokasi : "";
                             
                             if (log.waktu && log.status === "Check-In (Masuk)") {
@@ -925,16 +931,20 @@
                                 } catch (e) { console.error(e); }
                             }
                             
-                            historyBody.push([datetime, log.nama, log.status, keterangan || "-"]);
+                            // Kunci sorting seragam YYYY-MM-DDTHH:mm:00
+                            let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
+                            historyBody.push({ data: [datetime, log.nama, log.status, keterangan || "-"], rawDateStr: sortKey });
                         }
                     }
                 });
                 
-                historyBody.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+                // Urutkan riwayat berdasarkan waktu yang presisi
+                historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
+                let finalHistoryBody = historyBody.map(item => item.data);
 
                 doc.autoTable({
-                    head: [['Tanggal & Jam', 'Nama Personil', 'Status', 'Keterangan']],
-                    body: historyBody,
+                    head: [['Timestamp', 'Nama Personil', 'Status', 'Keterangan']],
+                    body: finalHistoryBody,
                     startY: finalY + 55,
                     theme: 'grid',
                     headStyles: { fillColor: [87, 83, 78] }, 
@@ -974,20 +984,26 @@
                 
                 let historyBody = [];
                 databaseLogsHistoris.forEach(log => {
-                    let logDate = new Date(log.tanggal);
+                    let dParts = log.tanggal.split('-');
+                    let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                    
                     if (logDate >= startDate && logDate <= endDate) {
                         if (log.tni || log.status === "Foto dengan TNI") {
-                            let datetime = log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal;
-                            historyBody.push([datetime, log.nama, log.lokasi || "-"]);
+                            // Mengambil jam dari variabel displayTimestamp
+                            let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal);
+                            let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
+                            historyBody.push({ data: [datetime, log.nama, log.lokasi || "-"], rawDateStr: sortKey });
                         }
                     }
                 });
 
-                historyBody.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+                // Perbaikan sistem sorting
+                historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
+                let finalHistoryBody = historyBody.map(item => item.data);
 
                 doc.autoTable({
-                    head: [['Tanggal & Jam', 'Nama Personil', 'Keterangan']],
-                    body: historyBody,
+                    head: [['Timestamp', 'Nama Personil', 'Keterangan']],
+                    body: finalHistoryBody,
                     startY: finalY + 55,
                     theme: 'grid',
                     headStyles: { fillColor: [87, 83, 78] },
