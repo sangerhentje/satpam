@@ -98,8 +98,8 @@
                         </button>
                     </div>
 
-                    <!-- 3. Tombol Jadwal, Rekap Kehadiran, Rekap Foto TNI (1 Baris, 3 Kolom) -->
-                    <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                    <!-- 3. Tombol Jadwal, Rekap Kehadiran, Rekap Foto TNI, Rapor (1 Baris, 4 Kolom) -->
+                    <div class="grid grid-cols-4 gap-2 sm:gap-3">
                         <!-- Jadwal -->
                         <button onclick="openMenu('tabJadwal')" class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 hover:border-stone-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center">
                             <div class="w-9 h-9 rounded-full bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center transition-colors">
@@ -113,7 +113,7 @@
                             <div class="w-9 h-9 rounded-full bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
                                 <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108" /></svg>
                             </div>
-                            <span class="font-bold text-[10px] sm:text-xs text-stone-700 leading-tight">Rekap Kehadiran</span>
+                            <span class="font-bold text-[10px] sm:text-xs text-stone-700 leading-tight text-center">Rekap<br>Kehadiran</span>
                         </button>
 
                         <!-- Rekap Foto TNI -->
@@ -122,6 +122,14 @@
                                 <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15" /></svg>
                             </div>
                             <span class="font-bold text-[10px] sm:text-xs text-stone-700 leading-tight">Foto TNI</span>
+                        </button>
+
+                        <!-- Rapor Kinerja -->
+                        <button onclick="openMenu('tabKinerja')" class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 hover:border-emerald-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center">
+                            <div class="w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors">
+                                <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
+                            </div>
+                            <span class="font-bold text-[10px] sm:text-xs text-emerald-800 leading-tight text-center">Rapor<br>Kinerja</span>
                         </button>
                     </div>
                 </div>
@@ -429,6 +437,152 @@
                     <button id="btnDownloadFoto" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
+                <!-- TAB 5: RAPOR KINERJA (KPI) -->
+                <div id="tabKinerja" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
+                    <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-emerald-800 transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        Kembali ke Menu
+                    </button>
+                    
+                    <div class="text-center mb-5">
+                        <h2 class="text-xl font-black text-emerald-700 uppercase tracking-tight">Rapor Kinerja (KPI)</h2>
+                        <p class="text-stone-500 text-xs mt-0.5">Penilaian performa dan kedisiplinan satpam</p>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-5 text-xs font-bold border border-stone-200">
+                        <button id="btnPrevMonthKinerja" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button>
+                        <span class="textBulanTahunKinerja text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span>
+                        <button id="btnNextMonthKinerja" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button>
+                    </div>
+
+                    <!-- PANDUAN KPI (ACCORDION) -->
+                    <details class="group mb-5 border border-emerald-200 rounded-xl bg-emerald-50/30 shadow-sm">
+                        <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-3.5 text-sm text-emerald-800 hover:text-emerald-600 transition-colors">
+                            <span class="flex items-center gap-2">ℹ️ Informasi & Panduan Penilaian (KPI)</span>
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
+                        </summary>
+                        <div class="text-stone-700 p-4 border-t border-emerald-100 text-[11px] sm:text-xs leading-relaxed space-y-4 bg-white rounded-b-xl">
+                            <p class="font-medium text-stone-600 bg-stone-50 p-2 rounded-lg border border-stone-100">Penilaian Kinerja Satpam diukur menggunakan skor awal <strong class="text-emerald-700 text-sm">100 Poin</strong> setiap bulannya. Skor ini akan bertambah (Bonus) jika satpam proaktif, dan berkurang (Penalti) jika terjadi indisipliner.</p>
+                            
+                            <div class="space-y-3">
+                                <!-- Pilar A -->
+                                <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                    <h4 class="font-black text-stone-800 mb-2">A. Pilar Kedisiplinan & Kehadiran (Bobot: 40%)</h4>
+                                    <p class="text-[10px] text-stone-500 mb-2">Mengukur kepatuhan terhadap jadwal utama yang ditetapkan.</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <div class="bg-green-50 p-2 rounded-lg border border-green-100">
+                                            <span class="block font-bold text-green-800 mb-1 text-[10px]">⭐ Poin Positif</span>
+                                            <ul class="list-disc pl-3 space-y-0.5 text-[10px] text-green-900/80">
+                                                <li>Hadir tepat waktu sesuai jadwal shift.</li>
+                                                <li>Absensi lengkap (Check-In & Check-Out).</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-red-50 p-2 rounded-lg border border-red-100">
+                                            <span class="block font-bold text-red-800 mb-1 text-[10px]">🔻 Poin Negatif</span>
+                                            <ul class="list-disc pl-3 space-y-0.5 text-[10px] text-red-900/80">
+                                                <li>Terlambat masuk: <strong>-1 poin</strong> / 5 menit.</li>
+                                                <li>Pulang cepat / Lupa Absen: <strong>-10 poin</strong>.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pilar B -->
+                                <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                    <h4 class="font-black text-stone-800 mb-2">B. Pilar Produktivitas & Keaktifan Patroli (Bobot: 30%)</h4>
+                                    <p class="text-[10px] text-stone-500 mb-2">Mengukur kerajinan satpam menjaga keamanan fisik sekolah.</p>
+                                    <ul class="list-disc pl-4 space-y-1 text-stone-600">
+                                        <li><strong>Frekuensi Patroli (+5 poin):</strong> Target minimum patroli per shift. Maksimal +15 poin (3x patroli) per shift agar tidak terjadi manipulasi laporan.</li>
+                                        <li><strong>Kondisi Khusus/Temuan (+10 poin):</strong> Apresiasi untuk satpam yang jeli menemukan masalah (Irregular) dan mendokumentasikannya.</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Pilar C -->
+                                <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                    <h4 class="font-black text-stone-800 mb-2">C. Pilar Solidaritas & Kontribusi (Bobot: 20%)</h4>
+                                    <p class="text-[10px] text-stone-500 mb-2">Mengukur kerja sama tim dan kesediaan membantu di luar shift wajib.</p>
+                                    <ul class="list-disc pl-4 space-y-1 text-stone-600">
+                                        <li><strong>Perbantuan / Backup (+15 poin):</strong> Hadir membantu pengamanan ekstra.</li>
+                                        <li><strong>Menolong Teman / Swap (+10 poin):</strong> Menggantikan rekan kerja yang berhalangan. <em>(Catatan: Petugas yang digantikan akan kehilangan poin kehadiran hari itu kecuali dinas luar).</em></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Pilar D -->
+                                <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                    <h4 class="font-black text-stone-800 mb-2">D. Pilar Sinergi Instansi & Tanggap Darurat (Bobot: 10%)</h4>
+                                    <ul class="list-disc pl-4 space-y-1 text-stone-600">
+                                        <li><strong>Lapor Kejadian (+10 poin):</strong> Kecepatan/inisiatif melaporkan insiden darurat.</li>
+                                        <li><strong>Foto dengan TNI/Polri (+5 poin):</strong> Keaktifan berkoordinasi dan foto dengan aparat.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-emerald-100/50 p-3 rounded-xl border border-emerald-200 mt-4">
+                                <h4 class="font-black text-emerald-800 text-center mb-2">🏆 Klasifikasi Grade Rapor</h4>
+                                <div class="grid grid-cols-4 gap-2 text-center font-bold text-emerald-900 mt-1">
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-green-600">A+</span>>120 Poin</div>
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-blue-500">A</span>90-120</div>
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-amber-500">B</span>75-89</div>
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-red-500">C</span><75 Poin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- LEADERBOARD RANKING -->
+                    <h3 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-2 border-b border-stone-200 pb-2">Papan Peringkat Bulan Ini</h3>
+                    <div class="w-full overflow-x-auto border border-stone-200 rounded-xl shadow-sm bg-white mb-6">
+                        <table class="w-full text-xs">
+                            <thead>
+                                <tr class="bg-emerald-800 text-white border-b border-emerald-900">
+                                    <th class="px-2 py-2.5 font-bold text-center w-10">No</th>
+                                    <th class="px-3 py-2.5 font-bold text-left">Nama Petugas</th>
+                                    <th class="px-3 py-2.5 font-bold text-center">Skor</th>
+                                    <th class="px-3 py-2.5 font-bold text-center w-16">Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelLeaderboard"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- KARTU RAPOR INDIVIDU -->
+                    <h3 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-3 border-b border-stone-200 pb-2">Kartu Rapor Individu</h3>
+                    <select id="selectRaporNama" onchange="showRaporIndividu()" class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-emerald-700 outline-none transition-all bg-stone-50 font-bold text-stone-800 mb-4 shadow-sm">
+                        <option value="" disabled selected>-- Pilih Personil untuk melihat detail --</option>
+                    </select>
+
+                    <div id="kartuRaporIndividu" class="hidden bg-stone-800 rounded-2xl p-4 shadow-md text-white border border-stone-900 relative overflow-hidden">
+                        <!-- Ornamen Latar -->
+                        <svg class="absolute -right-4 -bottom-4 w-32 h-32 text-stone-700/50" fill="currentColor" viewBox="0 0 24 24"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
+                        
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-4 border-b border-stone-600 pb-3">
+                                <div>
+                                    <h4 id="raporNama" class="text-lg font-black text-emerald-400 uppercase tracking-wide">-</h4>
+                                    <p id="raporGradeTeks" class="text-[10px] text-stone-400 font-bold uppercase mt-0.5">-</p>
+                                </div>
+                                <div class="text-right flex flex-col items-end">
+                                    <span id="raporGrade" class="text-3xl font-black leading-none drop-shadow-md">-</span>
+                                    <span class="text-[9px] text-stone-400 uppercase tracking-widest mt-1">Total Poin: <span id="raporSkor" class="text-white font-bold text-xs">0</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-[10px] font-medium text-stone-300">
+                                <div><span class="block text-stone-500 mb-0.5">Kedisiplinan Waktu</span><span id="raporTerlambat" class="font-bold text-red-400">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Kelalaian Absen</span><span id="raporLupa" class="font-bold text-red-400">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Giat Patroli</span><span id="raporPatroli" class="font-bold text-white">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Sinergi TNI / Polri</span><span id="raporTni" class="font-bold text-white">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Temuan Lapangan</span><span id="raporTemuan" class="font-bold text-white">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Laporan Kejadian</span><span id="raporKejadian" class="font-bold text-red-400">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Backup / Perbantuan</span><span id="raporBackup" class="font-bold text-emerald-400">-</span></div>
+                                <div><span class="block text-stone-500 mb-0.5">Solidaritas (Ganti Shift)</span><span id="raporSwap" class="font-bold text-emerald-400">-</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div> <!-- Akhir Konten Utama -->
         </div> <!-- Akhir App Viewport -->
     </div> <!-- Akhir Container Utama Aplikasi -->
@@ -493,6 +647,9 @@
         
         // Logika Status untuk Menu Patroli
         let selectedStatusPatroli = '';
+        
+        // Global variabel untuk Rapor Kinerja
+        window.kpiDataGlobal = {};
 
         const defaultThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkZPVE88L3RleHQ+PC9zdmc+";
 
@@ -669,10 +826,10 @@
             const prevAction = () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderJadwal(); };
             const nextAction = () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderJadwal(); };
 
-            ['btnPrevMonth', 'btnPrevMonthKehadiran', 'btnPrevMonthFoto'].forEach(id => {
+            ['btnPrevMonth', 'btnPrevMonthKehadiran', 'btnPrevMonthFoto', 'btnPrevMonthKinerja'].forEach(id => {
                 const btn = document.getElementById(id); if (btn) btn.addEventListener('click', prevAction);
             });
-            ['btnNextMonth', 'btnNextMonthKehadiran', 'btnNextMonthFoto'].forEach(id => {
+            ['btnNextMonth', 'btnNextMonthKehadiran', 'btnNextMonthFoto', 'btnNextMonthKinerja'].forEach(id => {
                 const btn = document.getElementById(id); if (btn) btn.addEventListener('click', nextAction);
             });
 
@@ -763,7 +920,7 @@
                 dashboardMenu.classList.add('hidden');
                 kontenUtama.classList.remove('hidden');
             }
-            const allTabs = ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto', 'tabPatroli', 'tabKejadian'];
+            const allTabs = ['tabForm', 'tabJadwal', 'tabKehadiran', 'tabFoto', 'tabPatroli', 'tabKejadian', 'tabKinerja'];
             allTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) { el.classList.replace(id === tabId ? 'hidden' : 'block', id === tabId ? 'block' : 'hidden'); }
@@ -1029,6 +1186,178 @@
             return null;
         }
 
+        // === FUNGSI RAPOR KINERJA (KPI) DENGAN MAX CAP PATROLI ===
+        function renderKinerja() {
+            const startDate = new Date(currentYear, currentMonth, 13);
+            const endDate = new Date(currentYear, currentMonth + 1, 12);
+
+            const elsBulanTahunKinerja = document.querySelectorAll('.textBulanTahunKinerja');
+            elsBulanTahunKinerja.forEach(el => {
+                if (startDate.getFullYear() === endDate.getFullYear()) { el.innerText = "13 " + namaBulan[startDate.getMonth()] + " - 12 " + namaBulan[endDate.getMonth()] + " " + startDate.getFullYear(); } 
+                else { el.innerText = "13 " + namaBulan[startDate.getMonth()] + " " + startDate.getFullYear() + " - 12 " + namaBulan[endDate.getMonth()] + " " + endDate.getFullYear(); }
+            });
+
+            let kpi = {};
+            dataPersonil.forEach(n => {
+                kpi[n] = {
+                    skor: 100, patroli: 0, temuan: 0, kejadian: 0, tni: 0,
+                    backup: 0, swap: 0, terlambat: 0, lupaAbsen: 0,
+                    hadirIn: {}, hadirOut: {}, patroliHarian: {} // <-- Objek patroliHarian untuk track max cap
+                };
+            });
+
+            // 1. Ekstrak Data Historis
+            databaseLogsHistoris.forEach(log => {
+                let dParts = log.tanggal.split('-');
+                let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                
+                if (logDate >= startDate && logDate <= endDate && kpi[log.nama]) {
+                    const n = log.nama;
+                    const stat = log.status;
+
+                    if (stat === "Check-In (Masuk)") {
+                        kpi[n].hadirIn[log.tanggal] = true;
+                        if (log.waktu) {
+                            let dStatus = hitungStatusKedisiplinan(n, stat, log.waktu, logDate);
+                            if (dStatus) {
+                                if (dStatus.isSwap) { kpi[n].swap++; kpi[n].skor += 10; }
+                                if (dStatus.tipeWarning === "Terlambat") {
+                                    let mnt = parseInt(dStatus.infoWarning) || 0;
+                                    let penalti = Math.floor(mnt / 5) * 1;
+                                    if(penalti < 1 && mnt > 0) penalti = 1; 
+                                    kpi[n].terlambat += mnt;
+                                    kpi[n].skor -= penalti;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (stat === "Check-Out (Pulang)") kpi[n].hadirOut[log.tanggal] = true;
+
+                    if (stat === "Patroli") {
+                        kpi[n].patroli++; // Rute divisi tetap dihitung untuk laporan visual
+                        
+                        // Logika Pembatasan Max Cap (Maks +15 Poin = 3x Patroli/Hari/Shift)
+                        let patroliHariIni = kpi[n].patroliHarian[log.tanggal] || 0;
+                        if (patroliHariIni < 3) {
+                            kpi[n].skor += 5; // Poin hanya ditambah jika belum mencapai batas maksimal
+                            kpi[n].patroliHarian[log.tanggal] = patroliHariIni + 1;
+                        }
+                        
+                        if (log.lokasi && log.lokasi.includes("TEMUAN")) {
+                            kpi[n].temuan++; 
+                            kpi[n].skor += 5; // Bonus ekstra temuan tidak dibatasi
+                        }
+                    }
+                    if (stat === "Laporan Kejadian") { kpi[n].kejadian++; kpi[n].skor += 10; }
+                    if (log.tni || stat === "Foto dengan TNI") { kpi[n].tni++; kpi[n].skor += 5; }
+                    if (stat === "Check-In (Perbantuan Pengamanan)") { kpi[n].backup++; kpi[n].skor += 15; }
+                }
+            });
+
+            // 2. Kalkulasi Penalti Lupa Absen In/Out DENGAN PERBAIKAN LOGIKA
+            const today = new Date();
+            const todayObj = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            Object.keys(kpi).forEach(n => {
+                const days = new Set([...Object.keys(kpi[n].hadirIn), ...Object.keys(kpi[n].hadirOut)]);
+                days.forEach(d => {
+                    let dParts = d.split('-');
+                    let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                    
+                    // PERBAIKAN: Hanya berikan penalti lupa absen untuk hari-hari yang sudah lewat 
+                    // (bukan hari ini yang masih berjalan, karena shift mungkin belum selesai)
+                    if (logDate < todayObj) {
+                        if (!kpi[n].hadirIn[d] || !kpi[n].hadirOut[d]) {
+                            kpi[n].lupaAbsen++;
+                            kpi[n].skor -= 10;
+                        }
+                    }
+                });
+            });
+
+            // 3. Render Papan Peringkat
+            let arrKpi = Object.keys(kpi).map(n => ({ nama: n, ...kpi[n] }));
+            arrKpi.sort((a, b) => b.skor - a.skor); 
+
+            const tbodyLeaderboard = document.getElementById('tabelLeaderboard');
+            if(tbodyLeaderboard) {
+                tbodyLeaderboard.innerHTML = '';
+                arrKpi.forEach((item, idx) => {
+                    let badge = '';
+                    if(idx === 0) badge = '🏆'; else if(idx === 1) badge = '🥈'; else if(idx === 2) badge = '🥉';
+                    else badge = '<span class="text-transparent">.</span>';
+                    
+                    let grade = getGrade(item.skor);
+                    
+                    tbodyLeaderboard.innerHTML += `
+                        <tr class="border-b border-stone-200 ${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'}">
+                            <td class="px-2 py-3 text-center font-black text-stone-500">${idx+1}</td>
+                            <td class="px-3 py-3 font-bold text-stone-800">${badge} ${escapeHtml(item.nama)}</td>
+                            <td class="px-3 py-3 text-center font-black text-emerald-700 text-sm">${item.skor}</td>
+                            <td class="px-3 py-3 text-center">${grade.badge}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // 4. Update Opsi Dropdown Rapor
+            const selectRapor = document.getElementById('selectRaporNama');
+            if (selectRapor && selectRapor.options.length <= 1) {
+                selectRapor.innerHTML = '<option value="" disabled selected>-- Pilih Personil untuk melihat detail --</option>';
+                dataPersonil.forEach(nama => {
+                    selectRapor.innerHTML += `<option value="${nama}">${nama}</option>`;
+                });
+            }
+
+            window.kpiDataGlobal = kpi;
+            
+            // Auto refresh rapor individu jika sedang ada yang dipilih
+            if (selectRapor && selectRapor.value) {
+                showRaporIndividu();
+            }
+        }
+
+        function getGrade(skor) {
+            if(skor >= 120) return { letter: 'A+', text: 'SANGAT BERDEDIKASI', color: 'text-green-400', badge: '<span class="px-2.5 py-1 bg-green-100 text-green-800 rounded-md font-black text-[10px] shadow-sm">A+</span>' };
+            if(skor >= 90) return { letter: 'A', text: 'SANGAT BAIK', color: 'text-blue-400', badge: '<span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-md font-black text-[10px] shadow-sm">A</span>' };
+            if(skor >= 75) return { letter: 'B', text: 'STANDAR', color: 'text-amber-400', badge: '<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-md font-black text-[10px] shadow-sm">B</span>' };
+            return { letter: 'C', text: 'PERLU EVALUASI', color: 'text-red-400', badge: '<span class="px-2.5 py-1 bg-red-100 text-red-800 rounded-md font-black text-[10px] shadow-sm">C</span>' };
+        }
+
+        window.showRaporIndividu = function() {
+            const n = document.getElementById('selectRaporNama').value;
+            const divCard = document.getElementById('kartuRaporIndividu');
+            if(!n || !window.kpiDataGlobal || !window.kpiDataGlobal[n]) return;
+
+            const data = window.kpiDataGlobal[n];
+            const grade = getGrade(data.skor);
+
+            document.getElementById('raporNama').innerText = n;
+            document.getElementById('raporSkor').innerText = data.skor;
+            document.getElementById('raporGrade').innerText = grade.letter;
+            document.getElementById('raporGrade').className = `text-4xl font-black leading-none drop-shadow-md ${grade.color}`;
+            document.getElementById('raporGradeTeks').innerText = grade.text;
+
+            let ketTerlambat = data.terlambat > 0 ? `Total ${data.terlambat} menit` : `Nihil (Bagus)`;
+            let styleTerlambat = data.terlambat > 0 ? "text-red-400" : "text-green-400";
+            
+            let ketLupa = data.lupaAbsen > 0 ? `${data.lupaAbsen} kali kejadian` : `Nihil (Aman)`;
+            let styleLupa = data.lupaAbsen > 0 ? "text-red-400" : "text-green-400";
+
+            // Melakukan update 8 Field Utama yang ditambahkan di Card UI
+            document.getElementById('raporTerlambat').innerHTML = `<span class="${styleTerlambat}">${ketTerlambat}</span>`;
+            document.getElementById('raporLupa').innerHTML = `<span class="${styleLupa}">${ketLupa}</span>`;
+            document.getElementById('raporPatroli').innerText = `${data.patroli} Rute Divisit`;
+            document.getElementById('raporTni').innerText = `${data.tni} Giat Bersama`;
+            document.getElementById('raporTemuan').innerText = `${data.temuan} Temuan`;
+            document.getElementById('raporKejadian').innerText = `${data.kejadian} Insiden`;
+            document.getElementById('raporBackup').innerText = `${data.backup} Kali Masuk`;
+            document.getElementById('raporSwap').innerText = `${data.swap} Kali Ganti Teman`;
+
+            divCard.classList.remove('hidden');
+        };
+
         // === PEMBUATAN FEED DASHBOARD DENGAN DUKUNGAN STATUS BARU ===
         function renderLiveDashboardFeeds() {
             const cardsOnDuty = document.getElementById('cardsOnDuty');
@@ -1279,6 +1608,10 @@
                     tbodyFotoTNI.appendChild(tr);
                 });
             }
+            
+            // Eksekusi Render KPI bulanan
+            renderKinerja();
+            
             renderLiveDashboardFeeds();
         }
 
