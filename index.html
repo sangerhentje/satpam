@@ -312,22 +312,37 @@
             const blobManifest = new Blob([stringManifest], {type: 'application/json'});
             document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(blobManifest));
 
-            let deferredPrompt;
+            let deferredPrompt = null;
+            const pwaContainer = document.getElementById('pwaContainer');
+            const installBtn = document.getElementById('btnInstallPwa');
+
+            // Tangkap event bawaan browser jika mendukung instalasi otomatis
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
-                const pwaContainer = document.getElementById('pwaContainer');
-                const installBtn = document.getElementById('btnInstallPwa');
-                if (pwaContainer && installBtn) {
-                    pwaContainer.classList.remove('hidden'); 
-                    installBtn.addEventListener('click', async () => {
+                if (pwaContainer) pwaContainer.classList.remove('hidden'); 
+            });
+
+            if (installBtn) {
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        // Jalankan instalasi otomatis Chrome/Android
                         pwaContainer.classList.add('hidden');
                         deferredPrompt.prompt();
                         const { outcome } = await deferredPrompt.userChoice;
                         deferredPrompt = null;
-                    });
-                }
-            });
+                    } else {
+                        // Fallback manual untuk Safari/iPhone atau mode Preview Canvas
+                        alert("Aplikasi siap diinstal! \n\nCara Install Manual:\n1. Buka web ini di browser HP Anda (Safari/Chrome).\n2. Buka menu browser (Tiga titik / Ikon Share).\n3. Pilih 'Tambahkan ke Layar Utama' (Add to Home Screen).");
+                    }
+                });
+            }
+
+            // PERBAIKAN: Selalu tampilkan kotak PWA setelah 1.5 detik sebagai petunjuk 
+            // edukasi bagi pengguna iOS/iPhone atau pengguna mode Preview.
+            setTimeout(() => {
+                if (pwaContainer) pwaContainer.classList.remove('hidden');
+            }, 1500);
         }
 
         // === FUNGSI HELPER ===
