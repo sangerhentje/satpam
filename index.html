@@ -10,7 +10,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
-    <!-- Mengubah href ke file lokal 512.png milik Anda -->
     <link rel="apple-touch-icon" href="./512.png">
     <link id="pwaManifest" rel="manifest">
     <!-- ======================= -->
@@ -113,6 +112,19 @@
                             <span class="text-[10px] text-stone-500 font-bold" id="txtTanggalHariIni">Loading</span>
                         </div>
                         <div id="cardsFotoTNIHariIni" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <div id="pwaContainer" class="hidden mt-8 pt-6 border-t border-stone-200 mb-4">
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-amber-800 border border-amber-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </div>
+                        <h3 class="text-sm font-bold text-amber-900 mb-1">Install Aplikasi Sekuriti</h3>
+                        <p class="text-xs text-amber-700 mb-4 font-medium">Pasang di layar utama HP Anda untuk akses yang lebih cepat tanpa perlu membuka browser.</p>
+                        <button id="btnInstallPwa" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl shadow transition-colors text-sm flex items-center justify-center gap-2">
+                            📲 Pasang Sekarang
+                        </button>
                     </div>
                 </div>
             </div>
@@ -271,8 +283,8 @@
         const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         const namaBulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
         
-        // MENGUBAH ANCHOR DATE: 19 Juni 2026 sebagai patokan Siklus Ke-1
-        const anchorDate = new Date(2026, 5, 19); // Bulan 5 adalah Juni (indeks dimulai dari 0)
+        // MENGUBAH ANCHOR DATE KE 19 JUNI 2026 SEBAGAI PATOKAN
+        const anchorDate = new Date(2026, 5, 19); 
 
         let dataPersonil = []; let polaShift = []; let logHariIni = []; let databaseLogsHistoris = []; 
         let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
@@ -287,7 +299,6 @@
 
             try {
                 const base = window.location.href;
-                // Cegah error Invalid URL jika dijalankan di dalam Blob/Preview
                 if (!base.startsWith('blob:') && !base.startsWith('about:')) {
                     absoluteIconUrl = new URL('512.png', base).href;
                     absoluteStartUrl = new URL('./', base).href;
@@ -314,7 +325,6 @@
             const blobManifest = new Blob([stringManifest], {type: 'application/json'});
             document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(blobManifest));
 
-            // Menyuntikkan Service Worker mini agar Chrome Desktop memunculkan Ikon Install di Address Bar
             try {
                 if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
                     const swCode = `
@@ -592,13 +602,14 @@
                             statusText = "PATROLI";
                         } 
 
-                        let imgSrc = petugas.foto;
-                        if (imgSrc && imgSrc.includes('drive.google.com/file/d/')) {
-                            const fileId = imgSrc.split('/d/')[1].split('/')[0];
-                            imgSrc = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
-                        } else if (!imgSrc) {
-                            imgSrc = defaultThumbSVG;
+                        let fileId = null;
+                        if (petugas.foto) {
+                            let match = petugas.foto.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                            if (!match) match = petugas.foto.match(/id=([a-zA-Z0-9_-]+)/);
+                            if (match) fileId = match[1];
                         }
+                        
+                        let imgSrc = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w800` : defaultThumbSVG;
 
                         const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, petugas.waktu, new Date()); 
                         let badgesHtml = '';
@@ -645,13 +656,14 @@
                         const card = document.createElement('div');
                         card.className = "flex items-center justify-between p-3 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow";
                         
-                        let thumbSrc = petugas.foto;
-                        if (thumbSrc && thumbSrc.includes('drive.google.com/file/d/')) {
-                            const fileId = thumbSrc.split('/d/')[1].split('/')[0];
-                            thumbSrc = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
-                        } else if (!thumbSrc) {
-                            thumbSrc = defaultThumbSVG;
+                        let fileId = null;
+                        if (petugas.foto) {
+                            let match = petugas.foto.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                            if (!match) match = petugas.foto.match(/id=([a-zA-Z0-9_-]+)/);
+                            if (match) fileId = match[1];
                         }
+                        
+                        let thumbSrc = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w800` : defaultThumbSVG;
 
                         const safeNama = escapeHtml(petugas.nama); const safeWaktu = escapeHtml(petugas.waktu);
                         card.innerHTML = '<div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-lg bg-stone-800 flex items-center justify-center text-amber-500 font-black text-sm">TNI</div><div><h4 class="text-xs font-bold text-stone-800">' + safeNama + '</h4><span class="text-[10px] text-stone-500 font-bold">Laporan | ' + safeWaktu + '</span></div></div><button onclick="openLightbox(\'' + safeNama + '\', \'Hari ini | ' + safeWaktu + '\', \'Pos Jaga\', \'' + thumbSrc + '\')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity"><img src="' + thumbSrc + '" class="w-full h-full object-cover" onerror="this.src=\'' + defaultThumbSVG + '\'"></button>';
@@ -842,9 +854,151 @@
         }
 
         async function triggerAutoSetup() { }
-        function downloadJadwalPDF() { }
-        function downloadKehadiranPDF() { }
-        function downloadFotoTNIPDF() { }
+        
+        function downloadJadwalPDF() {
+            try {
+                const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
+                doc.setFontSize(14);
+                doc.text("Laporan Jadwal Shift Sekuriti", 40, 40);
+                doc.setFontSize(10);
+                const periode = document.querySelector('#tabJadwal .textBulanTahun').innerText;
+                doc.text("Periode: " + periode, 40, 60);
+                doc.text("Diunduh pada: " + new Date().toLocaleString('id-ID'), 40, 75);
+
+                doc.autoTable({
+                    html: '#tableJadwal',
+                    startY: 90,
+                    theme: 'grid',
+                    headStyles: { fillColor: [146, 64, 14] }, 
+                    styles: { fontSize: 8, cellPadding: 3 }
+                });
+                doc.save('Jadwal_Shift_' + periode.replace(/ /g, '_') + '.pdf');
+            } catch (error) {
+                console.error("Gagal mengunduh PDF:", error);
+            }
+        }
+        
+        function downloadKehadiranPDF() {
+            try {
+                const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
+                doc.setFontSize(14);
+                doc.text("Laporan Akumulasi Kehadiran", 40, 40);
+                doc.setFontSize(10);
+                const periode = document.querySelector('#tabKehadiran .textBulanTahun').innerText;
+                doc.text("Periode: " + periode, 40, 60);
+                doc.text("Diunduh pada: " + new Date().toLocaleString('id-ID'), 40, 75);
+
+                doc.autoTable({
+                    html: '#tabKehadiran table',
+                    startY: 90,
+                    theme: 'grid',
+                    headStyles: { fillColor: [146, 64, 14] },
+                    styles: { fontSize: 10, cellPadding: 5 }
+                });
+
+                let finalY = doc.lastAutoTable.finalY || 90;
+                doc.setFontSize(12);
+                doc.text("Riwayat Absensi Detail", 40, finalY + 40);
+
+                const startDate = new Date(currentYear, currentMonth, 13);
+                const endDate = new Date(currentYear, currentMonth + 1, 12);
+                
+                let historyBody = [];
+                databaseLogsHistoris.forEach(log => {
+                    let logDate = new Date(log.tanggal);
+                    if (logDate >= startDate && logDate <= endDate) {
+                        if (log.status === "Check-In (Masuk)" || log.status === "Check-Out (Pulang)") {
+                            let datetime = log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal;
+                            let keterangan = log.lokasi && log.lokasi !== "-" ? log.lokasi : "";
+                            
+                            if (log.waktu && log.status === "Check-In (Masuk)") {
+                                try {
+                                    let dStatus = hitungStatusKedisiplinan(log.nama, log.status, log.waktu, logDate);
+                                    if (dStatus) {
+                                        let warnText = [];
+                                        if (dStatus.isSwap) warnText.push("Swap: " + dStatus.swapInfo);
+                                        if (dStatus.tipeWarning) warnText.push(dStatus.tipeWarning + " (" + dStatus.infoWarning + ")");
+                                        if (warnText.length > 0) {
+                                            keterangan += (keterangan ? " | " : "") + warnText.join(", ");
+                                        }
+                                    }
+                                } catch (e) { console.error(e); }
+                            }
+                            
+                            historyBody.push([datetime, log.nama, log.status, keterangan || "-"]);
+                        }
+                    }
+                });
+                
+                historyBody.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+                doc.autoTable({
+                    head: [['Tanggal & Jam', 'Nama Personil', 'Status', 'Keterangan']],
+                    body: historyBody,
+                    startY: finalY + 55,
+                    theme: 'grid',
+                    headStyles: { fillColor: [87, 83, 78] }, 
+                    styles: { fontSize: 9, cellPadding: 4 }
+                });
+
+                doc.save('Rekap_Kehadiran_' + periode.replace(/ /g, '_') + '.pdf');
+            } catch (error) {
+                console.error("Gagal mengunduh PDF:", error);
+            }
+        }
+        
+        function downloadFotoTNIPDF() {
+            try {
+                const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
+                doc.setFontSize(14);
+                doc.text("Laporan Rekap Foto TNI", 40, 40);
+                doc.setFontSize(10);
+                const periode = document.querySelector('#tabFoto .textBulanTahun').innerText;
+                doc.text("Periode: " + periode, 40, 60);
+                doc.text("Diunduh pada: " + new Date().toLocaleString('id-ID'), 40, 75);
+
+                doc.autoTable({
+                    html: '#tabFoto table',
+                    startY: 90,
+                    theme: 'grid',
+                    headStyles: { fillColor: [146, 64, 14] },
+                    styles: { fontSize: 10, cellPadding: 5 }
+                });
+
+                let finalY = doc.lastAutoTable.finalY || 90;
+                doc.setFontSize(12);
+                doc.text("Riwayat Kegiatan Foto TNI", 40, finalY + 40);
+
+                const startDate = new Date(currentYear, currentMonth, 13);
+                const endDate = new Date(currentYear, currentMonth + 1, 12);
+                
+                let historyBody = [];
+                databaseLogsHistoris.forEach(log => {
+                    let logDate = new Date(log.tanggal);
+                    if (logDate >= startDate && logDate <= endDate) {
+                        if (log.tni || log.status === "Foto dengan TNI") {
+                            let datetime = log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal;
+                            historyBody.push([datetime, log.nama, log.lokasi || "-"]);
+                        }
+                    }
+                });
+
+                historyBody.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+                doc.autoTable({
+                    head: [['Tanggal & Jam', 'Nama Personil', 'Keterangan']],
+                    body: historyBody,
+                    startY: finalY + 55,
+                    theme: 'grid',
+                    headStyles: { fillColor: [87, 83, 78] },
+                    styles: { fontSize: 9, cellPadding: 4 }
+                });
+
+                doc.save('Rekap_Foto_TNI_' + periode.replace(/ /g, '_') + '.pdf');
+            } catch (error) {
+                console.error("Gagal mengunduh PDF:", error);
+            }
+        }
 
         // === EVENT LISTENER SUBMIT FORM ABSENSI ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
