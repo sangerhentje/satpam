@@ -270,7 +270,9 @@
         const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         const namaBulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
-        const anchorDate = new Date(2024, 0, 1); 
+        
+        // MENGUBAH ANCHOR DATE: 19 Juni 2026 sebagai patokan Siklus Ke-1
+        const anchorDate = new Date(2026, 5, 19); // Bulan 5 adalah Juni (indeks dimulai dari 0)
 
         let dataPersonil = []; let polaShift = []; let logHariIni = []; let databaseLogsHistoris = []; 
         let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
@@ -326,9 +328,6 @@
             } catch(e) {
                 console.warn("Service Worker tidak dapat diregistrasi di lingkungan ini.");
             }
-            
-            // Tombol instalasi manual di Beranda telah dihilangkan agar tampilan lebih bersih.
-            // PWA tetap bisa diinstal melalui address bar (Desktop) atau menu browser "Add to Home screen" (HP).
         }
 
         // === FUNGSI HELPER ===
@@ -446,10 +445,6 @@
         // === FUNGSI FETCH KE API GAS ===
         async function ambilDataDariGAS() {
             try {
-                if (GAS_URL === "https://script.google.com/macros/s/AKfycbz_URL_ANDA_DISINI/exec") {
-                    throw new Error("Tolong ganti variabel GAS_URL dengan URL Web App Anda terlebih dahulu.");
-                }
-
                 const response = await fetch(GAS_URL + "?action=getData");
                 const result = await response.json();
 
