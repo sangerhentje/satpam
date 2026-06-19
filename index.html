@@ -6,7 +6,7 @@
     <title>Kehadiran Sekuriti</title>
     
     <!-- === PWA META TAGS === -->
-    <meta name="theme-color" content="#92400e"> <!-- Warna Coklat Tua (Satpam) -->
+    <meta name="theme-color" content="#92400e"> 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
@@ -37,7 +37,6 @@
 </head>
 <body class="bg-stone-200 min-h-screen font-sans selection:bg-amber-200">
 
-    <!-- Container Utama: Akan merentang 100% di HP, dan max-w-md (layar HP) jika dibuka di Laptop -->
     <div class="w-full sm:max-w-md mx-auto min-h-screen bg-stone-50 sm:shadow-2xl sm:border-x border-stone-300 relative flex flex-col overflow-x-hidden">
 
         <!-- LAYAR LOADING AWAL -->
@@ -52,7 +51,6 @@
             </div>
         </div>
 
-        <!-- CONTAINER KONTEN VIEWPORT (Lebih responsif di layar kecil) -->
         <div class="flex-1 px-4 sm:px-6 py-6 relative mt-2 w-full">
 
             <!-- DASHBOARD MENU UTAMA -->
@@ -117,7 +115,6 @@
                     </div>
                 </div>
 
-                <!-- TOMBOL INSTALL PWA (DIPINDAHKAN KE SINI DENGAN CONTAINER BARU) -->
                 <div id="pwaContainer" class="hidden mt-8 pt-6 border-t border-stone-200 mb-4">
                     <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-center shadow-sm">
                         <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-amber-800 border border-amber-100">
@@ -146,38 +143,34 @@
                         <p class="text-stone-500 text-xs">Isi data kehadiran di bawah ini</p>
                     </div>
 
-                    <!-- MODIFIKASI: SECTION GPS VISUAL & REFRESH -->
-                    <div class="mb-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                    <!-- KOTAK GPS DENGAN PETA -->
+                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 mb-4">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-stone-700">Lokasi Saat Ini</span>
-                            <button type="button" onclick="dapatkanLokasi(true)" id="btnRefreshGps" class="text-[10px] bg-white border border-stone-300 shadow-sm hover:bg-stone-100 text-stone-700 px-2 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-all active:scale-95">
+                            <label class="block text-xs font-bold text-stone-700">Informasi GPS</label>
+                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-stone-200 hover:bg-amber-200 text-stone-800 py-1.5 px-3 rounded-lg font-bold flex items-center gap-1 transition-colors border border-stone-300">
                                 🔄 Segarkan GPS
                             </button>
                         </div>
-                        
-                        <div id="mapContainer" class="hidden w-full h-32 sm:h-40 rounded-lg overflow-hidden border border-stone-300 mb-2 shadow-inner relative">
-                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
-                            <div class="absolute inset-0 border-2 border-amber-500/30 rounded-lg pointer-events-none"></div>
-                        </div>
-
-                        <div id="lokasiStatus" class="p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
+                        <div id="lokasiStatus" class="mb-2 p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
                             <svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Mencari titik lokasi GPS...
                         </div>
+                        <div id="mapContainer" class="hidden w-full h-32 rounded-lg overflow-hidden border border-stone-300">
+                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
+                        </div>
                     </div>
-                    <!-- AKHIR MODIFIKASI SECTION GPS -->
 
                     <form id="formAbsensi" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-stone-700 mb-1.5" for="nama">Nama Petugas</label>
-                            <select id="nama" name="nama" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-stone-50">
+                            <select id="nama" name="nama" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
                                 <option value="" disabled selected>-- Pilih Nama Anda --</option>
                             </select>
                         </div>
                         
                         <div>
                             <label class="block text-xs font-bold text-stone-700 mb-1.5" for="status">Status Tugas</label>
-                            <select id="status" name="status" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-stone-50">
+                            <select id="status" name="status" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
                                 <option value="" disabled selected>-- Pilih Status --</option>
                                 <option value="Check-In (Masuk)">Check-In (Masuk)</option>
                                 <option value="Check-Out (Pulang)">Check-Out (Pulang)</option>
@@ -188,7 +181,7 @@
                         
                         <div id="containerLokasi" class="hidden transition-all duration-300">
                             <label class="block text-xs font-bold text-stone-700 mb-1.5" for="lokasi">Lokasi / Area Patroli</label>
-                            <input type="text" id="lokasi" name="lokasi" placeholder="Misal: Lobby Utama, Parkir Timur..." class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-stone-50">
+                            <input type="text" id="lokasi" name="lokasi" placeholder="Misal: Lobby Utama, Parkir Timur..." class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-amber-800 outline-none transition-all bg-white">
                         </div>
                         
                         <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
@@ -289,7 +282,7 @@
         const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         const namaBulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
-        const anchorDate = new Date(2024, 0, 1); // Tanggal acuan permanen untuk memutar siklus shift
+        const anchorDate = new Date(2024, 0, 1); 
 
         let dataPersonil = []; let polaShift = []; let logHariIni = []; let databaseLogsHistoris = []; 
         let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
@@ -304,8 +297,8 @@
                 "short_name": "Sekuriti",
                 "start_url": window.location.href,
                 "display": "standalone",
-                "background_color": "#fafaf9", // stone-50
-                "theme_color": "#92400e", // amber-800
+                "background_color": "#fafaf9",
+                "theme_color": "#92400e",
                 "icons": [{
                     "src": "https://cdn-icons-png.flaticon.com/512/2592/2592317.png",
                     "sizes": "512x512",
@@ -579,13 +572,17 @@
             const cardsOnDuty = document.getElementById('cardsOnDuty');
             if (cardsOnDuty) {
                 cardsOnDuty.innerHTML = '';
-                if (logHariIni.length === 0) {
+                
+                // FILTER: Hanya ambil data yang BUKAN 'Foto dengan TNI' untuk Kartu On Duty
+                const logsOnDuty = logHariIni.filter(item => item.status !== 'Foto dengan TNI');
+                
+                if (logsOnDuty.length === 0) {
                     cardsOnDuty.innerHTML = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada absensi hari ini.</p>';
                 } else {
                     const dNow = new Date();
-                    const tanggalHariIniStr = formatTanggalID(dNow, false, false); // Format dinamis sesuai hari ini
+                    const tanggalHariIniStr = formatTanggalID(dNow, false, false); 
                     
-                    logHariIni.forEach(petugas => {
+                    logsOnDuty.forEach(petugas => {
                         let statusColor = "text-green-600";
                         let statusText = "CHECKIN";
                         
@@ -595,12 +592,8 @@
                         } else if (petugas.status === 'Patroli') {
                             statusColor = "text-blue-600";
                             statusText = "PATROLI";
-                        } else if (petugas.status === 'Foto dengan TNI') {
-                            statusColor = "text-stone-800";
-                            statusText = "GIAT TNI";
-                        }
+                        } 
 
-                        // Mengubah URL Google Drive menggunakan Thumbnail API agar stabil di tag IMG
                         let imgSrc = petugas.foto;
                         if (imgSrc && imgSrc.includes('drive.google.com/file/d/')) {
                             const fileId = imgSrc.split('/d/')[1].split('/')[0];
@@ -609,7 +602,6 @@
                             imgSrc = defaultThumbSVG;
                         }
 
-                        // Deteksi Kedisiplinan & Tukar Shift
                         const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, petugas.waktu, new Date()); 
                         let badgesHtml = '';
                         if (infoDisiplin) {
@@ -677,9 +669,17 @@
             if (!tbodyJadwal || !tbodyRekap) return;
 
             tbodyJadwal.innerHTML = ''; tbodyRekap.innerHTML = '';
-            let rekapTargetShift = {}; let rekapKehadiranDinamis = {}; let rekapFotoTNIDinamis = {};
+            let rekapTargetShift = {}; 
+            let rekapKehadiranDinamis = {}; 
+            let rekapFotoTNIDinamis = {};
 
-            if (dataPersonil.length > 0) { dataPersonil.forEach(nama => { rekapTargetShift[nama] = 0; rekapKehadiranDinamis[nama] = 0; rekapFotoTNIDinamis[nama] = 0; }); }
+            if (dataPersonil.length > 0) { 
+                dataPersonil.forEach(nama => { 
+                    rekapTargetShift[nama] = 0; 
+                    rekapKehadiranDinamis[nama] = { total: 0, lupaMasuk: [] }; 
+                    rekapFotoTNIDinamis[nama] = 0; 
+                }); 
+            }
 
             const startDate = new Date(currentYear, currentMonth, 13);
             const endDate = new Date(currentYear, currentMonth + 1, 12);
@@ -707,24 +707,33 @@
 
                 const currentDateStr = currentDate.toISOString().split('T')[0];
                 
+                let hadirHarian = {}; 
+
                 if (databaseLogsHistoris) {
                     databaseLogsHistoris.forEach(log => {
                         if (log.tanggal === currentDateStr) {
-                            if (log.status === "Check-In (Masuk)" && rekapKehadiranDinamis[log.nama] !== undefined) { rekapKehadiranDinamis[log.nama]++; }
-                            if (log.tni && rekapFotoTNIDinamis[log.nama] !== undefined) { rekapFotoTNIDinamis[log.nama]++; }
+                            if (log.tni && rekapFotoTNIDinamis[log.nama] !== undefined) { 
+                                rekapFotoTNIDinamis[log.nama]++; 
+                            }
+                            
+                            if (rekapKehadiranDinamis[log.nama] !== undefined) {
+                                if (!hadirHarian[log.nama]) hadirHarian[log.nama] = { in: false, out: false };
+                                if (log.status === "Check-In (Masuk)") hadirHarian[log.nama].in = true;
+                                if (log.status === "Check-Out (Pulang)") hadirHarian[log.nama].out = true;
+                            }
                         }
                     });
                 }
 
-                const dHariIni = new Date(); 
-                const dHariIniStr = dHariIni.getFullYear() + '-' + String(dHariIni.getMonth() + 1).padStart(2, '0') + '-' + String(dHariIni.getDate()).padStart(2, '0');
-                
-                if (currentDateStr === dHariIniStr && logHariIni) {
-                    logHariIni.forEach(log => {
-                        if (log.status === "Check-In (Masuk)" && rekapKehadiranDinamis[log.nama] !== undefined) { rekapKehadiranDinamis[log.nama]++; }
-                        if (log.status === "Foto dengan TNI" && rekapFotoTNIDinamis[log.nama] !== undefined) { rekapFotoTNIDinamis[log.nama]++; }
-                    });
-                }
+                Object.keys(hadirHarian).forEach(nama => {
+                    if (hadirHarian[nama].in) {
+                        rekapKehadiranDinamis[nama].total++;
+                    } else if (hadirHarian[nama].out) {
+                        rekapKehadiranDinamis[nama].total++;
+                        const tglShort = currentDate.getDate() + " " + namaBulanShort[currentDate.getMonth()];
+                        rekapKehadiranDinamis[nama].lupaMasuk.push(tglShort);
+                    }
+                });
 
                 const tr = document.createElement('tr');
                 tr.className = rowColorIndex % 2 === 0 ? "bg-white hover:bg-stone-50" : "bg-stone-50 hover:bg-stone-100";
@@ -750,7 +759,13 @@
                 Object.keys(rekapKehadiranDinamis).forEach((nama, index) => {
                     const tr = document.createElement('tr');
                     tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
-                    tr.innerHTML = '<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">' + escapeHtml(nama) + '</td><td class="px-4 py-3 text-center text-amber-800 font-black text-sm">' + rekapKehadiranDinamis[nama] + ' Hari</td>';
+                    
+                    let ketLupaMasuk = "";
+                    if (rekapKehadiranDinamis[nama].lupaMasuk.length > 0) {
+                        ketLupaMasuk = `<br><span class="text-[9px] text-red-500 font-normal">Tdk absen msk: ${rekapKehadiranDinamis[nama].lupaMasuk.join(', ')}</span>`;
+                    }
+
+                    tr.innerHTML = '<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">' + escapeHtml(nama) + ketLupaMasuk + '</td><td class="px-4 py-3 text-center text-amber-800 font-black text-sm">' + rekapKehadiranDinamis[nama].total + ' Hari</td>';
                     tbodyKehadiran.appendChild(tr);
                 });
             }
@@ -772,9 +787,10 @@
             const lokasiStatus = document.getElementById('lokasiStatus');
             const mapContainer = document.getElementById('mapContainer');
             const mapFrame = document.getElementById('mapFrame');
-            const btnRefreshGps = document.getElementById('btnRefreshGps');
             
             if (!lokasiStatus) return;
+            
+            if (mapContainer) mapContainer.classList.add('hidden');
 
             if (!navigator.geolocation) {
                 lokasiStatus.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 border border-red-200 flex justify-center items-center gap-2";
@@ -782,28 +798,22 @@
                 return;
             }
 
-            // UI Sedang Loading
-            lokasiStatus.className = "p-2.5 rounded-lg text-xs text-center font-bold bg-amber-100 text-amber-900 flex justify-center items-center gap-2 shadow-sm border border-amber-300/50";
-            lokasiStatus.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ' + (isRefresh ? 'Menyegarkan titik satelit...' : 'Mencari titik satelit GPS...');
-            
-            if(isRefresh && btnRefreshGps) {
-                btnRefreshGps.disabled = true;
-                btnRefreshGps.classList.add('opacity-50');
-            }
+            lokasiStatus.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-amber-100 text-amber-900 flex justify-center items-center gap-2 shadow-sm border border-amber-300/50";
+            lokasiStatus.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mencari titik satelit GPS...';
 
             navigator.geolocation.getCurrentPosition(
                 async function(position) {
                     currentLat = position.coords.latitude;
                     currentLon = position.coords.longitude;
                     
-                    // Tampilkan Peta Google Maps Embed
-                    if(mapContainer && mapFrame) {
-                        mapFrame.src = `https://maps.google.com/maps?q=${currentLat},${currentLon}&z=16&output=embed`;
+                    lokasiStatus.className = "mb-2 p-2.5 rounded-lg text-[11px] text-center font-bold bg-stone-800 text-amber-400 shadow-sm border border-stone-900";
+                    lokasiStatus.innerHTML = "📍 GPS Terkunci: " + currentLat.toFixed(5) + ", " + currentLon.toFixed(5);
+                    
+                    if (mapContainer && mapFrame) {
+                        const bboxOffset = 0.002;
+                        mapFrame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${currentLon-bboxOffset},${currentLat-bboxOffset},${currentLon+bboxOffset},${currentLat+bboxOffset}&layer=mapnik&marker=${currentLat},${currentLon}`;
                         mapContainer.classList.remove('hidden');
                     }
-
-                    lokasiStatus.className = "p-2.5 rounded-lg text-[11px] text-center font-bold bg-stone-800 text-amber-400 shadow-sm border border-stone-900";
-                    lokasiStatus.innerHTML = "📍 GPS Terkunci: " + currentLat.toFixed(5) + ", " + currentLon.toFixed(5);
                     
                     try {
                         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLon}`);
@@ -815,25 +825,15 @@
                     } catch (e) {
                         currentAddress = "Lat: " + currentLat.toFixed(5) + ", Lon: " + currentLon.toFixed(5);
                     }
-
-                    if(isRefresh && btnRefreshGps) {
-                        btnRefreshGps.disabled = false;
-                        btnRefreshGps.classList.remove('opacity-50');
-                    }
                 },
                 function(error) {
-                    lokasiStatus.className = "p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 shadow-sm border border-red-200";
+                    lokasiStatus.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 shadow-sm border border-red-200";
                     let msg = "Gagal mendeteksi lokasi.";
                     if (error.code === 1) msg = "Izin lokasi diblokir oleh browser/HP.";
                     else if (error.code === 2) msg = "Sinyal GPS tidak ditemukan (Coba ke tempat terbuka).";
                     else if (error.code === 3) msg = "Pencarian GPS Timeout (Sinyal lemah).";
                     lokasiStatus.innerHTML = "⚠️ " + msg;
                     currentAddress = "Lokasi tidak ditemukan";
-
-                    if(isRefresh && btnRefreshGps) {
-                        btnRefreshGps.disabled = false;
-                        btnRefreshGps.classList.remove('opacity-50');
-                    }
                 },
                 {
                     enableHighAccuracy: true,
@@ -843,10 +843,10 @@
             );
         }
 
-        async function triggerAutoSetup() { /* ... kode setup otomatis via GAS (di-hide agar simpel) ... */ }
-        function downloadJadwalPDF() { /* ... */ }
-        function downloadKehadiranPDF() { /* ... */ }
-        function downloadFotoTNIPDF() { /* ... */ }
+        async function triggerAutoSetup() { }
+        function downloadJadwalPDF() { }
+        function downloadKehadiranPDF() { }
+        function downloadFotoTNIPDF() { }
 
         // === EVENT LISTENER SUBMIT FORM ABSENSI ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
