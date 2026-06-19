@@ -115,19 +115,6 @@
                         <div id="cardsFotoTNIHariIni" class="space-y-3"></div>
                     </div>
                 </div>
-
-                <div id="pwaContainer" class="hidden mt-8 pt-6 border-t border-stone-200 mb-4">
-                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-center shadow-sm">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-amber-800 border border-amber-100">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        </div>
-                        <h3 class="text-sm font-bold text-amber-900 mb-1">Install Aplikasi Sekuriti</h3>
-                        <p class="text-xs text-amber-700 mb-4 font-medium">Pasang di layar utama HP Anda untuk akses yang lebih cepat tanpa perlu membuka browser.</p>
-                        <button id="btnInstallPwa" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl shadow transition-colors text-sm flex items-center justify-center gap-2">
-                            📲 Pasang Sekarang
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <!-- CONTAINER KONTEN SETIAP TAB -->
@@ -339,37 +326,9 @@
             } catch(e) {
                 console.warn("Service Worker tidak dapat diregistrasi di lingkungan ini.");
             }
-
-            let deferredPrompt = null;
-            const pwaContainer = document.getElementById('pwaContainer');
-            const installBtn = document.getElementById('btnInstallPwa');
-
-            // Tangkap event bawaan browser jika mendukung instalasi otomatis
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                if (pwaContainer) pwaContainer.classList.remove('hidden'); 
-            });
-
-            if (installBtn) {
-                installBtn.addEventListener('click', async () => {
-                    if (deferredPrompt) {
-                        // Jalankan instalasi otomatis Chrome/Android
-                        pwaContainer.classList.add('hidden');
-                        deferredPrompt.prompt();
-                        const { outcome } = await deferredPrompt.userChoice;
-                        deferredPrompt = null;
-                    } else {
-                        // Fallback manual untuk Safari/iPhone atau mode Preview Canvas
-                        alert("Aplikasi siap diinstal! \n\nCara Install Manual:\n1. Buka web ini di browser HP Anda (Safari/Chrome).\n2. Buka menu browser (Tiga titik / Ikon Share).\n3. Pilih 'Tambahkan ke Layar Utama' (Add to Home Screen).");
-                    }
-                });
-            }
-
-            // Selalu tampilkan kotak PWA setelah 1.5 detik sebagai petunjuk 
-            setTimeout(() => {
-                if (pwaContainer) pwaContainer.classList.remove('hidden');
-            }, 1500);
+            
+            // Tombol instalasi manual di Beranda telah dihilangkan agar tampilan lebih bersih.
+            // PWA tetap bisa diinstal melalui address bar (Desktop) atau menu browser "Add to Home screen" (HP).
         }
 
         // === FUNGSI HELPER ===
