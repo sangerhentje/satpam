@@ -68,20 +68,20 @@
                 </div>
                 
                 <div class="space-y-3.5 mb-6">
-                    <!-- 1. Tombol Kehadiran (Memanjang / Full Width dengan Bingkai Mencolok) -->
+                    <!-- 1. Tombol Kehadiran (Full Width dengan Bingkai Amber Mencolok) -->
                     <button onclick="openMenu('tabForm')" class="w-full bg-amber-50/40 p-4 sm:p-5 rounded-2xl shadow-md border-2 border-amber-500 hover:border-amber-600 hover:bg-amber-50 hover:shadow-lg transition-all flex items-center gap-4 group text-left ring-4 ring-amber-500/10">
                         <div class="w-12 h-12 rounded-full bg-amber-100 group-hover:bg-amber-200 flex items-center justify-center transition-colors shrink-0">
                             <svg class="w-6 h-6 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                         </div>
                         <div>
                             <span class="block font-black text-sm sm:text-base text-amber-950 tracking-wide uppercase">Kehadiran</span>
-                            <span class="block text-[10px] sm:text-xs text-amber-850 mt-0.5 font-medium">Catat kehadiran masuk, pulang, atau foto bersama personil TNI</span>
+                            <span class="block text-[10px] sm:text-xs text-amber-800 mt-0.5 font-medium">Catat kehadiran masuk, pulang, atau perbantuan pengamanan</span>
                         </div>
                     </button>
 
-                    <!-- 2. Tombol Patroli & Laporan Kejadian (1 Baris, 2 Kolom) -->
+                    <!-- 2. Tombol Lapor Patroli & Lapor Kejadian (1 Baris, 2 Kolom) -->
                     <div class="grid grid-cols-2 gap-3">
-                        <!-- Patroli -->
+                        <!-- Lapor Patroli -->
                         <button onclick="openMenu('tabPatroli')" class="bg-blue-600 p-4 rounded-2xl shadow-sm border border-blue-700 hover:bg-blue-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center">
                             <div class="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors shrink-0">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
@@ -89,7 +89,7 @@
                             <span class="block font-black text-xs text-white tracking-wide uppercase">Lapor Patroli</span>
                         </button>
 
-                        <!-- Laporan Kejadian -->
+                        <!-- Lapor Kejadian -->
                         <button onclick="openMenu('tabKejadian')" class="bg-rose-600 p-4 rounded-2xl shadow-sm border border-rose-700 hover:bg-rose-700 hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 group text-center">
                             <div class="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors shrink-0">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -173,10 +173,10 @@
                     </div>
 
                     <form id="formKejadian" class="space-y-4">
-                        <!-- NAMA PETUGAS: OTOMATIS BERDASARKAN AKTIF ON DUTY -->
+                        <!-- BANNER INFO PETUGAS AUTO-DETECT (TANPA SELECT INPUT) -->
                         <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5">Nama Petugas Pelapor</label>
-                            <div id="displayNamaKejadian" class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl bg-stone-100 font-bold text-stone-800 transition-all">
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5">Petugas Pelapor</label>
+                            <div id="infoPetugasKejadian" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2 rounded-xl border border-stone-200">
                                 Mendeteksi petugas aktif...
                             </div>
                             <input type="hidden" id="namaKejadian" name="namaKejadian" required>
@@ -244,10 +244,10 @@
                     </div>
 
                     <form id="formPatroli" class="space-y-4">
-                        <!-- NAMA PETUGAS: SEKARANG OTOMATIS BERDASARKAN AKTIF ON DUTY -->
+                        <!-- BANNER INFO PETUGAS AUTO-DETECT (TANPA SELECT INPUT / GPS BOX LAMA) -->
                         <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5">Nama Petugas</label>
-                            <div id="displayNamaPatroli" class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl bg-stone-100 font-bold text-stone-800 transition-all">
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5">Petugas Patroli</label>
+                            <div id="infoPetugasPatroli" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2 rounded-xl border border-stone-200">
                                 Mendeteksi petugas aktif...
                             </div>
                             <input type="hidden" id="namaPatroli" name="namaPatroli" required>
@@ -353,6 +353,8 @@
                                 <option value="" disabled selected>-- Pilih Status --</option>
                                 <option value="Check-In (Masuk)">Check-In (Masuk)</option>
                                 <option value="Check-Out (Pulang)">Check-Out (Pulang)</option>
+                                <option value="Check-In (Perbantuan Pengamanan)">Check-In (Perbantuan Pengamanan)</option>
+                                <option value="Check-Out (Perbantuan Pengamanan)">Check-Out (Perbantuan Pengamanan)</option>
                                 <option value="Foto dengan TNI">Foto dengan TNI</option>
                             </select>
                         </div>
@@ -612,6 +614,7 @@
             });
         }
 
+        // === STREAMING_CHUNK: Coding the special watermark for incident photos... ===
         // === FUNGSI WATERMARK KHUSUS LAPORAN KEJADIAN (TANPA KOORDINAT / GPS) ===
         function attachWatermarkEventKejadian(inputId, previewContainerId, loadingId, previewImgId, hiddenBase64Id) {
             const fotoInput = document.getElementById(inputId);
@@ -654,6 +657,7 @@
             });
         }
 
+        // === STREAMING_CHUNK: Initializing components on DOM load... ===
         // === INISIALISASI SAAT DOM LOAD ===
         document.addEventListener("DOMContentLoaded", () => {
             setupPWA();
@@ -819,6 +823,7 @@
             document.getElementById('btnSubmitPatroli').classList.remove('hidden');
         };
 
+        // === STREAMING_CHUNK: Processing main application data and auto duty logic... ===
         // === FUNGSI LOGIKA UTAMA ===
         function inisialisasiApp(dataDariServer) {
             dataPersonil = dataDariServer.personil || [];
@@ -840,9 +845,9 @@
             let statusTerakhirPetugas = {};
             let waktuCheckInPetugas = {};
             logHariIni.forEach(log => {
-                if (log.status === 'Check-In (Masuk)' || log.status === 'Check-Out (Pulang)') {
+                if (log.status === 'Check-In (Masuk)' || log.status === 'Check-Out (Pulang)' || log.status === 'Check-In (Perbantuan Pengamanan)' || log.status === 'Check-Out (Perbantuan Pengamanan)') {
                     statusTerakhirPetugas[log.nama] = log.status;
-                    if (log.status === 'Check-In (Masuk)') {
+                    if (log.status === 'Check-In (Masuk)' || log.status === 'Check-In (Perbantuan Pengamanan)') {
                         waktuCheckInPetugas[log.nama] = log.waktu; // Menyimpan waktu check-in (Format HH:MM)
                     }
                 }
@@ -850,7 +855,8 @@
 
             // Saring petugas yang status terakhirnya Check-In DAN belum melewati durasi 12 jam
             let petugasOnDuty = Object.keys(statusTerakhirPetugas).filter(nama => {
-                if (statusTerakhirPetugas[nama] !== 'Check-In (Masuk)') return false;
+                let status = statusTerakhirPetugas[nama];
+                if (status !== 'Check-In (Masuk)' && status !== 'Check-In (Perbantuan Pengamanan)') return false;
                 
                 // Evaluasi durasi shift: Auto Check-Out setelah 12 jam berlalu
                 if (waktuCheckInPetugas[nama]) {
@@ -878,56 +884,48 @@
                 return true;
             });
 
-            // Set otomatisasi Nama Petugas di Form Patroli berdasarkan deteksi On Duty di atas
-            const displayNamaPatroli = document.getElementById('displayNamaPatroli');
-            const hiddenNamaPatroli = document.getElementById('namaPatroli');
-            
-            if (displayNamaPatroli && hiddenNamaPatroli) {
-                if (petugasOnDuty.length === 0) {
-                    displayNamaPatroli.className = "w-full px-3 py-2.5 text-sm border border-red-300 rounded-xl bg-red-100 font-bold text-red-800 text-center";
-                    displayNamaPatroli.innerHTML = "⚠️ Tidak ada petugas On Duty! Silakan Absen Masuk dulu.";
-                    hiddenNamaPatroli.value = "";
-                } else if (petugasOnDuty.length === 1) {
-                    displayNamaPatroli.className = "w-full px-3 py-2.5 text-sm border border-green-300 rounded-xl bg-green-50 font-bold text-green-800";
-                    displayNamaPatroli.innerHTML = "👤 " + petugasOnDuty[0] + " (On Duty)";
-                    hiddenNamaPatroli.value = petugasOnDuty[0];
+            // LOGIKA PENCARIAN PETUGAS AKTIF PADA HARI DAN JAM INI (DARI LOCALSTORAGE JALUR ABSEN)
+            let lastUserOnDevice = localStorage.getItem('lastCheckedInUser');
+            let petugasAktifSaatIni = "";
+
+            if (petugasOnDuty.length > 0) {
+                // Prioritaskan petugas yang baru saja melakukan absensi di perangkat ini
+                if (lastUserOnDevice && petugasOnDuty.includes(lastUserOnDevice)) {
+                    petugasAktifSaatIni = lastUserOnDevice;
                 } else {
-                    // Jika ada lebih dari satu petugas On Duty (overlapping shift), tampilkan dropdown saringan khusus yang On Duty saja
-                    let selectHtml = `<select id="selectNamaPatroliMulti" onchange="document.getElementById('namaPatroli').value = this.value" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-blue-800 outline-none bg-white font-bold text-stone-800">`;
-                    selectHtml += `<option value="" disabled selected>-- Pilih salah satu petugas On Duty --</option>`;
-                    petugasOnDuty.forEach(nama => {
-                        selectHtml += `<option value="${nama}">${nama} (On Duty)</option>`;
-                    });
-                    selectHtml += `</select>`;
-                    displayNamaPatroli.className = "w-full";
-                    displayNamaPatroli.innerHTML = selectHtml;
-                    hiddenNamaPatroli.value = "";
+                    petugasAktifSaatIni = petugasOnDuty[0];
                 }
             }
 
-            // Set otomatisasi Nama Petugas di Form Kejadian (Otomatis juga)
-            const displayNamaKejadian = document.getElementById('displayNamaKejadian');
+            // Set otomatisasi Nama Petugas di Form Patroli (Hidden Visual, Auto-Detect)
+            const infoPetugasPatroli = document.getElementById('infoPetugasPatroli');
+            const hiddenNamaPatroli = document.getElementById('namaPatroli');
+            
+            if (infoPetugasPatroli && hiddenNamaPatroli) {
+                if (petugasOnDuty.length === 0) {
+                    infoPetugasPatroli.className = "text-center text-xs font-bold text-red-800 mb-4 bg-red-100 py-2.5 px-3 rounded-xl border border-red-300";
+                    infoPetugasPatroli.innerHTML = "⚠️ Tidak ada petugas On Duty! Silakan Absen Masuk atau Perbantuan terlebih dahulu.";
+                    hiddenNamaPatroli.value = "";
+                } else {
+                    infoPetugasPatroli.className = "text-center text-xs font-bold text-blue-900 mb-4 bg-blue-50 py-2.5 px-3 rounded-xl border border-blue-200 flex items-center justify-center gap-1.5";
+                    infoPetugasPatroli.innerHTML = `👮 Petugas Patroli Aktif: <span class="font-extrabold text-blue-950">${escapeHtml(petugasAktifSaatIni)}</span>`;
+                    hiddenNamaPatroli.value = petugasAktifSaatIni;
+                }
+            }
+
+            // Set otomatisasi Nama Petugas di Form Kejadian (Hidden Visual, Auto-Detect)
+            const infoPetugasKejadian = document.getElementById('infoPetugasKejadian');
             const hiddenNamaKejadian = document.getElementById('namaKejadian');
             
-            if (displayNamaKejadian && hiddenNamaKejadian) {
+            if (infoPetugasKejadian && hiddenNamaKejadian) {
                 if (petugasOnDuty.length === 0) {
-                    displayNamaKejadian.className = "w-full px-3 py-2.5 text-sm border border-red-300 rounded-xl bg-red-100 font-bold text-red-800 text-center";
-                    displayNamaKejadian.innerHTML = "⚠️ Tidak ada petugas On Duty! Silakan Absen Masuk dulu.";
+                    infoPetugasKejadian.className = "text-center text-xs font-bold text-red-800 mb-4 bg-red-100 py-2.5 px-3 rounded-xl border border-red-300";
+                    infoPetugasKejadian.innerHTML = "⚠️ Tidak ada petugas On Duty! Silakan Absen Masuk atau Perbantuan terlebih dahulu.";
                     hiddenNamaKejadian.value = "";
-                } else if (petugasOnDuty.length === 1) {
-                    displayNamaKejadian.className = "w-full px-3 py-2.5 text-sm border border-green-300 rounded-xl bg-green-50 font-bold text-green-800";
-                    displayNamaKejadian.innerHTML = "👤 " + petugasOnDuty[0] + " (On Duty)";
-                    hiddenNamaKejadian.value = petugasOnDuty[0];
                 } else {
-                    let selectHtml = `<select id="selectNamaKejadianMulti" onchange="document.getElementById('namaKejadian').value = this.value" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-rose-600 outline-none bg-white font-bold text-stone-800">`;
-                    selectHtml += `<option value="" disabled selected>-- Pilih salah satu petugas On Duty --</option>`;
-                    petugasOnDuty.forEach(nama => {
-                        selectHtml += `<option value="${nama}">${nama} (On Duty)</option>`;
-                    });
-                    selectHtml += `</select>`;
-                    displayNamaKejadian.className = "w-full";
-                    displayNamaKejadian.innerHTML = selectHtml;
-                    hiddenNamaKejadian.value = "";
+                    infoPetugasKejadian.className = "text-center text-xs font-bold text-rose-900 mb-4 bg-rose-50 py-2.5 px-3 rounded-xl border border-rose-200 flex items-center justify-center gap-1.5";
+                    infoPetugasKejadian.innerHTML = `👮 Petugas Pelapor: <span class="font-extrabold text-rose-950">${escapeHtml(petugasAktifSaatIni)}</span>`;
+                    hiddenNamaKejadian.value = petugasAktifSaatIni;
                 }
             }
 
@@ -948,7 +946,13 @@
             dapatkanLokasi();
         }
 
+        // === STREAMING_CHUNK: Tuning shift scheduling criteria bypass for backup support... ===
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
+            // BYPASS LOGIKA JIKA STATUS ADALAH PERBANTUAN PENGAMANAN (BEBAS SWAP/TERLAMBAT)
+            if (status === "Check-In (Perbantuan Pengamanan)" || status === "Check-Out (Perbantuan Pengamanan)") {
+                return null;
+            }
+
             if (!polaShift || polaShift.length === 0) return null;
 
             const parts = waktuStr.split(":");
@@ -1028,13 +1032,19 @@
             return null;
         }
 
+        // === STREAMING_CHUNK: Updating the dashboard feed with new status support... ===
         function renderLiveDashboardFeeds() {
             const cardsOnDuty = document.getElementById('cardsOnDuty');
             if (cardsOnDuty) {
                 cardsOnDuty.innerHTML = '';
                 
-                // On Duty hari ini HANYA menampilkan Absensi (Check-In & Check-Out) agar daftar tetap rapi
-                const logsOnDuty = logHariIni.filter(item => item.status === 'Check-In (Masuk)' || item.status === 'Check-Out (Pulang)');
+                // On Duty hari ini menampilkan Absensi (Check-In & Check-Out Normal + Perbantuan)
+                const logsOnDuty = logHariIni.filter(item => 
+                    item.status === 'Check-In (Masuk)' || 
+                    item.status === 'Check-Out (Pulang)' ||
+                    item.status === 'Check-In (Perbantuan Pengamanan)' ||
+                    item.status === 'Check-Out (Perbantuan Pengamanan)'
+                );
                 
                 if (logsOnDuty.length === 0) {
                     cardsOnDuty.innerHTML = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada aktivitas kehadiran hari ini.</p>';
@@ -1049,7 +1059,13 @@
                         if (petugas.status === 'Check-Out (Pulang)') {
                             statusColor = "text-red-600";
                             statusText = "CHECKOUT";
-                        } 
+                        } else if (petugas.status === 'Check-In (Perbantuan Pengamanan)') {
+                            statusColor = "text-indigo-600";
+                            statusText = "BACKUP IN";
+                        } else if (petugas.status === 'Check-Out (Perbantuan Pengamanan)') {
+                            statusColor = "text-rose-500";
+                            statusText = "BACKUP OUT";
+                        }
 
                         let fileId = null;
                         if (petugas.foto) {
@@ -1148,6 +1164,7 @@
             }
         }
 
+        // === STREAMING_CHUNK: Processing shift data calculations... ===
         function renderJadwal() {
             const tbodyJadwal = document.getElementById('tabelJadwalBody');
             const tbodyRekap = document.getElementById('tabelRekapBody');
@@ -1203,8 +1220,8 @@
                             
                             if (rekapKehadiranDinamis[log.nama] !== undefined) {
                                 if (!hadirHarian[log.nama]) hadirHarian[log.nama] = { in: false, out: false };
-                                if (log.status === "Check-In (Masuk)") hadirHarian[log.nama].in = true;
-                                if (log.status === "Check-Out (Pulang)") hadirHarian[log.nama].out = true;
+                                if (log.status === "Check-In (Masuk)" || log.status === "Check-In (Perbantuan Pengamanan)") hadirHarian[log.nama].in = true;
+                                if (log.status === "Check-Out (Pulang)" || log.status === "Check-Out (Perbantuan Pengamanan)") hadirHarian[log.nama].out = true;
                             }
                         }
                     });
@@ -1268,6 +1285,7 @@
             renderLiveDashboardFeeds();
         }
 
+        // === STREAMING_CHUNK: Implementing GPS geolocation lock... ===
         function dapatkanLokasi(isRefresh = false) {
             const arrStatusObj = [
                 document.getElementById('lokasiStatus'),
@@ -1373,6 +1391,7 @@
             }
         }
         
+        // === STREAMING_CHUNK: Coding PDF and document preview builders... ===
         function downloadJadwalPDF() {
             try {
                 const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1429,6 +1448,7 @@
             }
         }
         
+        // === STREAMING_CHUNK: Assembling Attendance PDF report elements... ===
         function downloadKehadiranPDF() {
             try {
                 const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1460,7 +1480,12 @@
                     let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
                     
                     if (logDate >= startDate && logDate <= endDate) {
-                        if (log.status === "Check-In (Masuk)" || log.status === "Check-Out (Pulang)") {
+                        if (
+                            log.status === "Check-In (Masuk)" || 
+                            log.status === "Check-Out (Pulang)" ||
+                            log.status === "Check-In (Perbantuan Pengamanan)" ||
+                            log.status === "Check-Out (Perbantuan Pengamanan)"
+                        ) {
                             let formattedDate = `${parseInt(dParts[2])}/${parseInt(dParts[1])}/${dParts[0]}`;
                             let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${formattedDate} ${log.waktu}` : formattedDate);
                             let keterangan = log.lokasi && log.lokasi !== "-" ? log.lokasi : "";
@@ -1477,6 +1502,8 @@
                                         }
                                     }
                                 } catch (e) { console.error(e); }
+                            } else if (log.status.includes("Perbantuan")) {
+                                keterangan = "Tugas Perbantuan Pengamanan";
                             }
                             
                             let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
@@ -1674,12 +1701,14 @@
             }
         }
 
+        // === STREAMING_CHUNK: Handling forms submissions & saving state... ===
         // === EVENT LISTENER SUBMIT FORM ABSENSI ===
         document.getElementById('formAbsensi').addEventListener('submit', async function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btnSubmit');
             const pesanArea = document.getElementById('pesanArea');
             const fotoWatermarkBase64 = document.getElementById('fotoWatermarkBase64');
+            const namaPetugas = document.getElementById('nama').value;
             
             if (!fotoWatermarkBase64 || !fotoWatermarkBase64.value) { alert("Tunggu foto selesai diproses."); return; }
 
@@ -1689,7 +1718,7 @@
             const payloadData = {
                 action: "submitAbsensi",
                 data: {
-                    nama: document.getElementById('nama').value,
+                    nama: namaPetugas,
                     status: document.getElementById('status').value,
                     lokasi: "-",
                     fotoWatermarkBase64: fotoWatermarkBase64.value
@@ -1703,6 +1732,9 @@
                 const result = await response.json();
 
                 if (result.status === 'success') {
+                    // Simpan nama terakhir yang absen di perangkat ini
+                    localStorage.setItem('lastCheckedInUser', namaPetugas);
+
                     pesanArea.className = "mt-4 rounded-xl p-3 text-xs font-bold text-center bg-amber-100 text-amber-900 shadow-sm block border border-amber-300";
                     pesanArea.innerHTML = "✅ " + escapeHtml(result.message);
                     
@@ -1728,7 +1760,7 @@
             const fotoBase64 = document.getElementById('fotoWatermarkBase64Patroli');
             const namaPatroliVal = document.getElementById('namaPatroli').value;
             
-            if (!namaPatroliVal) { alert("Tidak ada petugas On Duty yang dipilih/terdeteksi. Silakan absen terlebih dahulu."); return; }
+            if (!namaPatroliVal) { alert("Tidak ada petugas On Duty yang terpilih/terdeteksi. Silakan absen terlebih dahulu."); return; }
             if (!fotoBase64 || !fotoBase64.value) { alert("Tunggu foto selesai diproses."); return; }
             if (!selectedStatusPatroli) { alert("Pilih Kondisi Area (Aman/Temuan)!"); return; }
 
