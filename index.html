@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
-    <link rel="apple-touch-icon" href="./512.png">
+    <link class="apple-touch-icon" rel="apple-touch-icon" href="./512.png">
     <link id="pwaManifest" rel="manifest">
     <!-- ======================= -->
 
@@ -68,7 +68,7 @@
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
-                    <!-- Tombol Laporan Patroli (Menu Utama Baru) -->
+                    <!-- Tombol Laporan Patroli -->
                     <button onclick="openMenu('tabPatroli')" class="col-span-2 bg-blue-600 p-4 sm:p-5 rounded-2xl shadow-sm border border-blue-700 hover:bg-blue-700 hover:shadow-md transition-all flex items-center justify-center gap-4 group text-left">
                         <div class="w-12 h-12 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors shrink-0">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
@@ -168,11 +168,13 @@
                     </div>
 
                     <form id="formPatroli" class="space-y-4">
+                        <!-- NAMA PETUGAS: SEKARANG OTOMATIS BERDASARKAN AKTIF ON DUTY -->
                         <div>
-                            <label class="block text-xs font-bold text-stone-700 mb-1.5" for="namaPatroli">Nama Petugas</label>
-                            <select id="namaPatroli" required class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-blue-800 outline-none transition-all bg-white">
-                                <option value="" disabled selected>-- Pilih Nama Anda --</option>
-                            </select>
+                            <label class="block text-xs font-bold text-stone-700 mb-1.5">Nama Petugas</label>
+                            <div id="displayNamaPatroli" class="w-full px-3 py-2.5 text-sm border border-stone-300 rounded-xl bg-stone-100 font-bold text-stone-800 transition-all">
+                                Mendeteksi petugas aktif...
+                            </div>
+                            <input type="hidden" id="namaPatroli" name="namaPatroli" required>
                         </div>
                         
                         <div>
@@ -233,7 +235,7 @@
                     <div id="pesanAreaPatroli" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
                 </div>
 
-                <!-- TAB 1: FORM ABSENSI (ASLI) -->
+                <!-- TAB 1: FORM ABSENSI -->
                 <div id="tabForm" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 mx-auto hidden">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-amber-800 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
@@ -698,14 +700,73 @@
                 });
             }
 
-            // Populasi menu dropdown nama petugas untuk Form Patroli
-            const selectNamaPatroli = document.getElementById('namaPatroli');
-            if (selectNamaPatroli && selectNamaPatroli.options.length <= 1) { 
-                selectNamaPatroli.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
-                dataPersonil.forEach(nama => {
-                    let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama;
-                    selectNamaPatroli.appendChild(opt);
-                });
+            // Deteksi petugas yang sedang On Duty (sudah Check-In, belum Check-Out, dan waktu < 12 jam)
+            let statusTerakhirPetugas = {};
+            let waktuCheckInPetugas = {};
+            logHariIni.forEach(log => {
+                if (log.status === 'Check-In (Masuk)' || log.status === 'Check-Out (Pulang)') {
+                    statusTerakhirPetugas[log.nama] = log.status;
+                    if (log.status === 'Check-In (Masuk)') {
+                        waktuCheckInPetugas[log.nama] = log.waktu; // Menyimpan waktu check-in (Format HH:MM)
+                    }
+                }
+            });
+
+            // Saring petugas yang status terakhirnya Check-In DAN belum melewati durasi 12 jam
+            let petugasOnDuty = Object.keys(statusTerakhirPetugas).filter(nama => {
+                if (statusTerakhirPetugas[nama] !== 'Check-In (Masuk)') return false;
+                
+                // Evaluasi durasi shift: Auto Check-Out setelah 12 jam berlalu
+                if (waktuCheckInPetugas[nama]) {
+                    try {
+                        let timeStr = waktuCheckInPetugas[nama];
+                        let matches = timeStr.match(/(\d{1,2}):(\d{2})/);
+                        if (matches) {
+                            let logTime = new Date();
+                            logTime.setHours(parseInt(matches[1], 10), parseInt(matches[2], 10), 0, 0);
+                            
+                            // Jika jam check-in lebih besar dari jam sekarang, asumsikan itu log hari kemarin
+                            if (logTime > new Date()) {
+                                logTime.setDate(logTime.getDate() - 1);
+                            }
+                            
+                            let selisihJam = (new Date() - logTime) / (1000 * 60 * 60);
+                            if (selisihJam >= 12) {
+                                return false; // Sudah lewat 12 jam, tidak dianggap On Duty saat ini
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Gagal mengevaluasi shift petugas:", e);
+                    }
+                }
+                return true;
+            });
+
+            // Set otomatisasi Nama Petugas di Form Patroli berdasarkan deteksi On Duty di atas
+            const displayNamaPatroli = document.getElementById('displayNamaPatroli');
+            const hiddenNamaPatroli = document.getElementById('namaPatroli');
+            
+            if (displayNamaPatroli && hiddenNamaPatroli) {
+                if (petugasOnDuty.length === 0) {
+                    displayNamaPatroli.className = "w-full px-3 py-2.5 text-sm border border-red-300 rounded-xl bg-red-100 font-bold text-red-800 text-center";
+                    displayNamaPatroli.innerHTML = "⚠️ Tidak ada petugas On Duty! Silakan Absen Masuk dulu.";
+                    hiddenNamaPatroli.value = "";
+                } else if (petugasOnDuty.length === 1) {
+                    displayNamaPatroli.className = "w-full px-3 py-2.5 text-sm border border-green-300 rounded-xl bg-green-50 font-bold text-green-800";
+                    displayNamaPatroli.innerHTML = "👤 " + petugasOnDuty[0] + " (On Duty)";
+                    hiddenNamaPatroli.value = petugasOnDuty[0];
+                } else {
+                    // Jika ada lebih dari satu petugas On Duty (overlapping shift), tampilkan dropdown saringan khusus yang On Duty saja
+                    let selectHtml = `<select id="selectNamaPatroliMulti" onchange="document.getElementById('namaPatroli').value = this.value" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-xl focus:ring-2 focus:ring-blue-800 outline-none bg-white font-bold text-stone-800">`;
+                    selectHtml += `<option value="" disabled selected>-- Pilih salah satu petugas On Duty --</option>`;
+                    petugasOnDuty.forEach(nama => {
+                        selectHtml += `<option value="${nama}">${nama} (On Duty)</option>`;
+                    });
+                    selectHtml += `</select>`;
+                    displayNamaPatroli.className = "w-full";
+                    displayNamaPatroli.innerHTML = selectHtml;
+                    hiddenNamaPatroli.value = "";
+                }
             }
 
             renderJadwal();
@@ -1513,7 +1574,9 @@
             const btn = document.getElementById('btnSubmitPatroli');
             const pesanArea = document.getElementById('pesanAreaPatroli');
             const fotoBase64 = document.getElementById('fotoWatermarkBase64Patroli');
+            const namaPatroliVal = document.getElementById('namaPatroli').value;
             
+            if (!namaPatroliVal) { alert("Tidak ada petugas On Duty yang dipilih/terdeteksi. Silakan absen terlebih dahulu."); return; }
             if (!fotoBase64 || !fotoBase64.value) { alert("Tunggu foto selesai diproses."); return; }
             if (!selectedStatusPatroli) { alert("Pilih Kondisi Area (Aman/Temuan)!"); return; }
 
@@ -1530,7 +1593,7 @@
             const payloadData = {
                 action: "submitAbsensi",
                 data: {
-                    nama: document.getElementById('namaPatroli').value,
+                    nama: namaPatroliVal,
                     status: "Patroli", // Status dikunci agar langsung disalurkan ke Tab "Patroli" oleh backend
                     lokasi: stringLokasi,
                     fotoWatermarkBase64: fotoBase64.value
