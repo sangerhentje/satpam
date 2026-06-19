@@ -225,7 +225,7 @@
                         </table>
                     </div>
                     <div class="bg-stone-50 p-4 rounded-xl mb-4 border border-stone-200"><h3 class="text-xs font-black text-stone-800 uppercase tracking-wider text-center mb-3">Target Hari Masuk</h3><div class="flex justify-center w-full overflow-x-auto"><table class="w-full max-w-xs text-xs border border-stone-200 rounded-lg overflow-hidden bg-white"><tbody id="tabelRekapBody"></tbody></table></div></div>
-                    <button id="btnDownloadJadwal" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan Jadwal (PDF)</button>
+                    <button id="btnDownloadJadwal" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
                 <!-- TAB 3: REKAP KEHADIRAN AKTUAL -->
@@ -238,7 +238,7 @@
                     <div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800">Akumulasi Hadir</h2><p class="text-stone-500 text-xs">Total kehadiran terverifikasi bulan ini</p></div>
                     <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold border border-stone-200"><button id="btnPrevMonthKehadiran" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button><span class="textBulanTahun text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span><button id="btnNextMonthKehadiran" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button></div>
                     <div class="w-full overflow-x-auto border border-stone-200 rounded-2xl shadow-sm bg-white mb-4"><table class="w-full text-xs sm:text-sm"><thead><tr class="bg-stone-100 border-b border-stone-200"><th class="px-4 py-3 font-black text-stone-800 text-left">Nama Personil</th><th class="px-4 py-3 font-black text-stone-800 text-center w-24">Hadir</th></tr></thead><tbody id="tabelKehadiranAktual"></tbody></table></div>
-                    <button id="btnDownloadKehadiran" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan Hadir (PDF)</button>
+                    <button id="btnDownloadKehadiran" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
                 <!-- TAB 4: REKAP FOTO TNI -->
@@ -251,7 +251,7 @@
                     <div class="text-center mb-4"><h2 class="text-xl font-black text-stone-800">Rekap Foto TNI</h2><p class="text-stone-500 text-xs">Laporan kegiatan bersama personil TNI</p></div>
                     <div class="flex items-center justify-between bg-stone-100 p-2 rounded-xl mb-4 text-xs font-bold border border-stone-200"><button id="btnPrevMonthFoto" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">⬅️</button><span class="textBulanTahun text-stone-800 uppercase tracking-wide text-center flex-1">Loading...</span><button id="btnNextMonthFoto" class="p-1.5 rounded-lg bg-white hover:bg-stone-200 text-stone-600 shadow-sm border border-stone-200">➡️</button></div>
                     <div class="w-full overflow-x-auto border border-stone-200 rounded-2xl shadow-sm bg-white mb-4"><table class="w-full text-xs sm:text-sm"><thead><tr class="bg-stone-100 border-b border-stone-200"><th class="px-4 py-3 font-black text-stone-800 text-left">Nama Personil</th><th class="px-4 py-3 font-black text-stone-800 text-center w-24">Jumlah</th></tr></thead><tbody id="tabelFotoTNI"></tbody></table></div>
-                    <button id="btnDownloadFoto" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">📥 Unduh Laporan TNI (PDF)</button>
+                    <button id="btnDownloadFoto" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-center items-center gap-2 shadow-sm transition-colors">👁️ Pratinjau Dokumen (PDF)</button>
                 </div>
 
             </div> <!-- Akhir Konten Utama -->
@@ -269,6 +269,25 @@
                     <p id="lbWaktu" class="text-stone-200">-</p>
                     <p id="lbLokasi" class="text-stone-300 text-[10px] mt-1 leading-tight border-t border-stone-600 pt-1">-</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PRATINJAU DOKUMEN HTML (ANTI BLOCKING SECURITY) -->
+    <div id="modalPdfPreview" class="fixed inset-0 bg-stone-900/95 z-[60] flex-col hidden transition-opacity">
+        <div class="flex items-center justify-between p-4 bg-stone-900 border-b border-stone-700 shrink-0 shadow-lg relative">
+            <h3 class="text-white font-black text-sm tracking-wider uppercase">Pratinjau Laporan</h3>
+            <div class="flex items-center gap-3">
+                <button onclick="downloadFromPreview()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg shadow transition-colors flex items-center gap-1.5">
+                    📥 <span>Unduh PDF</span>
+                </button>
+                <button onclick="closePdfPreview()" class="w-9 h-9 flex items-center justify-center bg-stone-800 hover:bg-red-500 text-stone-300 hover:text-white rounded-lg transition-colors font-bold text-lg">✕</button>
+            </div>
+        </div>
+        <div class="flex-1 w-full overflow-y-auto p-4 sm:p-6 bg-stone-200 flex justify-center items-start">
+            <!-- Tempat Merender Dokumen Preview HTML yang mirip 1:1 dengan format PDF -->
+            <div id="pdfHtmlPreview" class="w-full max-w-2xl bg-white p-6 sm:p-8 shadow-md rounded-xl border border-stone-300 text-stone-800 text-xs space-y-4">
+                <!-- Konten diletakkan secara dinamis dari javascript -->
             </div>
         </div>
     </div>
@@ -293,6 +312,10 @@
         // Variabel untuk menyimpan Base64 Cache Foto dari Apps Script
         window.imageCache = window.imageCache || {};
         window.currentLightboxFileId = null;
+
+        // Variabel untuk fitur Preview PDF
+        window.currentPdfDoc = null;
+        window.currentPdfFilename = "";
 
         const defaultThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkZPVE88L3RleHQ+PC9zdmc+";
 
@@ -359,6 +382,16 @@
 
         function escapeHtml(unsafe) {
             return (unsafe || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function getTableData(tableIdOrEl) {
+            const table = typeof tableIdOrEl === 'string' ? document.getElementById(tableIdOrEl) : tableIdOrEl;
+            if (!table) return { headers: [], rows: [] };
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText.trim());
+            const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr => 
+                Array.from(tr.querySelectorAll('td')).map(td => td.innerText.trim())
+            );
+            return { headers, rows };
         }
 
         // === INISIALISASI SAAT DOM LOAD ===
@@ -963,6 +996,32 @@
         }
 
         async function triggerAutoSetup() { }
+
+        // === FUNGSI PRATINJAU DOKUMEN HTML (ANTI-BLOCK) ===
+        function showPdfPreview(htmlContent, doc, filename) {
+            window.currentPdfDoc = doc;
+            window.currentPdfFilename = filename;
+            
+            const previewDiv = document.getElementById('pdfHtmlPreview');
+            if (previewDiv) {
+                previewDiv.innerHTML = htmlContent;
+            }
+            
+            document.getElementById('modalPdfPreview').classList.remove('hidden');
+            document.getElementById('modalPdfPreview').classList.add('flex');
+        }
+
+        function closePdfPreview() {
+            document.getElementById('modalPdfPreview').classList.add('hidden');
+            document.getElementById('modalPdfPreview').classList.remove('flex');
+            document.getElementById('pdfHtmlPreview').innerHTML = '';
+        }
+
+        function downloadFromPreview() {
+            if (window.currentPdfDoc) {
+                window.currentPdfDoc.save(window.currentPdfFilename);
+            }
+        }
         
         function downloadJadwalPDF() {
             try {
@@ -981,9 +1040,42 @@
                     headStyles: { fillColor: [146, 64, 14] }, 
                     styles: { fontSize: 8, cellPadding: 3 }
                 });
-                doc.save('Jadwal_Shift_' + periode.replace(/ /g, '_') + '.pdf');
+
+                // Merakit Pratinjau HTML yang persis dengan PDF
+                const tableData = getTableData('tableJadwal');
+                let rowsHtml = tableData.rows.map((row, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
+                        <td class="px-3 py-2 font-bold border-r border-stone-200 text-center">${escapeHtml(row[0])}</td>
+                        <td class="px-3 py-2 text-center">${escapeHtml(row[1])}</td>
+                        <td class="px-3 py-2 text-center">${escapeHtml(row[2])}</td>
+                        <td class="px-3 py-2 text-center">${escapeHtml(row[3])}</td>
+                    </tr>
+                `).join('');
+
+                let previewHtml = `
+                    <div class="border-b border-stone-200 pb-4 mb-4">
+                        <h2 class="text-base font-black text-stone-900">Laporan Jadwal Shift Sekuriti</h2>
+                        <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
+                    </div>
+                    <div class="overflow-x-auto border border-stone-300 rounded-lg">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-amber-800 text-white font-bold">
+                                    <th class="px-3 py-2 text-center">TANGGAL</th>
+                                    <th class="px-3 py-2 text-center">PAGI</th>
+                                    <th class="px-3 py-2 text-center">SIANG</th>
+                                    <th class="px-3 py-2 text-center">MALAM</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rowsHtml}</tbody>
+                        </table>
+                    </div>
+                `;
+
+                showPdfPreview(previewHtml, doc, 'Jadwal_Shift_' + periode.replace(/ /g, '_') + '.pdf');
             } catch (error) {
-                console.error("Gagal mengunduh PDF:", error);
+                console.error("Gagal membuat PDF:", error);
             }
         }
         
@@ -1014,15 +1106,12 @@
                 
                 let historyBody = [];
                 databaseLogsHistoris.forEach(log => {
-                    // Mencegah pergeseran hari karena timezone
                     let dParts = log.tanggal.split('-');
                     let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
                     
                     if (logDate >= startDate && logDate <= endDate) {
                         if (log.status === "Check-In (Masuk)" || log.status === "Check-Out (Pulang)") {
                             let formattedDate = `${parseInt(dParts[2])}/${parseInt(dParts[1])}/${dParts[0]}`;
-                            
-                            // Gunakan displayTimestamp dari backend jika tersedia untuk output PDF utuh
                             let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${formattedDate} ${log.waktu}` : formattedDate);
                             let keterangan = log.lokasi && log.lokasi !== "-" ? log.lokasi : "";
                             
@@ -1040,14 +1129,12 @@
                                 } catch (e) { console.error(e); }
                             }
                             
-                            // Kunci sorting seragam YYYY-MM-DDTHH:mm:00
                             let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
                             historyBody.push({ data: [datetime, log.nama, log.status, keterangan || "-"], rawDateStr: sortKey });
                         }
                     }
                 });
                 
-                // Urutkan riwayat berdasarkan waktu yang presisi
                 historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
                 let finalHistoryBody = historyBody.map(item => item.data);
 
@@ -1060,9 +1147,67 @@
                     styles: { fontSize: 9, cellPadding: 4 }
                 });
 
-                doc.save('Rekap_Kehadiran_' + periode.replace(/ /g, '_') + '.pdf');
+                // Merakit Pratinjau HTML Kehadiran
+                const rekapTableData = getTableData(document.querySelector('#tabKehadiran table'));
+                let rekapRows = rekapTableData.rows.map((row, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
+                        <td class="px-3 py-2 font-bold border-r border-stone-200">${escapeHtml(row[0])}</td>
+                        <td class="px-3 py-2 text-center text-amber-800 font-black">${escapeHtml(row[1])}</td>
+                    </tr>
+                `).join('');
+
+                let detailRows = finalHistoryBody.map((row, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
+                        <td class="px-2 py-1.5 border-r border-stone-200 font-mono text-[10px]">${escapeHtml(row[0])}</td>
+                        <td class="px-2 py-1.5 border-r border-stone-200 font-bold">${escapeHtml(row[1])}</td>
+                        <td class="px-2 py-1.5 border-r border-stone-200">${escapeHtml(row[2])}</td>
+                        <td class="px-2 py-1.5 text-stone-600">${escapeHtml(row[3])}</td>
+                    </tr>
+                `).join('');
+
+                let previewHtml = `
+                    <div class="border-b border-stone-200 pb-4 mb-4">
+                        <h2 class="text-base font-black text-stone-900">Laporan Akumulasi Kehadiran</h2>
+                        <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">1. Ringkasan Kehadiran</h3>
+                        <div class="overflow-x-auto border border-stone-300 rounded-lg">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-amber-800 text-white font-bold">
+                                        <th class="px-3 py-2">Nama Personil</th>
+                                        <th class="px-3 py-2 text-center w-24">Hadir</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${rekapRows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">2. Riwayat Absensi Detail</h3>
+                        <div class="overflow-x-auto border border-stone-300 rounded-lg">
+                            <table class="w-full text-left border-collapse text-[11px]">
+                                <thead>
+                                    <tr class="bg-stone-700 text-white font-bold">
+                                        <th class="px-2 py-1.5">Timestamp</th>
+                                        <th class="px-2 py-1.5">Nama Personil</th>
+                                        <th class="px-2 py-1.5">Status</th>
+                                        <th class="px-2 py-1.5">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${detailRows || '<tr><td colspan="4" class="text-center py-4 text-stone-400">Tidak ada riwayat detail</td></tr>'}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+
+                showPdfPreview(previewHtml, doc, 'Rekap_Kehadiran_' + periode.replace(/ /g, '_') + '.pdf');
             } catch (error) {
-                console.error("Gagal mengunduh PDF:", error);
+                console.error("Gagal membuat PDF:", error);
             }
         }
         
@@ -1098,7 +1243,6 @@
                     
                     if (logDate >= startDate && logDate <= endDate) {
                         if (log.tni || log.status === "Foto dengan TNI") {
-                            // Mengambil jam dari variabel displayTimestamp
                             let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${log.tanggal} ${log.waktu}` : log.tanggal);
                             let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
                             historyBody.push({ data: [datetime, log.nama, log.lokasi || "-"], rawDateStr: sortKey });
@@ -1106,7 +1250,6 @@
                     }
                 });
 
-                // Perbaikan sistem sorting
                 historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
                 let finalHistoryBody = historyBody.map(item => item.data);
 
@@ -1119,9 +1262,65 @@
                     styles: { fontSize: 9, cellPadding: 4 }
                 });
 
-                doc.save('Rekap_Foto_TNI_' + periode.replace(/ /g, '_') + '.pdf');
+                // Merakit Pratinjau HTML Foto TNI
+                const tniTableData = getTableData(document.querySelector('#tabFoto table'));
+                let tniRows = tniTableData.rows.map((row, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
+                        <td class="px-3 py-2 font-bold border-r border-stone-200">${escapeHtml(row[0])}</td>
+                        <td class="px-3 py-2 text-center text-amber-800 font-black">${escapeHtml(row[1])}</td>
+                    </tr>
+                `).join('');
+
+                let detailTniRows = finalHistoryBody.map((row, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-stone-50'} border-b border-stone-200">
+                        <td class="px-2 py-1.5 border-r border-stone-200 font-mono text-[10px]">${escapeHtml(row[0])}</td>
+                        <td class="px-2 py-1.5 border-r border-stone-200 font-bold">${escapeHtml(row[1])}</td>
+                        <td class="px-2 py-1.5 text-stone-600">${escapeHtml(row[2])}</td>
+                    </tr>
+                `).join('');
+
+                let previewHtml = `
+                    <div class="border-b border-stone-200 pb-4 mb-4">
+                        <h2 class="text-base font-black text-stone-900">Laporan Rekap Foto TNI</h2>
+                        <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">1. Ringkasan Kegiatan</h3>
+                        <div class="overflow-x-auto border border-stone-300 rounded-lg">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-amber-800 text-white font-bold">
+                                        <th class="px-3 py-2">Nama Personil</th>
+                                        <th class="px-3 py-2 text-center w-24">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${tniRows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">2. Riwayat Kegiatan</h3>
+                        <div class="overflow-x-auto border border-stone-300 rounded-lg">
+                            <table class="w-full text-left border-collapse text-[11px]">
+                                <thead>
+                                    <tr class="bg-stone-700 text-white font-bold">
+                                        <th class="px-2 py-1.5">Timestamp</th>
+                                        <th class="px-2 py-1.5">Nama Personil</th>
+                                        <th class="px-2 py-1.5">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${detailTniRows || '<tr><td colspan="3" class="text-center py-4 text-stone-400">Tidak ada riwayat detail</td></tr>'}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+
+                showPdfPreview(previewHtml, doc, 'Rekap_Foto_TNI_' + periode.replace(/ /g, '_') + '.pdf');
             } catch (error) {
-                console.error("Gagal mengunduh PDF:", error);
+                console.error("Gagal membuat PDF:", error);
             }
         }
 
