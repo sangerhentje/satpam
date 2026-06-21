@@ -1719,12 +1719,30 @@
             const cardsFotoTNI = document.getElementById('cardsFotoTNIHariIni');
             if (cardsFotoTNI) {
                 let htmlBufferTni = '';
-                const tniLogs = logHariIni.filter(log => log.status === 'Foto dengan TNI' || log.tni);
                 
-                if (tniLogs.length === 0) {
-                    htmlBufferTni = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada foto marinir hari ini.</p>';
+                // MENGUBAH ATURAN PENYARINGAN FOTO MARINIR/TNI UNTUK MENDUKUNG SHIFT 3
+                let tniLogsFiltered = window.cachedUniqueLogs.filter(log => {
+                    if (log.status !== 'Foto dengan TNI' && !log.tni) return false;
+
+                    // Aturan 1: Foto diambil kemarin malam (setelah 21:00) -> Tampilkan hingga 10:00 pagi ini
+                    if (log.tanggal === tanggalKemarin && log.waktu >= '21:00') {
+                        return totalMenitHariIni <= 600; // 600 menit = 10:00 pagi
+                    }
+
+                    // Aturan 2: Tampilkan foto hari ini (D)
+                    return log.tanggal === tanggalHariIni;
+                });
+                
+                if (tniLogsFiltered.length === 0) {
+                    htmlBufferTni = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada foto marinir shift ini.</p>';
                 } else {
-                    tniLogs.forEach(petugas => {
+                    tniLogsFiltered.sort((a,b) => {
+                        let tA = a.timestamp || safeGetTime(a.tanggal || toLocalYYYYMMDD(dNow), a.waktu || '00:00');
+                        let tB = b.timestamp || safeGetTime(b.tanggal || toLocalYYYYMMDD(dNow), b.waktu || '00:00');
+                        return tB - tA;
+                    });
+                    
+                    tniLogsFiltered.forEach(petugas => {
                         let fileId = null;
                         if (petugas.foto) {
                             let match = petugas.foto.match(/(?:id=|\/d\/)([a-zA-Z0-9_-]+)/);
@@ -1742,15 +1760,19 @@
                         
                         const safeNama = escapeHtml(petugas.nama);
                         const safeWaktu = escapeHtml(formatWaktuSederhana(petugas.waktu || "??:??"));
+                        
                         let paramFoto = fileId ? fileId : (thumbSrc !== defaultThumbSVG ? thumbSrc : '');
                         
+                        // Menyesuaikan label tampilan tanggal
+                        let displayTgl = (petugas.tanggal === tanggalKemarin) ? "Kemarin" : "Hari ini";
+
                         htmlBufferTni += `
-                            <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow mb-2">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 rounded-lg bg-stone-800 flex items-center justify-center text-amber-500 font-black text-sm">TNI</div>
-                                    <div><h4 class="text-xs font-bold text-stone-800">${safeNama}</h4><span class="text-[10px] text-stone-500 font-bold">Laporan | ${safeWaktu}</span></div>
+                                    <div><h4 class="text-xs font-bold text-stone-800">${safeNama}</h4><span class="text-[10px] text-stone-500 font-bold">Laporan | ${displayTgl} ${safeWaktu}</span></div>
                                 </div>
-                                <button onclick="openLightbox('${safeNama}', 'Hari ini | ${safeWaktu}', 'Pos Jaga', '${paramFoto}')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity shrink-0 flex items-center justify-center">
+                                <button onclick="openLightbox('${safeNama}', '${displayTgl} | ${safeWaktu}', 'Pos Jaga', '${paramFoto}')" class="w-10 h-10 rounded-lg border border-stone-200 overflow-hidden hover:opacity-85 transition-opacity shrink-0 flex items-center justify-center">
                                     <img src="${thumbSrc}" class="w-full h-full object-cover ${imgClass}" onerror="this.onerror=null; this.src='${errorThumbSVG}';">
                                 </button>
                             </div>
