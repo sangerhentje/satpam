@@ -1639,14 +1639,14 @@
 
                     // ATURAN 1: Check-In Shift 3 Kemarin (masuk setelah pukul 21:00 WIB)
                     if (log.status.includes('Check-In') && log.tanggal === tanggalKemarin && log.waktu >= '21:00') {
-                        return !checkedOutToday.has(log.nama) && totalMenitHariIni <= 450;
+                        return !checkedOutToday.has(log.nama) && totalMenitHariIni <= 480;
                     }
 
                     // ATURAN 2: Check-Out Shift 3 Hari Ini (sebelum pukul 08:00 pagi)
                     if (log.status.includes('Check-Out') && log.tanggal === tanggalHariIni && log.waktu < '08:00') {
-                        const waktuSubmit = log.timestamp || safeGetTime(log.tanggal, log.waktu);
-                        const selisihMenit = (dNow.getTime() - waktuSubmit) / (1000 * 60);
-                        return selisihMenit >= 0 && selisihMenit <= 30 && totalMenitHariIni <= 480;
+                        // Diperbaiki: Tetap tampilkan kartu selama masih sebelum jam 08:00 pagi.
+                        // Begitu jam 08:00 pagi tiba, kartu otomatis hilang agar bersih untuk shift pagi.
+                        return totalMenitHariIni < 480;
                     }
 
                     return log.tanggal === tanggalHariIni;
