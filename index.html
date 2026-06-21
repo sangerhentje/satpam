@@ -560,7 +560,7 @@
 
     <script>
         // ==============================================================================
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbzeRHH_Iob8TPUv7Hm6zPYr4oWgQ9PHJTBCoWVwd-FMd5br_1_AFiyDZ2KDS0vybDVR/exec"; 
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyUDprKeKD4L0fpl7REKb2V90yvivs48y2ZATNwaHWhBTohToo04ADlLoeDtqbFjNRZ/exec"; 
         // ==============================================================================
 
         // === KONSTANTA & VARIABEL GLOBAL ===
@@ -573,6 +573,8 @@
         let dataPersonil = [], polaShift = [], logHariIni = [], databaseLogsHistoris = []; 
         let dataAreaPatroli = [], dataJenisKejadian = []; 
         let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
+        let petugasAktifSaatIni = "";
+        let kontakWhatsApp = {};
 
         // Variabel untuk menyimpan Base64 Cache Foto dari Apps Script
         window.currentLightboxFileId = null;
@@ -998,6 +1000,7 @@
         // === FUNGSI UTAMA DRAW DATA ===
         function inisialisasiApp(dataDariServer) {
             dataPersonil = dataDariServer.personil || [];
+            kontakWhatsApp = dataDariServer.kontakWA || {};
             polaShift = dataDariServer.polaShift || [];
             logHariIni = dataDariServer.logHariIni || [];
             databaseLogsHistoris = dataDariServer.databaseLogsHistoris || [];
@@ -1075,7 +1078,7 @@
 
             window.petugasOnDutyFull = [];
             let now = new Date();
-            let petugasAktifSaatIni = "";
+            petugasAktifSaatIni = ""; // Inisialisasi/reset global variable
 
             let recentCheckIns = window.cachedUniqueLogs.filter(log => {
                 if (!log.status.includes('Check-In')) return false;
@@ -1650,6 +1653,9 @@
                         return tB - tA;
                     });
 
+                    // Flag untuk memastikan tombol WhatsApp hanya muncul satu kali untuk log terbaru aktif
+                    let waIconRendered = false;
+
                     logsOnDuty.forEach(petugas => {
                         let statusColor = "text-green-600", statusText = "CHECKIN";
                         if (petugas.status === 'Check-Out (Pulang)') { statusColor = "text-red-600"; statusText = "CHECKOUT"; } 
@@ -1689,6 +1695,20 @@
                         
                         let paramFoto = fileId ? fileId : (imgSrc !== defaultThumbSVG ? imgSrc : '');
 
+                        // TAMPILKAN TOMBOL WHATSAPP JIKA PETUGAS ADALAH PETUGAS AKTIF DAN LOG INI ADALAH CHECK-IN TERBARU MEREKA
+                        let waIconHtml = '';
+                        if (petugas.nama === petugasAktifSaatIni && petugas.status.includes('Check-In') && !waIconRendered) {
+                            let noWa = kontakWhatsApp[petugas.nama];
+                            if (noWa) {
+                                waIconHtml = `
+                                    <a href="https://wa.me/${noWa}" target="_blank" class="inline-flex items-center justify-center w-5 h-5 bg-green-500 rounded-full hover:bg-green-600 transition-colors shadow-sm ml-1.5 shrink-0" title="Chat WA ${escapeHtml(petugas.nama)}" onclick="event.stopPropagation();">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.482-1.459-1.656-1.757-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                                    </a>
+                                `;
+                                waIconRendered = true;
+                            }
+                        }
+
                         htmlBuffer += `
                             <div class="flex bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden mb-3 hover:shadow-md transition-shadow">
                                 <button onclick="openLightbox('${escapeHtml(petugas.nama)}', 'Jam: ${escapeHtml(pWkt)} WIB', '${escapeHtml(petugas.lokasi)}', '${paramFoto}')" class="w-1/3 bg-stone-100 border-r border-stone-200 relative shrink-0 hover:opacity-90 flex items-center justify-center">
@@ -1696,7 +1716,14 @@
                                 </button>
                                 <div class="w-2/3 p-3 flex flex-col justify-between">
                                     <table class="text-[10px] text-stone-700 font-medium mb-1">
-                                        <tr><td class="w-12 pb-1 font-bold text-stone-500">Nama</td><td class="pb-1 font-bold text-stone-800">: ${escapeHtml(petugas.nama)}</td></tr>
+                                        <tr>
+                                            <td class="w-12 pb-1 font-bold text-stone-500 align-middle">Nama</td>
+                                            <td class="pb-1 font-bold text-stone-800 align-middle">
+                                                <div class="flex items-center">
+                                                    : ${escapeHtml(petugas.nama)} ${waIconHtml}
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr><td class="pb-1 font-bold text-stone-500">Tanggal</td><td class="pb-1">: ${displayTanggal}</td></tr>
                                         <tr><td class="pb-1 align-top font-bold text-stone-500">Jam</td><td class="pb-1">: ${escapeHtml(pWkt)} <span class="text-[8px] text-stone-400">WIB</span><br>${badgesHtml}</td></tr>
                                     </table>
