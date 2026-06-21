@@ -2186,6 +2186,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             setupPWA();
 
+            // SET TANGGAL HARI INI DI DASHBOARD FOTO MARINIR
+            const txtTanggalHariIni = document.getElementById('txtTanggalHariIni');
+            if (txtTanggalHariIni) {
+                const dToday = new Date();
+                txtTanggalHariIni.innerText = dToday.getDate() + " " + namaBulanShort[dToday.getMonth()];
+            }
+
             // 1. Gabungkan semua Event Listener navigasi bulan secara dinamis
             document.querySelectorAll('[id^="btnPrevMonth"]').forEach(btn => {
                 btn.addEventListener('click', () => {
