@@ -12,11 +12,10 @@
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
     <link class="apple-touch-icon" rel="apple-touch-icon" href="./512.png">
     <link id="pwaManifest" rel="manifest">
-    <!-- ======================= -->
 
-    <!-- Tailwind CSS untuk styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- jsPDF & jsPDF-AutoTable untuk ekspor PDF -->
+    <!-- jsPDF & jsPDF-AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     
@@ -128,7 +127,7 @@
                             <div class="w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors">
                                 <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
                             </div>
-                            <span class="font-bold text-[10px] sm:text-xs text-emerald-800 leading-tight text-center">Rapor<br>Kinerja</span>
+                            <span class="font-bold text-[10px] sm:text-xs text-emerald-850 leading-tight text-center">Rapor<br>Kinerja</span>
                         </button>
                     </div>
                 </div>
@@ -215,7 +214,7 @@
                             Kirim Laporan
                         </button>
                     </form>
-                    <div id="pesanAreaKejadian" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
+                    <div id="pesanAreaKejadian" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border border-rose-300"></div>
                 </div>
 
                 <!-- TAB: LAPORAN PATROLI -->
@@ -281,7 +280,7 @@
                             Kirim Patroli
                         </button>
                     </form>
-                    <div id="pesanAreaPatroli" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
+                    <div id="pesanAreaPatroli" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border border-stone-300"></div>
                 </div>
 
                 <!-- TAB 1: FORM ABSENSI -->
@@ -293,21 +292,6 @@
                     <div class="text-center mb-4">
                         <h2 class="text-xl font-black text-stone-800">Sistem Absensi</h2>
                         <p class="text-stone-500 text-xs">Isi data kehadiran di bawah ini</p>
-                    </div>
-
-                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-stone-700">Informasi GPS</label>
-                            <button type="button" onclick="dapatkanLokasi(true)" class="text-[10px] bg-stone-200 hover:bg-amber-200 text-stone-800 py-1.5 px-3 rounded-lg font-bold flex items-center gap-1 transition-colors border border-stone-300">
-                                🔄 Segarkan GPS
-                            </button>
-                        </div>
-                        <div id="lokasiStatus" class="mb-2 p-2.5 rounded-lg text-xs text-center font-medium bg-amber-100 text-amber-800 flex justify-center items-center gap-2 border border-amber-200/50">
-                            Mencari titik lokasi GPS...
-                        </div>
-                        <div id="mapContainer" class="hidden w-full h-32 rounded-lg overflow-hidden border border-stone-300">
-                            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""></iframe>
-                        </div>
                     </div>
 
                     <form id="formAbsensi" class="space-y-4">
@@ -333,7 +317,7 @@
                         <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
                             <label class="block text-xs font-bold text-stone-700 mb-2" for="foto">Foto Selfie (Kamera Depan)</label>
                             <input type="file" id="foto" accept="image/*" capture="user" required class="w-full text-xs text-stone-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer mb-2 transition-colors">
-                            <p class="text-[10px] text-stone-400 mb-3 leading-tight">*Mohon izinkan akses lokasi agar koordinat tampil di foto.</p>
+                            <p class="text-[10px] text-stone-400 mb-3 leading-tight">*Mohon ambil foto selfie secara langsung menggunakan kamera HP. Sistem melarang unggahan foto dari galeri.</p>
                             
                             <div id="previewContainer" class="hidden border rounded-lg overflow-hidden relative bg-stone-100">
                                 <img id="previewFoto" class="w-full h-auto" src="" alt="Preview">
@@ -348,7 +332,7 @@
                             Kirim Kehadiran
                         </button>
                     </form>
-                    <div id="pesanArea" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border"></div>
+                    <div id="pesanArea" class="mt-4 hidden rounded-lg p-3 text-xs font-bold text-center border border-stone-300"></div>
                 </div>
 
                 <!-- TAB 2: JADWAL SEKURITI -->
@@ -403,7 +387,7 @@
                 <!-- TAB 5: RAPOR KINERJA (KPI) -->
                 <div id="tabKinerja" class="bg-white w-full rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hidden mx-auto">
                     <button onclick="goHome()" class="mb-4 flex items-center text-xs font-semibold text-stone-500 hover:text-emerald-800 transition-colors">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
                         Kembali ke Menu
                     </button>
                     
@@ -486,10 +470,10 @@
                             <div class="bg-emerald-100/50 p-3 rounded-xl border border-emerald-200 mt-4">
                                 <h4 class="font-black text-emerald-800 text-center mb-2">🏆 Klasifikasi Grade Rapor</h4>
                                 <div class="grid grid-cols-4 gap-2 text-center font-bold text-emerald-900 mt-1">
-                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-green-600">A+</span>>120 Poin</div>
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-green-600">A+</span>&gt;120 Poin</div>
                                     <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-blue-500">A</span>90-120</div>
                                     <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-amber-500">B</span>75-89</div>
-                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-red-500">C</span><75 Poin</div>
+                                    <div class="bg-white py-1.5 rounded border border-emerald-100 shadow-sm"><span class="block text-sm sm:text-base text-red-500">C</span>&lt;75 Poin</div>
                                 </div>
                             </div>
                         </div>
@@ -557,7 +541,7 @@
         </div>
     </div>
 
-    <!-- MODAL PRATINJAU DOKUMEN HTML (ANTI BLOCKING SECURITY) -->
+    <!-- MODAL PRATINJAU DOKUMEN HTML -->
     <div id="modalPdfPreview" class="fixed inset-0 bg-stone-900/95 z-[60] flex-col hidden transition-opacity">
         <div class="flex items-center justify-between p-4 bg-stone-900 border-b border-stone-700 shrink-0 shadow-lg relative">
             <h3 class="text-white font-black text-sm tracking-wider uppercase">Pratinjau Laporan</h3>
@@ -583,13 +567,11 @@
         const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         const namaBulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
         
-        // MENGUBAH ANCHOR DATE KE 19 JUNI 2026 SEBAGAI PATOKAN
-        const anchorDate = new Date(2026, 5, 19); 
+        const anchorDateUTC = Date.UTC(2026, 5, 19); 
 
         let dataPersonil = [], polaShift = [], logHariIni = [], databaseLogsHistoris = []; 
-        let dataAreaPatroli = [], dataJenisKejadian = []; // Variabel penampung data dinamis dari tab baru
+        let dataAreaPatroli = [], dataJenisKejadian = []; 
         let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
-        let currentLat = null, currentLon = null, currentAddress = "Alamat sedang dicari...";
 
         // Variabel untuk menyimpan Base64 Cache Foto dari Apps Script
         window.currentLightboxFileId = null;
@@ -614,7 +596,7 @@
         window.imageCache = {};
         const MAX_IMAGE_CACHE = 50;
 
-        // MENGGUNAKAN SVG BAWAAN UNTUK MENGHINDARI BLOKIR JARINGAN (PLACEHOLD.CO)
+        // MENGGUNAKAN SVG BAWAAN UNTUK MENGHINDARI BLOKIR JARINGAN
         const defaultThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNDAwIDQwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2NDc0OGIiPk1FTVVBVCBGT1RPLi4uPC90ZXh0Pjwvc3ZnPg==";
         const errorThumbSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNDAwIDQwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmZWUyZTIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2NDc0OGIiPkZPVE8gR0FHQUw8L3RleHQ+PC9zdmc+";
 
@@ -650,7 +632,25 @@
             } catch(e) { console.warn("Service Worker tidak dapat diregistrasi di lingkungan ini."); }
         }
 
-        // === FUNGSI HELPER ===
+        // === FUNGSI UTILITAS GLOBAL (DRY COMPLIANCE) ===
+        
+        // Helper: Mendapatkan periode laporan (Tgl 13 bulan ini s.d Tgl 12 bulan depan)
+        function getPeriodeLaporan(year, month) {
+            const startDate = new Date(year, month, 13, 0, 0, 0);
+            const endDate = new Date(year, month + 1, 12, 23, 59, 59);
+            const labelStr = startDate.getFullYear() === endDate.getFullYear() ? 
+                `13 ${namaBulan[startDate.getMonth()]} - 12 ${namaBulan[endDate.getMonth()]} ${startDate.getFullYear()}` : 
+                `13 ${namaBulan[startDate.getMonth()]} ${startDate.getFullYear()} - 12 ${namaBulan[endDate.getMonth()]} ${endDate.getFullYear()}`;
+            return { startDate, endDate, labelStr };
+        }
+
+        function parseLocalDateString(dateStr) {
+            if (!dateStr) return null;
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return null;
+            return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        }
+
         function formatTanggalID(dateObj, includeDay = false, isShortMonth = false) {
             if (!dateObj || isNaN(dateObj.getTime())) return "-";
             const tgl = dateObj.getDate();
@@ -659,7 +659,6 @@
             return includeDay ? `${namaHari[dateObj.getDay()]}, ${tgl} ${bulan} ${tahun}` : `${tgl} ${bulan} ${tahun}`;
         }
 
-        // PEMBENAHAN BUG: Memformat dan memvalidasi string waktu secara aman agar tidak memunculkan NaN/Undefined
         function formatWaktuSederhana(wkt) {
             if (!wkt) return "??:??";
             let cleanStr = wkt.toString().trim();
@@ -675,7 +674,6 @@
             return cleanStr;
         }
 
-        // Menyimpan data gabungan logs terfilter unik secara global agar tidak diproses berulang-ulang
         window.cachedUniqueLogs = [];
 
         function toLocalYYYYMMDD(dateObj) {
@@ -687,7 +685,7 @@
             if (!tgl) return 0;
             let d = tgl.split('-'), t = (wkt || "00:00").split(':');
             if (d.length !== 3) return 0;
-            return new Date(parseInt(d[0]), parseInt(d[1])-1, parseInt(d[2]), parseInt(t[0]||0), parseInt(t[1]||0), 0).getTime();
+            return new Date(parseInt(d[0], 10), parseInt(d[1], 10) - 1, parseInt(d[2], 10), parseInt(t[0]||0, 10), parseInt(t[1]||0, 10), 0).getTime();
         }
 
         function escapeHtml(unsafe) {
@@ -721,7 +719,7 @@
             }
         }
 
-        // === ENGINE WATERMARK UNIVERSAL ===
+        // === ENGINE WATERMARK UNIVERSAL DENGAN DOWNSCALING (MENCEGAH CRASH HP) ===
         function setupWatermarkEngine(inputId, previewContainerId, loadingId, previewImgId, hiddenBase64Id, config = {}) {
             const fotoInput = document.getElementById(inputId);
             if (!fotoInput) return;
@@ -737,30 +735,63 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
-                        canvas.width = img.width; canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
+                        
+                        // LOGIKA DOWNSCALING OTOMATIS (Max dimensi 1280px)
+                        let width = img.width;
+                        let height = img.height;
+                        const MAX_DIM = 1280;
+                        if (width > MAX_DIM || height > MAX_DIM) {
+                            if (width > height) {
+                                height = Math.round((height * MAX_DIM) / width);
+                                width = MAX_DIM;
+                            } else {
+                                width = Math.round((width * MAX_DIM) / height);
+                                height = MAX_DIM;
+                            }
+                        }
+                        
+                        canvas.width = width; 
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
 
-                        const fontSize = Math.max(16, Math.floor(canvas.width * 0.025)); 
+                        const fontSize = Math.max(16, Math.floor(canvas.width * 0.026)); 
                         const padding = fontSize;
                         
                         const isKejadian = config.isKejadian || false;
-                        const rectHeight = isKejadian ? (fontSize * 2) + (padding * 2) : (fontSize * 3) + (padding * 2);
+                        const rectHeight = (fontSize * 3) + (padding * 2);
                         
-                        ctx.fillStyle = isKejadian ? 'rgba(220, 38, 38, 0.85)' : 'rgba(0, 0, 0, 0.6)';
+                        ctx.fillStyle = isKejadian ? 'rgba(220, 38, 38, 0.85)' : 'rgba(15, 23, 42, 0.82)';
                         ctx.fillRect(0, canvas.height - rectHeight, canvas.width, rectHeight);
+                        
+                        // Menambahkan garis batas emas/merah dekoratif yang elegan
+                        ctx.strokeStyle = isKejadian ? 'rgba(254, 226, 226, 0.4)' : 'rgba(245, 158, 11, 0.4)';
+                        ctx.lineWidth = Math.max(1, Math.floor(canvas.width * 0.002));
+                        ctx.strokeRect(4, canvas.height - rectHeight + 4, canvas.width - 8, rectHeight - 8);
+
                         ctx.fillStyle = 'white'; 
-                        ctx.font = (isKejadian ? "bold " : "") + fontSize + "px Arial"; 
+                        ctx.font = "bold " + fontSize + "px Arial, sans-serif"; 
                         ctx.textBaseline = 'top';
 
                         const waktuSekarang = formatTanggalID(new Date(), true, false) + " | " + formatWaktuSederhana(new Date().toLocaleTimeString('id-ID')) + " WIB";
                         
                         if (isKejadian) {
-                            ctx.fillText("BUKTI KEJADIAN LAPANGAN", padding, canvas.height - rectHeight + padding);
-                            ctx.fillText("Waktu Kejadian: " + waktuSekarang, padding, canvas.height - rectHeight + padding + (fontSize * 1.3));
+                            ctx.fillStyle = '#FEE2E2';
+                            ctx.fillText("🚨 PORTAL SEKURITI - BUKTI LAPORAN KEJADIAN", padding, canvas.height - rectHeight + padding);
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.font = fontSize + "px Arial, sans-serif";
+                            ctx.fillText("Waktu Kejadian : " + waktuSekarang, padding, canvas.height - rectHeight + padding + (fontSize * 1.3));
+                            ctx.fillStyle = '#FECACA';
+                            ctx.font = "italic " + (fontSize * 0.85) + "px Arial, sans-serif";
+                            ctx.fillText("DOKUMENTASI ASLI & KAMERA RAW (ANTI-MANIPULASI)", padding, canvas.height - rectHeight + padding + (fontSize * 2.6));
                         } else {
-                            const teksKoordinat = currentLat ? "Lat: " + currentLat.toFixed(5) + ", Lon: " + currentLon.toFixed(5) : "Koordinat tidak tersedia";
-                            ctx.fillText(waktuSekarang + " | " + teksKoordinat, padding, canvas.height - rectHeight + padding);
-                            ctx.fillText("Pos/Alamat: " + currentAddress, padding, canvas.height - rectHeight + padding + (fontSize * 1.5), canvas.width - (padding * 2));
+                            ctx.fillStyle = '#F59E0B'; // Aksen Amber
+                            ctx.fillText("👮 PORTAL SEKURITI - PRESENSI TERVERIFIKASI", padding, canvas.height - rectHeight + padding);
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.font = fontSize + "px Arial, sans-serif";
+                            ctx.fillText("Waktu Presensi  : " + waktuSekarang, padding, canvas.height - rectHeight + padding + (fontSize * 1.3));
+                            ctx.fillStyle = '#D1D5DB';
+                            ctx.font = "italic " + (fontSize * 0.85) + "px Arial, sans-serif";
+                            ctx.fillText("VALIDASI PRESENSI AMAN - KAMERA AKTIF", padding, canvas.height - rectHeight + padding + (fontSize * 2.6));
                         }
 
                         const hasilWatermark = canvas.toDataURL('image/jpeg', 0.8);
@@ -776,76 +807,30 @@
             });
         }
 
-        // === INISIALISASI SAAT DOM LOAD ===
-        document.addEventListener("DOMContentLoaded", () => {
-            setupPWA();
-
-            const txtTanggalHariIni = document.getElementById('txtTanggalHariIni');
-            if (txtTanggalHariIni) {
-                const dToday = new Date();
-                txtTanggalHariIni.innerText = dToday.getDate() + " " + namaBulanShort[dToday.getMonth()];
-            }
-
-            const prevAction = () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderJadwal(); };
-            const nextAction = () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderJadwal(); };
-
-            ['btnPrevMonth', 'btnPrevMonthKehadiran', 'btnPrevMonthFoto', 'btnPrevMonthKinerja'].forEach(id => {
-                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', prevAction);
-            });
-            ['btnNextMonth', 'btnNextMonthKehadiran', 'btnNextMonthFoto', 'btnNextMonthKinerja'].forEach(id => {
-                const btn = document.getElementById(id); if (btn) btn.addEventListener('click', nextAction);
-            });
-
-            const btnDownloadJadwal = document.getElementById('btnDownloadJadwal');
-            const btnDownloadKehadiran = document.getElementById('btnDownloadKehadiran');
-            const btnDownloadFoto = document.getElementById('btnDownloadFoto');
-            const btnDownloadKinerja = document.getElementById('btnDownloadKinerja');
+        // === FUNGSI DETEKSI DINAS BERKELANJUTAN (CONTINUOUS DUTY EXEMPTION) ===
+        // OPTIMASI: Menggunakan timestamp log murni yang sudah di-precompute (log.timestamp)
+        function isContinuingDuty(nama, actualDateObj, shiftIdx) {
+            if (!databaseLogsHistoris) return false;
+            const tAktual = actualDateObj.getTime();
+            let continuing = false;
             
-            if (btnDownloadJadwal) btnDownloadJadwal.addEventListener('click', downloadJadwalPDF);
-            if (btnDownloadKehadiran) btnDownloadKehadiran.addEventListener('click', downloadKehadiranPDF);
-            if (btnDownloadFoto) btnDownloadFoto.addEventListener('click', downloadFotoTNIPDF);
-            if (btnDownloadKinerja) btnDownloadKinerja.addEventListener('click', downloadKinerjaPDF);
-
-            const btnSetupSheet = document.getElementById('btnSetupSheet');
-            if (btnSetupSheet) btnSetupSheet.addEventListener('click', triggerAutoSetup);
-
-            const jenisKejadian = document.getElementById('jenisKejadian');
-            if (jenisKejadian) {
-                jenisKejadian.addEventListener('change', function() {
-                    const containerLain = document.getElementById('containerJenisLain');
-                    const inputLain = document.getElementById('jenisKejadianLain');
-                    // Jika pilihan mengandung kata 'lain-lain' atau 'lain'
-                    if (this.value.toLowerCase().includes('lain-lain') || this.value.toLowerCase().includes('lain')) {
-                        containerLain.classList.remove('hidden');
-                        inputLain.required = true;
-                    } else {
-                        containerLain.classList.add('hidden');
-                        inputLain.required = false;
-                        inputLain.value = '';
-                    }
-                });
-            }
-
-            setupWatermarkEngine('foto', 'previewContainer', 'watermarkLoading', 'previewFoto', 'fotoWatermarkBase64');
-            setupWatermarkEngine('fotoPatroli', 'previewContainerPatroli', 'watermarkLoadingPatroli', 'previewFotoPatroli', 'fotoWatermarkBase64Patroli');
-            setupWatermarkEngine('fotoKejadian', 'previewContainerKejadian', 'watermarkLoadingKejadian', 'previewFotoKejadian', 'fotoWatermarkBase64Kejadian', { isKejadian: true });
-
-            ambilDataDariGAS();
-            
-            dapatkanLokasi();
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible') {
-                    const now = Date.now();
-                    if (now - lastBackgroundSyncTime > SYNC_COOLDOWN_MS) {
-                        lastBackgroundSyncTime = now;
-                        ambilDataDariGAS(true);
+            for (let i = 0; i < databaseLogsHistoris.length; i++) {
+                const log = databaseLogsHistoris[i];
+                if (log.nama === nama && log.timestamp > 0 && log.timestamp < tAktual) {
+                    const diffHours = (tAktual - log.timestamp) / (1000 * 60 * 60);
+                    if (log.status.includes("Check-In") && diffHours <= 10) {
+                        continuing = true;
+                        break;
+                    } else if (log.status.includes("Check-Out") && diffHours <= 1.5) {
+                        continuing = true;
+                        break;
                     }
                 }
-            });
-        });
+            }
+            return continuing;
+        }
 
-        // === FUNGSI FETCH KE API GAS DENGAN PENANGANAN ERROR ===
+        // === FUNGSI FETCH KE API GAS ===
         async function ambilDataDariGAS(isBackground = false) {
             const syncIndicator = document.getElementById('syncIndicator');
             if (isBackground && syncIndicator) {
@@ -869,7 +854,6 @@
                 }
             } catch (error) {
                 console.error("Gagal menarik data:", error);
-                
                 if (!isBackground) {
                     const layarLoading = document.getElementById('layarLoading');
                     if (layarLoading) {
@@ -887,7 +871,6 @@
                         syncIndicator.innerHTML = '⚠️ SYNC GAGAL';
                         syncIndicator.className = 'flex items-center gap-1.5 text-[9px] font-extrabold text-red-700 bg-red-100/90 backdrop-blur-sm px-2.5 py-1.5 rounded-full border border-red-300 shadow-sm transition-opacity';
                         setTimeout(() => { syncIndicator.classList.add('hidden'); }, 3000);
-                        return;
                     }
                 }
             } finally {
@@ -897,7 +880,7 @@
             }
         }
 
-        // === FUNGSI FOTO PROXY DARI GAS SUPER TANGGUH ===
+        // === FUNGSI FOTO PROXY DARI GAS DENGAN FALLBACK AMAN ===
         function loadFotoViaGAS(fileId, imgClass) {
             if (!fileId || window.imageCache[fileId]) return; 
             
@@ -920,14 +903,13 @@
                         document.querySelectorAll('.' + imgClass).forEach(el => el.src = dataUri);
                         if (window.currentLightboxFileId === fileId) document.getElementById('imgLightbox').src = dataUri;
                     } else {
-                        throw new Error("Respon data gambar kosong atau format salah");
+                        throw new Error("Respon data gambar kosong");
                     }
                 }).catch(e => {
-                    console.warn("Proxy GAS gagal, beralih ke Fallback Thumbnail Drive API:", e);
-                    const fallbackUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
-                    window.imageCache[fileId] = fallbackUrl;
-                    document.querySelectorAll('.' + imgClass).forEach(el => el.src = fallbackUrl);
-                    if (window.currentLightboxFileId === fileId) document.getElementById('imgLightbox').src = fallbackUrl;
+                    console.warn("Proxy GAS gagal, menggunakan SVG fallback:", e);
+                    window.imageCache[fileId] = errorThumbSVG;
+                    document.querySelectorAll('.' + imgClass).forEach(el => el.src = errorThumbSVG);
+                    if (window.currentLightboxFileId === fileId) document.getElementById('imgLightbox').src = errorThumbSVG;
                 });
         }
 
@@ -1007,14 +989,33 @@
             document.getElementById('btnSubmitPatroli').classList.remove('hidden');
         };
 
-        // === FUNGSI LOGIKA UTAMA ===
+        // === FUNGSI MASTER RENDER (DECOUPLED) ===
+        function updateSemuaTampilan() {
+            renderJadwal();
+            renderKinerja();
+            renderKehadiranAktual();
+            renderFotoTNI();
+            renderLiveDashboardFeeds();
+        }
+
+        // === FUNGSI UTAMA DRAW DATA ===
         function inisialisasiApp(dataDariServer) {
             dataPersonil = dataDariServer.personil || [];
             polaShift = dataDariServer.polaShift || [];
             logHariIni = dataDariServer.logHariIni || [];
             databaseLogsHistoris = dataDariServer.databaseLogsHistoris || [];
-            dataAreaPatroli = dataDariServer.areaPatroli || []; // Dapatkan area patroli dinamis
-            dataJenisKejadian = dataDariServer.jenisKejadian || []; // Dapatkan jenis kejadian dinamis
+            dataAreaPatroli = dataDariServer.areaPatroli || []; 
+            dataJenisKejadian = dataDariServer.jenisKejadian || []; 
+
+            // OPTIMASI: Pre-computing Tanggal & Timestamp murni sekali saat load
+            databaseLogsHistoris.forEach(log => {
+                log.parsedDate = parseLocalDateString(log.tanggal);
+                log.timestamp = safeGetTime(log.tanggal, log.waktu);
+            });
+            logHariIni.forEach(log => {
+                log.parsedDate = parseLocalDateString(log.tanggal);
+                log.timestamp = safeGetTime(log.tanggal, log.waktu);
+            });
 
             const setLogs = new Set();
             window.cachedUniqueLogs = [...logHariIni, ...databaseLogsHistoris].filter(log => {
@@ -1024,39 +1025,28 @@
                 return true;
             });
 
-            // Render select nama personil
+            // Render select dropdowns
             const selectNama = document.getElementById('nama');
             if (selectNama && selectNama.options.length <= 1) { 
                 selectNama.innerHTML = '<option value="" disabled selected>-- Pilih Nama Anda --</option>';
-                dataPersonil.forEach(nama => {
-                    let opt = document.createElement('option'); opt.value = nama; opt.innerHTML = nama;
-                    selectNama.appendChild(opt);
-                });
+                dataPersonil.forEach(nama => selectNama.appendChild(new Option(nama, nama)));
             }
 
-            // --- RENDER AREA PATROLI SECARA DINAMIS DARI SPREADSHEET ---
             const selectAreaPatroli = document.getElementById('areaPatroli');
             if (selectAreaPatroli) {
                 selectAreaPatroli.innerHTML = '<option value="" disabled selected>-- Pilih Titik Area --</option>';
                 if (dataAreaPatroli.length > 0) {
-                    dataAreaPatroli.forEach(area => {
-                        let opt = document.createElement('option'); opt.value = area; opt.innerHTML = area;
-                        selectAreaPatroli.appendChild(opt);
-                    });
+                    dataAreaPatroli.forEach(area => selectAreaPatroli.appendChild(new Option(area, area)));
                 } else {
                     selectAreaPatroli.innerHTML = '<option value="" disabled selected>⚠️ Area belum disetup</option>';
                 }
             }
 
-            // --- RENDER JENIS KEJADIAN SECARA DINAMIS DARI SPREADSHEET ---
             const selectJenisKejadian = document.getElementById('jenisKejadian');
             if (selectJenisKejadian) {
                 selectJenisKejadian.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Kejadian --</option>';
                 if (dataJenisKejadian.length > 0) {
-                    dataJenisKejadian.forEach(jenis => {
-                        let opt = document.createElement('option'); opt.value = jenis; opt.innerHTML = jenis;
-                        selectJenisKejadian.appendChild(opt);
-                    });
+                    dataJenisKejadian.forEach(jenis => selectJenisKejadian.appendChild(new Option(jenis, jenis)));
                 } else {
                     selectJenisKejadian.innerHTML = '<option value="" disabled selected>⚠️ Kategori belum disetup</option>';
                 }
@@ -1065,7 +1055,8 @@
             window.shiftSessions = {};
             dataPersonil.forEach(n => window.shiftSessions[n] = []);
             
-            let allLogsAsc = [...databaseLogsHistoris].sort((a,b) => safeGetTime(a.tanggal, a.waktu) - safeGetTime(b.tanggal, b.waktu));
+            // Pengurutan menggunakan timestamp yang sudah di-precompute
+            let allLogsAsc = [...databaseLogsHistoris].sort((a,b) => a.timestamp - b.timestamp);
             
             allLogsAsc.forEach(log => {
                 let nama = log.nama;
@@ -1078,7 +1069,7 @@
                     if (sessions.length > 0 && !sessions[sessions.length - 1].outLog) {
                         sessions[sessions.length - 1].outLog = log;
                     } else {
-                        let logDt = new Date(safeGetTime(log.tanggal, log.waktu));
+                        let logDt = new Date(log.timestamp);
                         if (logDt.getHours() < 12) logDt.setDate(logDt.getDate() - 1); 
                         window.shiftSessions[nama].push({ inLog: null, outLog: log, shiftDate: toLocalYYYYMMDD(logDt) });
                     }
@@ -1091,17 +1082,13 @@
 
             let recentCheckIns = window.cachedUniqueLogs.filter(log => {
                 if (!log.status.includes('Check-In')) return false;
-                let logTime = safeGetTime(log.tanggal || toLocalYYYYMMDD(now), log.waktu || '00:00');
+                let logTime = log.timestamp || safeGetTime(log.tanggal || toLocalYYYYMMDD(now), log.waktu || '00:00');
                 let diffHours = (now.getTime() - logTime) / (1000 * 60 * 60);
                 return diffHours >= 0 && diffHours < 16;
             });
 
             if (recentCheckIns.length > 0) {
-                recentCheckIns.sort((a,b) => {
-                    let tA = safeGetTime(a.tanggal || toLocalYYYYMMDD(now), a.waktu || '00:00');
-                    let tB = safeGetTime(b.tanggal || toLocalYYYYMMDD(now), b.waktu || '00:00');
-                    return tB - tA;
-                });
+                recentCheckIns.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
                 petugasAktifSaatIni = recentCheckIns[0].nama;
                 window.petugasOnDutyFull = recentCheckIns; 
             }
@@ -1134,8 +1121,8 @@
                 }
             }
 
-            renderJadwal();
-            renderLiveDashboardFeeds();
+            // Memperbarui semua tampilan setelah inisialisasi
+            updateSemuaTampilan();
 
             const layarLoading = document.getElementById('layarLoading');
             const dashboardMenu = document.getElementById('dashboardMenu');
@@ -1147,28 +1134,26 @@
             }
         }
 
-        // === FUNGSI DETEKSI DAN TOLERANSI DOUBLE SHIFT ===
+        // === DETEKSI SEBELUMNYA APAKAH BERTUGAS (LEBIH DARI 12 JAM UNTUK BEBAS LUPA ABSEN) ===
         function isDoubleShiftForgiven(nama, session) {
             if (!session) return false;
             if (!window.shiftSessions || !window.shiftSessions[nama]) return false;
             
-            // Kasus 1: Lupa Masuk (Hanya ada Check-Out tanpa Check-In karena lanjut tugas)
             if (!session.inLog && session.outLog) {
-                let outTime = safeGetTime(session.outLog.tanggal, session.outLog.waktu);
+                let outTime = session.outLog.timestamp || safeGetTime(session.outLog.tanggal, session.outLog.waktu);
                 return window.shiftSessions[nama].some(s => {
                     if (s === session || !s.inLog) return false;
-                    let inTime = safeGetTime(s.inLog.tanggal, s.inLog.waktu);
+                    let inTime = s.inLog.timestamp || safeGetTime(s.inLog.tanggal, s.inLog.waktu);
                     let diffHours = (outTime - inTime) / (1000 * 60 * 60);
                     return diffHours > 4 && diffHours <= 20; 
                 });
             }
             
-            // Kasus 2: Lupa Pulang (Hanya ada Check-In tanpa Check-Out karena langsung diganti shift berikutnya)
             if (session.inLog && !session.outLog) {
-                let inTime = safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                let inTime = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
                 return window.shiftSessions[nama].some(s => {
                     if (s === session || !s.outLog) return false;
-                    let outTime = safeGetTime(s.outLog.tanggal, s.outLog.waktu);
+                    let outTime = s.outLog.timestamp || safeGetTime(s.outLog.tanggal, s.outLog.waktu);
                     let diffHours = (outTime - inTime) / (1000 * 60 * 60);
                     return diffHours > 4 && diffHours <= 20; 
                 });
@@ -1177,125 +1162,137 @@
             return false;
         }
 
-        // === LOGIKA SHIFT SCHEDULING BYPASS ===
+        // === FUNGSI DETEKSI PETUGAS TERJADWAL UTAMA ===
+        function getPetugasTerjadwal(dateObj, shiftIdx) {
+            if (!polaShift || polaShift.length === 0) return "";
+            const diffTime = Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()) - anchorDateUTC;
+            let cycleIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24)) % polaShift.length;
+            if (cycleIndex < 0) cycleIndex += polaShift.length;
+            return polaShift[cycleIndex][shiftIdx] || "";
+        }
+
+        // === LOGIKA DETEKSI SWAP & KEDISIPLINAN BERDASARKAN JADWAL UTAMA ===
         function hitungStatusKedisiplinan(nama, status, waktuStr, tanggalObj) {
             if (status === "Check-In (Perbantuan Pengamanan)" || status === "Check-Out (Perbantuan Pengamanan)") return null;
             if (!polaShift || polaShift.length === 0) return null;
-            if (!waktuStr) return null;
+            if (!waktuStr || !tanggalObj) return null;
 
             const parts = waktuStr.split(":");
             if (parts.length < 2) return null;
+            const jamAbsen = parseInt(parts[0], 10);
+            const menitAbsen = jamAbsen * 60 + parseInt(parts[1], 10);
 
-            const menitAbsen = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-
-            let shiftIndex = 0, tipeWarning = "", infoWarning = "", isPrevDaySchedule = false;
-            const TOLERANSI = 10; 
-
-            if (status === "Check-In (Masuk)") {
+            let shiftIdx = 0;
+            let isPrevDaySchedule = false;
+            
+            if (status.includes("Check-In")) {
                 if (menitAbsen >= 4 * 60 && menitAbsen < 13 * 60) {
-                    shiftIndex = 0; 
-                    if (menitAbsen > 7 * 60 + TOLERANSI) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 7 * 60) + " mnt"; }
+                    shiftIdx = 0; // Pagi
                 } else if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
-                    shiftIndex = 1; 
-                    if (menitAbsen > 15 * 60 + TOLERANSI) { tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 15 * 60) + " mnt"; }
+                    shiftIdx = 1; // Siang
                 } else {
-                    shiftIndex = 2; 
-                    if (menitAbsen > 23 * 60 + TOLERANSI) {
-                        tipeWarning = "Terlambat"; infoWarning = (menitAbsen - 23 * 60) + " mnt";
-                    } else if (menitAbsen < 4 * 60) { 
-                        tipeWarning = "Terlambat"; infoWarning = ((24 * 60 - 23 * 60) + menitAbsen) + " mnt";
-                        isPrevDaySchedule = true; 
-                    }
+                    shiftIdx = 2; // Malam
+                    if (menitAbsen < 4 * 60) isPrevDaySchedule = true;
                 }
-            } else if (status === "Check-Out (Pulang)") {
+            } else if (status.includes("Check-Out")) {
                 if (menitAbsen >= 13 * 60 && menitAbsen < 21 * 60) {
-                    shiftIndex = 0; 
-                    if (menitAbsen < 15 * 60 - TOLERANSI) { tipeWarning = "Pulang Cepat"; infoWarning = (15 * 60 - menitAbsen) + " mnt"; }
+                    shiftIdx = 0; // Pagi pulang 15:00
                 } else if (menitAbsen >= 21 * 60 || menitAbsen < 4 * 60) {
-                    shiftIndex = 1; 
-                    if (menitAbsen >= 21 * 60 && menitAbsen < 23 * 60 - TOLERANSI) {
-                        tipeWarning = "Pulang Cepat"; infoWarning = (23 * 60 - menitAbsen) + " mnt";
-                    } else if (menitAbsen < 4 * 60) { isPrevDaySchedule = true; }
+                    shiftIdx = 1; // Siang pulang 23:00
+                    if (menitAbsen < 4 * 60) isPrevDaySchedule = true;
                 } else {
-                    shiftIndex = 2; isPrevDaySchedule = true; 
-                    if (menitAbsen < 7 * 60 - TOLERANSI) { tipeWarning = "Pulang Cepat"; infoWarning = (7 * 60 - menitAbsen) + " mnt"; }
+                    shiftIdx = 2; // Malam pulang 07:00
+                    isPrevDaySchedule = true;
                 }
             }
 
-            let checkDate = new Date(tanggalObj.getTime());
-            if (isPrevDaySchedule) checkDate.setDate(checkDate.getDate() - 1);
+            let actualDate = new Date(tanggalObj.getTime());
+            if (isPrevDaySchedule) actualDate.setDate(actualDate.getDate() - 1);
 
-            const diffTime = Date.UTC(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate()) - Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
-            let cycleIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24)) % polaShift.length;
-            if (cycleIndex < 0) cycleIndex += polaShift.length;
-
-            const personilTerjadwal = polaShift[cycleIndex][shiftIndex];
-            let isSwap = (nama !== personilTerjadwal);
-
-            let isLanjutShift = false;
-            let logTimestamp = tanggalObj.getTime();
+            // Cari siapa yang seharusnya terjadwal wajib di slot ini
+            const P_jadwal = getPetugasTerjadwal(actualDate, shiftIdx);
             
-            if (typeof databaseLogsHistoris !== 'undefined' && databaseLogsHistoris) {
-                for (let i = 0; i < databaseLogsHistoris.length; i++) {
-                    let prevLog = databaseLogsHistoris[i];
-                    if (prevLog.nama === nama && prevLog.status.includes('Check-In')) {
-                        let prevTime = safeGetTime(prevLog.tanggal, prevLog.waktu);
-                        let diffHours = (logTimestamp - prevTime) / (1000 * 60 * 60);
-                        if (diffHours >= 4 && diffHours <= 16) {
-                            isLanjutShift = true;
-                            break;
+            let isSwap = false;
+            let swapInfo = "";
+            let tipeWarning = "";
+            let infoWarning = "";
+
+            if (P_jadwal && P_jadwal !== "OFF" && P_jadwal !== nama) {
+                isSwap = true;
+                swapInfo = "Swap " + P_jadwal;
+            }
+
+            // BEBASKAN PENALTI JIKA PETUGAS MELAKUKAN SWAP ATAU DALAM TUGAS BERKELANJUTAN
+            const continuing = isContinuingDuty(nama, actualDate, shiftIdx);
+            if (!isSwap && !continuing) {
+                const TOLERANSI = 10;
+                if (status.includes("Check-In")) {
+                    if (shiftIdx === 0 && menitAbsen > 7 * 60 + TOLERANSI) {
+                        tipeWarning = "Terlambat";
+                        infoWarning = (menitAbsen - 7 * 60) + " mnt";
+                    } else if (shiftIdx === 1 && menitAbsen > 15 * 60 + TOLERANSI) {
+                        tipeWarning = "Terlambat";
+                        infoWarning = (menitAbsen - 15 * 60) + " mnt";
+                    } else if (shiftIdx === 2) {
+                        let targetMenit = 23 * 60;
+                        let mnt = menitAbsen;
+                        if (isPrevDaySchedule) mnt += 24 * 60;
+                        if (mnt > targetMenit + TOLERANSI) {
+                            tipeWarning = "Terlambat";
+                            infoWarning = (mnt - targetMenit) + " mnt";
                         }
                     }
+                } else if (status.includes("Check-Out")) {
+                    if (shiftIdx === 0 && menitAbsen < 15 * 60 - TOLERANSI) {
+                        tipeWarning = "Pulang Cepat";
+                        infoWarning = (15 * 60 - menitAbsen) + " mnt";
+                    } else if (shiftIdx === 1) {
+                        let mnt = menitAbsen;
+                        if (isPrevDaySchedule) mnt += 24 * 60;
+                        if (mnt < 23 * 60 - TOLERANSI) {
+                            tipeWarning = "Pulang Cepat";
+                            infoWarning = (23 * 60 - mnt) + " mnt";
+                        }
+                    } else if (shiftIdx === 2 && menitAbsen < 7 * 60 - TOLERANSI) {
+                        tipeWarning = "Pulang Cepat";
+                        infoWarning = (7 * 60 - menitAbsen) + " mnt";
+                    }
                 }
             }
 
-            if ((isSwap || isLanjutShift) && tipeWarning === "Terlambat") {
-                tipeWarning = "";
-                infoWarning = "";
-            }
-
-            if (isSwap || tipeWarning || isLanjutShift) { 
-                let notes = [];
-                if (isSwap) notes.push("Swap " + personilTerjadwal);
-                if (isLanjutShift) notes.push("Double Shift");
-                
+            if (isSwap || tipeWarning) { 
                 return { 
                     isSwap: isSwap, 
-                    isLanjutShift: isLanjutShift,
-                    swapInfo: notes.join(" & "), 
+                    swapInfo: swapInfo, 
                     tipeWarning: tipeWarning, 
-                    infoWarning: infoWarning 
+                    infoWarning: infoWarning,
+                    petugasDigantikan: isSwap ? P_jadwal : null,
+                    shiftIdx: shiftIdx,
+                    actualDateStr: toLocalYYYYMMDD(actualDate)
                 }; 
             }
             return null;
         }
 
-        // === FUNGSI RAPOR KINERJA (KPI) ===
+        // === FUNGSI RAPOR KINERJA (KPI) DECOUPLED ===
         function renderKinerja() {
-            const startDate = new Date(currentYear, currentMonth, 13);
-            const endDate = new Date(currentYear, currentMonth + 1, 12);
-
+            const periode = getPeriodeLaporan(currentYear, currentMonth);
             const elsBulanTahunKinerja = document.querySelectorAll('.textBulanTahunKinerja');
-            elsBulanTahunKinerja.forEach(el => {
-                el.innerText = startDate.getFullYear() === endDate.getFullYear() ? 
-                    `13 ${namaBulan[startDate.getMonth()]} - 12 ${namaBulan[endDate.getMonth()]} ${startDate.getFullYear()}` : 
-                    `13 ${namaBulan[startDate.getMonth()]} ${startDate.getFullYear()} - 12 ${namaBulan[endDate.getMonth()]} ${endDate.getFullYear()}`;
-            });
+            elsBulanTahunKinerja.forEach(el => el.innerText = periode.labelStr);
 
             let kpi = {};
             dataPersonil.forEach(n => {
-                kpi[n] = { skor: 100, patroli: 0, temuan: 0, kejadian: 0, tni: 0, backup: 0, swap: 0, terlambat: 0, lupaAbsen: 0, patroliHarian: {} };
+                kpi[n] = { skor: 100, patroli: 0, temuan: 0, kejadian: 0, tni: 0, backup: 0, swap: 0, digantikanCount: 0, terlambat: 0, lupaAbsen: 0, pulangCepat: 0, patroliHarian: {} };
             });
 
             databaseLogsHistoris.forEach(log => {
-                let logDate = new Date(safeGetTime(log.tanggal, log.waktu));
-                if (logDate >= startDate && logDate <= endDate && kpi[log.nama]) {
+                if (log.parsedDate && log.parsedDate >= periode.startDate && log.parsedDate <= periode.endDate && kpi[log.nama]) {
                     const n = log.nama, stat = log.status;
                     if (stat === "Patroli") {
                         kpi[n].patroli++; 
                         let patroliHariIni = kpi[n].patroliHarian[log.tanggal] || 0;
                         if (patroliHariIni < 3) { kpi[n].skor += 5; kpi[n].patroliHarian[log.tanggal] = patroliHariIni + 1; }
-                        if (log.lokasi && log.lokasi.includes("TEMUAN")) { kpi[n].temuan++; kpi[n].skor += 5; }
+                        if (log.lokasi && log.lokasi.includes("TEMUAN")) { kpi[n].temuan++; kpi[n].skor += 10; }
                     }
                     if (stat === "Laporan Kejadian") { kpi[n].kejadian++; kpi[n].skor += 10; }
                     if (log.tni || stat === "Foto dengan TNI") { kpi[n].tni++; kpi[n].skor += 5; }
@@ -1303,20 +1300,17 @@
                 }
             });
 
-            const todayStr = toLocalYYYYMMDD(new Date());
-            
+            // Analisis Sesi Kehadiran, Swap, Lateness, dan Penalti Digantikan
             Object.keys(window.shiftSessions).forEach(nama => {
                 window.shiftSessions[nama].forEach(session => {
-                    let dParts = session.shiftDate.split('-');
-                    let sDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                    let sDate = parseLocalDateString(session.shiftDate);
                     
-                    if (sDate >= startDate && sDate <= endDate) {
+                    if (sDate && sDate >= periode.startDate && sDate <= periode.endDate) {
+                        // Cek kelalaian absensi / kelengkapan shift
                         if (!session.inLog || !session.outLog) {
-                            
-                            // PEMBENAHAN BUG KRITIS: Menghindari denda absen Shift 3 prematur sebelum shift lintas harinya berakhir
                             let isActiveToday = false;
                             if (session.inLog && !session.outLog) {
-                                let checkInTime = safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                                let checkInTime = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
                                 let diffHours = (new Date().getTime() - checkInTime) / (1000 * 60 * 60);
                                 if (diffHours >= 0 && diffHours < 16) {
                                     isActiveToday = true;
@@ -1325,13 +1319,22 @@
 
                             let dimaafkanKarenaDoubleShift = isDoubleShiftForgiven(nama, session);
                             if (session.inLog && !session.outLog && !dimaafkanKarenaDoubleShift) {
-                                let currTime = safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                                let currTime = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
                                 let nextSession = window.shiftSessions[nama].find(s => 
                                     s.inLog && 
-                                    safeGetTime(s.inLog.tanggal, s.inLog.waktu) > currTime &&
-                                    (safeGetTime(s.inLog.tanggal, s.inLog.waktu) - currTime) <= (14 * 60 * 60 * 1000)
+                                    (s.inLog.timestamp || safeGetTime(s.inLog.tanggal, s.inLog.waktu)) > currTime &&
+                                    ((s.inLog.timestamp || safeGetTime(s.inLog.tanggal, s.inLog.waktu)) - currTime) <= (14 * 60 * 60 * 1000)
                                 );
                                 if (nextSession) {
+                                    dimaafkanKarenaDoubleShift = true;
+                                }
+                            }
+
+                            // Jika durasi kerja nyata > 12 jam, dimaafkan dari denda Lupa Absen
+                            if (session.inLog && session.outLog) {
+                                let inT = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                                let outT = session.outLog.timestamp || safeGetTime(session.outLog.tanggal, session.outLog.waktu);
+                                if (outT - inT > 12 * 60 * 60 * 1000) {
                                     dimaafkanKarenaDoubleShift = true;
                                 }
                             }
@@ -1342,17 +1345,52 @@
                             }
                         }
                         
+                        // Perhitungan Keterlambatan & Swap Timbal-Balik Berdasarkan Jadwal Utama
                         if (session.inLog) {
-                            let inLogDate = new Date(safeGetTime(session.inLog.tanggal, session.inLog.waktu));
+                            let inLogDate = new Date(session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu));
                             let dStatus = hitungStatusKedisiplinan(nama, session.inLog.status, session.inLog.waktu, inLogDate);
                             if (dStatus) {
-                                if (dStatus.isSwap) { kpi[nama].swap++; kpi[nama].skor += 10; }
-                                if (dStatus.tipeWarning === "Terlambat") {
-                                    let mnt = parseInt(dStatus.infoWarning) || 0;
-                                    let penalti = Math.floor(mnt / 5) * 1;
-                                    if(penalti < 1 && mnt > 0) penalti = 1; 
-                                    kpi[nama].terlambat += mnt; kpi[nama].skor -= penalti;
+                                if (dStatus.isSwap) { 
+                                    kpi[nama].swap++; 
+                                    kpi[nama].skor += 10; 
+
+                                    const digantikan = dStatus.petugasDigantikan;
+                                    if (digantikan && kpi[digantikan]) {
+                                        kpi[digantikan].digantikanCount++;
+                                        kpi[digantikan].skor -= 10;
+                                    }
                                 }
+                                if (dStatus.tipeWarning === "Terlambat") {
+                                    let mnt = parseInt(dStatus.infoWarning, 10) || 0;
+                                    let mntExceed = mnt - 10; // Lewat dari toleransi 10 menit
+                                    let penalti = 0;
+                                    if (mntExceed > 0) {
+                                        penalti = Math.ceil(mntExceed / 5); // -1 Poin per 5 Menit
+                                    }
+                                    kpi[nama].terlambat += mnt; 
+                                    kpi[nama].skor -= penalti;
+                                }
+                            }
+                        }
+
+                        // Perhitungan Pulang Cepat
+                        if (session.outLog) {
+                            let outLogDate = new Date(session.outLog.timestamp || safeGetTime(session.outLog.tanggal, session.outLog.waktu));
+                            let dStatus = hitungStatusKedisiplinan(nama, session.outLog.status, session.outLog.waktu, outLogDate);
+                            if (dStatus) {
+                                if (dStatus.tipeWarning === "Pulang Cepat") {
+                                    kpi[nama].pulangCepat++;
+                                    kpi[nama].skor -= 10;
+                                }
+                            }
+                        }
+
+                        // Apresiasi Poin Bonus Double Shift Otomatis (+15 Poin) 
+                        if (session.inLog && session.outLog) {
+                            let inT = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                            let outT = session.outLog.timestamp || safeGetTime(session.outLog.tanggal, session.outLog.waktu);
+                            if (outT - inT > 12 * 60 * 60 * 1000) {
+                                kpi[nama].skor += 15; 
                             }
                         }
                     }
@@ -1394,7 +1432,7 @@
             const selectRapor = document.getElementById('selectRaporNama');
             if (selectRapor && selectRapor.options.length <= 1) {
                 selectRapor.innerHTML = '<option value="" disabled selected>-- Pilih Personil untuk melihat detail --</option>';
-                dataPersonil.forEach(nama => selectRapor.innerHTML += `<option value="${nama}">${nama}</option>`);
+                dataPersonil.forEach(nama => selectRapor.appendChild(new Option(nama, nama)));
             }
 
             window.kpiDataGlobal = kpi;
@@ -1421,45 +1459,46 @@
             document.getElementById('raporGrade').className = `text-4xl font-black leading-none drop-shadow-md ${grade.color}`;
             document.getElementById('raporGradeTeks').innerText = grade.text;
             
-            document.getElementById('raporTerlambat').innerHTML = `<span class="${data.terlambat > 0 ? 'text-red-400' : 'text-green-400'}">${data.terlambat > 0 ? `Total ${data.terlambat} menit` : `Nihil (Bagus)`}</span>`;
-            document.getElementById('raporLupa').innerHTML = `<span class="${data.lupaAbsen > 0 ? 'text-red-400' : 'text-green-400'}">${data.lupaAbsen > 0 ? `${data.lupaAbsen} kali kejadian` : `Nihil (Aman)`}</span>`;
+            let terlambatText = "";
+            if (data.terlambat > 0) terlambatText += `Tlt: ${data.terlambat} mnt `;
+            if (data.pulangCepat > 0) terlambatText += `Plg Cepat: ${data.pulangCepat}x`;
+            if (!terlambatText) terlambatText = "Nihil (Bagus)";
+            
+            document.getElementById('raporTerlambat').innerHTML = `<span class="${(data.terlambat > 0 || data.pulangCepat > 0) ? 'text-red-400' : 'text-green-400'}">${terlambatText}</span>`;
+            document.getElementById('raporLupa').innerHTML = `<span class="${data.lupaAbsen > 0 ? 'text-red-400' : 'text-green-400'}">${data.lupaAbsen > 0 ? `${data.lupaAbsen} kali` : `Nihil (Aman)`}</span>`;
             document.getElementById('raporPatroli').innerText = `${data.patroli} Rute Divisit`;
             document.getElementById('raporTni').innerText = `${data.tni} Giat Bersama`;
             document.getElementById('raporTemuan').innerText = `${data.temuan} Temuan`;
             document.getElementById('raporKejadian').innerText = `${data.kejadian} Insiden`;
             document.getElementById('raporBackup').innerText = `${data.backup} Kali Masuk`;
-            document.getElementById('raporSwap').innerText = `${data.swap} Kali Ganti Teman`;
+            
+            document.getElementById('raporSwap').innerHTML = `Menolong: <span class="text-green-400 font-bold">${data.swap}x</span> | Diganti: <span class="text-red-400 font-bold">${data.digantikanCount || 0}x</span>`;
 
             divCard.classList.remove('hidden');
         };
 
-        // === PERHITUNGAN DAN RENDERING DATA JADWAL & REKAP ===
+        // === PERHITUNGAN DAN RENDERING JADWAL DECOUPLED ===
         function renderJadwal() {
             const tbodyJadwal = document.getElementById('tabelJadwalBody'), tbodyRekap = document.getElementById('tabelRekapBody');
             if (!tbodyJadwal || !tbodyRekap) return;
 
             tbodyJadwal.innerHTML = ''; tbodyRekap.innerHTML = '';
-            let rekapTargetShift = {}, rekapKehadiranDinamis = {}; 
+            let rekapTargetShift = {}; 
             
             if (dataPersonil.length > 0) { 
-                dataPersonil.forEach(nama => { rekapTargetShift[nama] = 0; rekapKehadiranDinamis[nama] = { total: 0, lupaMasuk: [] }; }); 
+                dataPersonil.forEach(nama => { rekapTargetShift[nama] = 0; }); 
             }
 
-            const startDate = new Date(currentYear, currentMonth, 13);
-            const endDate = new Date(currentYear, currentMonth + 1, 12);
+            const periode = getPeriodeLaporan(currentYear, currentMonth);
 
-            document.querySelectorAll('.textBulanTahun').forEach(el => {
-                el.innerText = startDate.getFullYear() === endDate.getFullYear() ? 
-                    `13 ${namaBulan[startDate.getMonth()]} - 12 ${namaBulan[endDate.getMonth()]} ${startDate.getFullYear()}` : 
-                    `13 ${namaBulan[startDate.getMonth()]} ${startDate.getFullYear()} - 12 ${namaBulan[endDate.getMonth()]} ${endDate.getFullYear()}`;
-            });
+            document.querySelectorAll('.textBulanTahun').forEach(el => el.innerText = periode.labelStr);
 
             if (!polaShift || polaShift.length === 0) return;
 
-            let loopDate = new Date(startDate), rowColorIndex = 0; 
-            while (loopDate <= endDate) {
+            let loopDate = new Date(periode.startDate), rowColorIndex = 0; 
+            while (loopDate <= periode.endDate) {
                 const currentDate = new Date(loopDate);
-                const diffTime = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(anchorDate.getFullYear(), anchorDate.getMonth(), anchorDate.getDate());
+                const diffTime = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - anchorDateUTC;
                 let cycleIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24)) % polaShift.length;
                 if (cycleIndex < 0) cycleIndex += polaShift.length; 
 
@@ -1475,11 +1514,43 @@
                 loopDate.setDate(loopDate.getDate() + 1); rowColorIndex++;
             }
 
+            Object.keys(rekapTargetShift).forEach(nama => {
+                if(rekapTargetShift[nama] > 0) {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-stone-50 border-b border-stone-200";
+                    tr.innerHTML = `<td class="px-4 py-2 font-bold text-stone-700 border-r border-stone-200">${escapeHtml(nama)}</td><td class="px-4 py-2 text-center font-black text-amber-800 w-24">${rekapTargetShift[nama]} Shift</td>`;
+                    tbodyRekap.appendChild(tr);
+                }
+            });
+        }
+
+        // === RENDERING REKAP KEHADIRAN AKTUAL ===
+        function renderKehadiranAktual() {
+            const tbodyKehadiran = document.getElementById('tabelKehadiranAktual');
+            if (!tbodyKehadiran) return;
+            
+            let rekapKehadiranDinamis = {}; 
+            dataPersonil.forEach(nama => { rekapKehadiranDinamis[nama] = { total: 0, lupaMasuk: [] }; }); 
+
+            const periode = getPeriodeLaporan(currentYear, currentMonth);
+
             Object.keys(window.shiftSessions).forEach(nama => {
                 window.shiftSessions[nama].forEach(session => {
-                    let sDate = new Date(session.shiftDate);
-                    if (sDate >= startDate && sDate <= endDate) {
-                        if (session.inLog || session.outLog) rekapKehadiranDinamis[nama].total++;
+                    let sDate = parseLocalDateString(session.shiftDate);
+                    if (sDate && sDate >= periode.startDate && sDate <= periode.endDate) {
+                        if (session.inLog || session.outLog) {
+                            rekapKehadiranDinamis[nama].total++;
+                            
+                            // LOGIKA CERDAS: Jika durasi absensi Check-In s.d Check-Out > 12 jam,
+                            // maka otomatis dihitung 2 Shift Hadir (Double Shift) pada rekap akumulasi
+                            if (session.inLog && session.outLog) {
+                                let inT = session.inLog.timestamp || safeGetTime(session.inLog.tanggal, session.inLog.waktu);
+                                let outT = session.outLog.timestamp || safeGetTime(session.outLog.tanggal, session.outLog.waktu);
+                                if (outT - inT > 12 * 60 * 60 * 1000) {
+                                    rekapKehadiranDinamis[nama].total++;
+                                }
+                            }
+                        }
                         if (!session.inLog && session.outLog) {
                             if (!isDoubleShiftForgiven(nama, session)) {
                                 rekapKehadiranDinamis[nama].lupaMasuk.push(`${sDate.getDate()} ${namaBulanShort[sDate.getMonth()]}`);
@@ -1489,52 +1560,97 @@
                 });
             });
 
-            Object.keys(rekapTargetShift).forEach(nama => {
-                if(rekapTargetShift[nama] > 0) {
-                    const tr = document.createElement('tr');
-                    tr.className = "hover:bg-stone-50 border-b border-stone-200";
-                    tr.innerHTML = `<td class="px-4 py-2 font-bold text-stone-700 border-r border-stone-200">${escapeHtml(nama)}</td><td class="px-4 py-2 text-center font-black text-amber-800 w-24">${rekapTargetShift[nama]} Shift</td>`;
-                    tbodyRekap.appendChild(tr);
+            tbodyKehadiran.innerHTML = '';
+            Object.keys(rekapKehadiranDinamis).forEach((nama, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
+                let ketLupaMasuk = rekapKehadiranDinamis[nama].lupaMasuk.length > 0 ? `<br><span class="text-[9px] text-red-500 font-normal">Tdk absen msk: ${rekapKehadiranDinamis[nama].lupaMasuk.join(', ')}</span>` : "";
+                tr.innerHTML = `<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">${escapeHtml(nama)}${ketLupaMasuk}</td><td class="px-4 py-3 text-center text-amber-800 font-black text-sm">${rekapKehadiranDinamis[nama].total} Shift</td>`;
+                tbodyKehadiran.appendChild(tr);
+            });
+        }
+
+        // === RENDERING REKAP FOTO TNI ===
+        function renderFotoTNI() {
+            const tbodyFotoTNI = document.getElementById('tabelFotoTNI');
+            if (!tbodyFotoTNI) return;
+
+            let rekapFotoTNIDinamis = {};
+            dataPersonil.forEach(n => rekapFotoTNIDinamis[n] = 0);
+            
+            const periode = getPeriodeLaporan(currentYear, currentMonth);
+
+            databaseLogsHistoris.forEach(log => {
+                let logDate = log.parsedDate || parseLocalDateString(log.tanggal);
+                if (logDate && logDate >= periode.startDate && logDate <= periode.endDate && (log.tni || log.status === "Foto dengan TNI")) {
+                    if (rekapFotoTNIDinamis[log.nama] !== undefined) rekapFotoTNIDinamis[log.nama]++;
                 }
             });
 
-            const tbodyKehadiran = document.getElementById('tabelKehadiranAktual');
-            if (tbodyKehadiran) {
-                tbodyKehadiran.innerHTML = '';
-                Object.keys(rekapKehadiranDinamis).forEach((nama, index) => {
-                    const tr = document.createElement('tr');
-                    tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
-                    let ketLupaMasuk = rekapKehadiranDinamis[nama].lupaMasuk.length > 0 ? `<br><span class="text-[9px] text-red-500 font-normal">Tdk absen msk: ${rekapKehadiranDinamis[nama].lupaMasuk.join(', ')}</span>` : "";
-                    tr.innerHTML = `<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">${escapeHtml(nama)}${ketLupaMasuk}</td><td class="px-4 py-3 text-center text-amber-800 font-black text-sm">${rekapKehadiranDinamis[nama].total} Shift</td>`;
-                    tbodyKehadiran.appendChild(tr);
-                });
-            }
-            
-            renderKinerja();
+            tbodyFotoTNI.innerHTML = '';
+            Object.keys(rekapFotoTNIDinamis).forEach((nama, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
+                tr.innerHTML = `<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">${escapeHtml(nama)}</td><td class="px-4 py-3 text-center text-stone-800 font-black text-sm">${rekapFotoTNIDinamis[nama]} Kali</td>`;
+                tbodyFotoTNI.appendChild(tr);
+            });
         }
 
-        // === PEMBUATAN FEED DASHBOARD DENGAN DUKUNGAN SHIFT LINTAS HARI ===
+        // === PEMBUATAN FEED DASHBOARD DENGAN OPTIMASI LOOKUP SEPAHAMAN O(N) ===
         function renderLiveDashboardFeeds() {
             const cardsOnDuty = document.getElementById('cardsOnDuty');
             const dNow = new Date();
             
+            const tanggalHariIni = toLocalYYYYMMDD(dNow);
+            const dYesterday = new Date(dNow.getTime());
+            dYesterday.setDate(dYesterday.getDate() - 1);
+            const tanggalKemarin = toLocalYYYYMMDD(dYesterday);
+
+            const jamSekarang = dNow.getHours();
+            const menitSekarang = dNow.getMinutes();
+            const totalMenitHariIni = jamSekarang * 60 + menitSekarang;
+
             if (cardsOnDuty) {
                 let htmlBuffer = '';
                 
-                let logsOnDuty = logHariIni.filter(item => 
-                    item.status === 'Check-In (Masuk)' || 
-                    item.status === 'Check-Out (Pulang)' ||
-                    item.status === 'Check-In (Perbantuan Pengamanan)' ||
-                    item.status === 'Check-Out (Perbantuan Pengamanan)'
-                );
+                // OPTIMASI: Indeks hash O(1) untuk mendeteksi checkout hari ini
+                const checkedOutToday = new Set();
+                window.cachedUniqueLogs.forEach(l => {
+                    if (l.tanggal === tanggalHariIni && l.status.includes('Check-Out')) {
+                        checkedOutToday.add(l.nama);
+                    }
+                });
+
+                let logsOnDuty = window.cachedUniqueLogs.filter(log => {
+                    const isCoreShift = log.status === 'Check-In (Masuk)' || 
+                                       log.status === 'Check-Out (Pulang)' ||
+                                       log.status === 'Check-In (Perbantuan Pengamanan)' ||
+                                       log.status === 'Check-Out (Perbantuan Pengamanan)';
+                    
+                    if (!isCoreShift) return false;
+
+                    // ATURAN 1: Check-In Shift 3 Kemarin (masuk setelah pukul 21:00 WIB)
+                    if (log.status.includes('Check-In') && log.tanggal === tanggalKemarin && log.waktu >= '21:00') {
+                        return !checkedOutToday.has(log.nama) && totalMenitHariIni <= 450;
+                    }
+
+                    // ATURAN 2: Check-Out Shift 3 Hari Ini (sebelum pukul 08:00 pagi)
+                    if (log.status.includes('Check-Out') && log.tanggal === tanggalHariIni && log.waktu < '08:00') {
+                        const waktuSubmit = log.timestamp || safeGetTime(log.tanggal, log.waktu);
+                        const selisihMenit = (dNow.getTime() - waktuSubmit) / (1000 * 60);
+                        return selisihMenit >= 0 && selisihMenit <= 30 && totalMenitHariIni <= 480;
+                    }
+
+                    return log.tanggal === tanggalHariIni;
+                });
 
                 if (logsOnDuty.length === 0) {
                     htmlBuffer = '<p class="text-center text-stone-400 text-xs py-4 font-medium">Belum ada aktivitas kehadiran shift ini.</p>';
                 } else {
                     logsOnDuty.sort((a,b) => {
-                        let tA = a.tanggal || toLocalYYYYMMDD(dNow), wA = a.waktu || '00:00';
-                        let tB = b.tanggal || toLocalYYYYMMDD(dNow), wB = b.waktu || '00:00';
-                        return safeGetTime(tB, wB) - safeGetTime(tA, wA);
+                        let tA = a.timestamp || safeGetTime(a.tanggal || toLocalYYYYMMDD(dNow), a.waktu || '00:00');
+                        let tB = b.timestamp || safeGetTime(b.tanggal || toLocalYYYYMMDD(dNow), b.waktu || '00:00');
+                        return tB - tA;
                     });
 
                     logsOnDuty.forEach(petugas => {
@@ -1559,20 +1675,19 @@
                         }
 
                         let pTgl = petugas.tanggal || toLocalYYYYMMDD(new Date());
-                        // PEMBENAHAN BUG: Memastikan pemformatan waktu TNI & kehadiran konsisten dan aman
                         let pWkt = formatWaktuSederhana(petugas.waktu || '00:00');
 
-                        const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, pWkt, new Date(safeGetTime(pTgl, pWkt))); 
+                        const infoDisiplin = hitungStatusKedisiplinan(petugas.nama, petugas.status, pWkt, new Date(petugas.timestamp || safeGetTime(pTgl, pWkt))); 
                         let badgesHtml = '';
                         if (infoDisiplin) {
-                            if (infoDisiplin.isSwap || infoDisiplin.isLanjutShift) badgesHtml += `<span class="inline-block px-1.5 py-0.5 text-[8px] font-extrabold rounded bg-indigo-100 text-indigo-800 border border-indigo-200 mt-1 mr-1">${escapeHtml(infoDisiplin.swapInfo)}</span>`;
+                            if (infoDisiplin.isSwap) badgesHtml += `<span class="inline-block px-1.5 py-0.5 text-[8px] font-extrabold rounded bg-indigo-100 text-indigo-800 border border-indigo-200 mt-1 mr-1">${escapeHtml(infoDisiplin.swapInfo)}</span>`;
                             if (infoDisiplin.tipeWarning) badgesHtml += `<span class="inline-block px-1.5 py-0.5 text-[8px] font-extrabold rounded ${infoDisiplin.tipeWarning === "Terlambat" ? "bg-orange-100 text-orange-800 border-orange-200" : "bg-red-100 text-red-800 border-red-200"} border mt-1">Warning: ${escapeHtml(infoDisiplin.tipeWarning)} (${escapeHtml(infoDisiplin.infoWarning)})</span>`;
                         }
 
-                        let dParts = pTgl.split('-');
                         let displayTanggal = "-";
-                        if (dParts.length === 3) {
-                            displayTanggal = formatTanggalID(new Date(parseInt(dParts[0]), parseInt(dParts[1])-1, parseInt(dParts[2])), false, false);
+                        let parsedTgl = petugas.parsedDate || parseLocalDateString(pTgl);
+                        if (parsedTgl) {
+                            displayTanggal = formatTanggalID(parsedTgl, false, false);
                         }
                         
                         let paramFoto = fileId ? fileId : (imgSrc !== defaultThumbSVG ? imgSrc : '');
@@ -1628,7 +1743,6 @@
                             thumbSrc = petugas.foto;
                         }
                         
-                        // PEMBENAHAN BUG: Penguraian format waktu yang konsisten dan anti pecah
                         const safeNama = escapeHtml(petugas.nama);
                         const safeWaktu = escapeHtml(formatWaktuSederhana(petugas.waktu || "??:??"));
                         let paramFoto = fileId ? fileId : (thumbSrc !== defaultThumbSVG ? thumbSrc : '');
@@ -1652,95 +1766,6 @@
                 }
                 cardsFotoTNI.innerHTML = htmlBufferTni;
             }
-            
-            let rekapFotoTNIDinamis = {};
-            dataPersonil.forEach(n => rekapFotoTNIDinamis[n] = 0);
-            
-            const startDate = new Date(currentYear, currentMonth, 13);
-            const endDate = new Date(currentYear, currentMonth + 1, 12);
-            databaseLogsHistoris.forEach(log => {
-                let logDate = new Date(safeGetTime(log.tanggal, log.waktu));
-                if (logDate >= startDate && logDate <= endDate && (log.tni || log.status === "Foto dengan TNI")) {
-                    if (rekapFotoTNIDinamis[log.nama] !== undefined) rekapFotoTNIDinamis[log.nama]++;
-                }
-            });
-
-            const tbodyFotoTNI = document.getElementById('tabelFotoTNI');
-            if (tbodyFotoTNI) {
-                tbodyFotoTNI.innerHTML = '';
-                Object.keys(rekapFotoTNIDinamis).forEach((nama, index) => {
-                    const tr = document.createElement('tr');
-                    tr.className = index % 2 === 0 ? "bg-white border-b border-stone-200" : "bg-stone-50 border-b border-stone-200";
-                    tr.innerHTML = `<td class="border-r border-stone-200 px-4 py-3 font-bold text-stone-700">${escapeHtml(nama)}</td><td class="px-4 py-3 text-center text-stone-800 font-black text-sm">${rekapFotoTNIDinamis[nama]} Kali</td>`;
-                    tbodyFotoTNI.appendChild(tr);
-                });
-            }
-        }
-
-        // === PENGOLAHAN DAN PENGUNCIAN KOORDINAT GEOLOKASI GPS ===
-        function dapatkanLokasi(isRefresh = false) {
-            const arrStatusObj = [document.getElementById('lokasiStatus'), document.getElementById('lokasiStatusPatroli')];
-            const mapContainer = document.getElementById('mapContainer'), mapFrame = document.getElementById('mapFrame');
-            
-            if (mapContainer) mapContainer.classList.add('hidden');
-
-            if (!navigator.geolocation) {
-                arrStatusObj.forEach(el => { if(el) el.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 border border-red-200 flex justify-center items-center gap-2", el.innerHTML = "❌ Browser tidak mendukung GPS."; });
-                return;
-            }
-
-            arrStatusObj.forEach(el => {
-                if(el) {
-                    el.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-amber-100 text-amber-900 flex justify-center items-center gap-2 shadow-sm border border-amber-300/50";
-                    el.innerHTML = '<svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mencari titik satelit GPS...';
-                }
-            });
-
-            // LOGIKA PENGUMPAN BALIK VISUAL: Memicu animasi denyut jika tombol segarkan manual ditekan
-            if (isRefresh) {
-                arrStatusObj.forEach(el => {
-                    if (el) {
-                        el.classList.add('animate-pulse');
-                        setTimeout(() => el.classList.remove('animate-pulse'), 1000);
-                    }
-                });
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                async function(position) {
-                    currentLat = position.coords.latitude; currentLon = position.coords.longitude;
-                    if (mapContainer && mapFrame) {
-                        const bboxOffset = 0.002;
-                        mapFrame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${currentLon-bboxOffset},${currentLat-bboxOffset},${currentLon+bboxOffset},${currentLat+bboxOffset}&layer=mapnik&marker=${currentLat},${currentLon}`;
-                        mapContainer.classList.remove('hidden');
-                    }
-                    try {
-                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLon}`);
-                        const data = await res.json();
-                        if(data && data.display_name) currentAddress = data.display_name.split(',').slice(0, 3).join(', ');
-                    } catch (e) { currentAddress = "Lat: " + currentLat.toFixed(5) + ", Lon: " + currentLon.toFixed(5); }
-
-                    arrStatusObj.forEach(el => {
-                        if(el) {
-                            el.className = "mb-2 p-2.5 rounded-lg text-[11px] text-center font-bold bg-stone-800 text-amber-400 shadow-sm border border-stone-900";
-                            el.innerHTML = "📍 GPS Terkunci: " + currentLat.toFixed(5) + ", " + currentLon.toFixed(5) + "<br><span class='text-[10px] text-stone-300 font-medium'>" + escapeHtml(currentAddress) + "</span>";
-                        }
-                    });
-                },
-                function(error) {
-                    arrStatusObj.forEach(el => {
-                        if(el) {
-                            el.className = "mb-4 p-2.5 rounded-lg text-xs text-center font-bold bg-red-100 text-red-800 shadow-sm border border-red-200";
-                            let msg = "Gagal mendeteksi lokasi.";
-                            if (error.code === 1) msg = "Izin lokasi diblokir oleh browser/HP.";
-                            else if (error.code === 2) msg = "Sinyal GPS tidak ditemukan (Coba ke tempat terbuka).";
-                            else if (error.code === 3) msg = "Pencarian GPS Timeout (Sinyal lemah).";
-                            el.innerHTML = "⚠️ " + msg;
-                        }
-                    });
-                    currentAddress = "Lokasi tidak ditemukan";
-                }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
         }
 
         // === FUNGSI UTAMA SETUP DATABASE ===
@@ -1767,7 +1792,7 @@
             }
         }
 
-        // === FUNGSI PRATINJAU DOKUMEN HTML (ANTI-BLOCK) ===
+        // === PRATINJAU DOKUMEN HTML (ANTI-BLOCK) ===
         function showPdfPreview(htmlContent, doc, filename) {
             window.currentPdfDoc = doc; window.currentPdfFilename = filename;
             const previewDiv = document.getElementById('pdfHtmlPreview');
@@ -1784,6 +1809,17 @@
 
         function downloadFromPreview() { if (window.currentPdfDoc) window.currentPdfDoc.save(window.currentPdfFilename); }
         
+        // === OPTIMASI DRY: HELPER HEADER HTML UNTUK PREVIEW PDF ===
+        function getHTMLHeaderPDF(judul, periode) {
+            return `
+                <div class="border-b border-stone-200 pb-4 mb-4">
+                    <h2 class="text-base font-black text-stone-900">${judul}</h2>
+                    <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
+                </div>
+            `;
+        }
+
         // === OPTIMASI DRY: HELPER PENYUNTING & PENGEKSPOR PDF UNIVERSAL ===
         function eksporPDFUniversal(judul, periode, namaFile, tableSelectorOrEl, options = {}, renderHtmlPreview) {
             const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
@@ -1814,9 +1850,9 @@
             showPdfPreview(previewHtml, doc, namaFile);
         }
 
-        // === PEMBUATAN PDF MENGGUNAKAN HELPER UNIVERSAL ===
+        // === PEMBUATAN PDF ===
         function downloadJadwalPDF() {
-            const periode = document.querySelector('#tabJadwal .textBulanTahun').innerText;
+            const periode = getPeriodeLaporan(currentYear, currentMonth).labelStr;
             const tableData = getTableData('tableJadwal');
             
             let rowsHtml = tableData.rows.map((row, idx) => `
@@ -1828,18 +1864,8 @@
                 </tr>
             `).join('');
 
-            eksporPDFUniversal(
-                "Laporan Jadwal Shift Sekuriti",
-                periode,
-                'Jadwal_Shift_' + periode.replace(/ /g, '_') + '.pdf',
-                '#tableJadwal',
-                { fontSize: 8, cellPadding: 3, headerColor: [146, 64, 14] },
-                () => `
-                    <div class="border-b border-stone-200 pb-4 mb-4">
-                        <h2 class="text-base font-black text-stone-900">Laporan Jadwal Shift Sekuriti</h2>
-                        <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
-                        <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
-                    </div>
+            eksporPDFUniversal("Laporan Jadwal Shift Sekuriti", periode, 'Jadwal_Shift_' + periode.replace(/ /g, '_') + '.pdf', '#tableJadwal', { fontSize: 8, cellPadding: 3, headerColor: [146, 64, 14] },
+                () => getHTMLHeaderPDF("Laporan Jadwal Shift Sekuriti", periode) + `
                     <div class="overflow-x-auto border border-stone-300 rounded-lg">
                         <table class="w-full text-left border-collapse text-xs">
                             <thead><tr class="bg-amber-800 text-white font-bold"><th class="px-3 py-2 text-center">TANGGAL</th><th class="px-3 py-2 text-center">PAGI</th><th class="px-3 py-2 text-center">SIANG</th><th class="px-3 py-2 text-center">MALAM</th></tr></thead>
@@ -1851,39 +1877,39 @@
         }
         
         function downloadKehadiranPDF() {
-            const periode = document.querySelector('#tabKehadiran .textBulanTahun').innerText;
-            const startDate = new Date(currentYear, currentMonth, 13), endDate = new Date(currentYear, currentMonth + 1, 12);
+            const periodeObj = getPeriodeLaporan(currentYear, currentMonth);
+            const periode = periodeObj.labelStr;
             let historyBody = [];
             
             databaseLogsHistoris.forEach(log => {
-                let dParts = log.tanggal.split('-'); let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
-                if (logDate >= startDate && logDate <= endDate) {
+                let logDate = log.parsedDate || parseLocalDateString(log.tanggal);
+                if (logDate && logDate >= periodeObj.startDate && logDate <= periodeObj.endDate) {
                     if (log.status.includes("Check-")) {
-                        let formattedDate = `${parseInt(dParts[2])}/${parseInt(dParts[1])}/${dParts[0]}`;
+                        let dParts = log.tanggal.split('-');
+                        let formattedDate = `${parseInt(dParts[2], 10)}/${parseInt(dParts[1], 10)}/${dParts[0]}`;
                         let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${formattedDate} ${formatWaktuSederhana(log.waktu)}` : formattedDate);
                         let keterangan = log.lokasi && log.lokasi !== "-" ? log.lokasi : "";
                         
                         if (log.waktu && log.status === "Check-In (Masuk)") {
                             try {
-                                let logFullDateTime = new Date(safeGetTime(log.tanggal, log.waktu));
+                                let logFullDateTime = new Date(log.timestamp || safeGetTime(log.tanggal, log.waktu));
                                 let dStatus = hitungStatusKedisiplinan(log.nama, log.status, log.waktu, logFullDateTime);
                                 
                                 if (dStatus) {
                                     let warnText = [];
-                                    if (dStatus.isSwap || dStatus.isLanjutShift) warnText.push("Info: " + dStatus.swapInfo);
+                                    if (dStatus.isSwap) warnText.push(dStatus.swapInfo);
                                     if (dStatus.tipeWarning) warnText.push(dStatus.tipeWarning + " (" + dStatus.infoWarning + ")");
                                     if (warnText.length > 0) keterangan += (keterangan ? " | " : "") + warnText.join(", ");
                                 }
                             } catch (e) { console.error(e); }
                         } else if (log.status.includes("Perbantuan")) { keterangan = "Tugas Perbantuan Pengamanan"; }
                         
-                        let sortKey = log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00");
-                        historyBody.push({ data: [datetime, log.nama, log.status, keterangan || "-"], rawDateStr: sortKey });
+                        historyBody.push({ data: [datetime, log.nama, log.status, keterangan || "-"], timestamp: log.timestamp || safeGetTime(log.tanggal, log.waktu) });
                     }
                 }
             });
             
-            historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
+            historyBody.sort((a, b) => a.timestamp - b.timestamp);
             let finalHistoryBody = historyBody.map(item => item.data);
 
             const rekapTableData = getTableData(document.querySelector('#tabKehadiran table'));
@@ -1903,15 +1929,9 @@
                 </tr>
             `).join('');
 
-            eksporPDFUniversal(
-                "Laporan Akumulasi Kehadiran",
-                periode,
-                'Rekap_Kehadiran_' + periode.replace(/ /g, '_') + '.pdf',
-                '#tabKehadiran table',
+            eksporPDFUniversal("Laporan Akumulasi Kehadiran", periode, 'Rekap_Kehadiran_' + periode.replace(/ /g, '_') + '.pdf', '#tabKehadiran table',
                 {
-                    fontSize: 10,
-                    cellPadding: 5,
-                    headerColor: [146, 64, 14],
+                    fontSize: 10, cellPadding: 5, headerColor: [146, 64, 14],
                     callbackTambahan: (doc) => {
                         let finalY = doc.lastAutoTable.finalY || 90; 
                         doc.setFontSize(12); doc.text("Riwayat Absensi Detail", 40, finalY + 40);
@@ -1925,8 +1945,7 @@
                         });
                     }
                 },
-                () => `
-                    <div class="border-b border-stone-200 pb-4 mb-4"><h2 class="text-base font-black text-stone-900">Laporan Akumulasi Kehadiran</h2><p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p><p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p></div>
+                () => getHTMLHeaderPDF("Laporan Akumulasi Kehadiran", periode) + `
                     <div class="mb-5"><h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">1. Ringkasan Kehadiran</h3><div class="overflow-x-auto border border-stone-300 rounded-lg"><table class="w-full text-left border-collapse text-xs"><thead><tr class="bg-amber-800 text-white font-bold"><th class="px-3 py-2">Nama Personil</th><th class="px-3 py-2 text-center w-24">Hadir</th></tr></thead><tbody>${rekapRows}</tbody></table></div></div>
                     <div><h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">2. Riwayat Absensi Detail</h3><div class="overflow-x-auto border border-stone-300 rounded-lg"><table class="w-full text-left border-collapse text-[11px]"><thead><tr class="bg-stone-700 text-white font-bold"><th class="px-2 py-1.5">Timestamp</th><th class="px-2 py-1.5">Nama Personil</th><th class="px-2 py-1.5">Status</th><th class="px-2 py-1.5">Keterangan</th></tr></thead><tbody>${detailRows || '<tr><td colspan="4" class="text-center py-4 text-stone-400">Tidak ada riwayat detail</td></tr>'}</tbody></table></div></div>
                 `
@@ -1934,13 +1953,13 @@
         }
 
         function downloadFotoTNIPDF() {
-            const periode = document.querySelector('#tabFoto .textBulanTahun').innerText;
-            const startDate = new Date(currentYear, currentMonth, 13), endDate = new Date(currentYear, currentMonth + 1, 12);
+            const periodeObj = getPeriodeLaporan(currentYear, currentMonth);
+            const periode = periodeObj.labelStr;
             let historyBody = [];
             
             databaseLogsHistoris.forEach(log => {
-                let dParts = log.tanggal.split('-'); let logDate = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
-                if (logDate >= startDate && logDate <= endDate && (log.tni || log.status === "Foto dengan TNI")) {
+                let logDate = log.parsedDate || parseLocalDateString(log.tanggal);
+                if (logDate && logDate >= periodeObj.startDate && logDate <= periodeObj.endDate && (log.tni || log.status === "Foto dengan TNI")) {
                     let datetime = log.displayTimestamp ? log.displayTimestamp : (log.waktu ? `${log.tanggal} ${formatWaktuSederhana(log.waktu)}` : log.tanggal);
                     
                     let photoUrl = "-";
@@ -1953,11 +1972,11 @@
                             photoUrl = `https://drive.google.com/file/d/${fileId}/view`;
                         }
                     }
-                    historyBody.push({ data: [datetime, log.nama, photoUrl], rawDateStr: log.tanggal + (log.waktu ? "T" + log.waktu + ":00" : "T00:00:00") });
+                    historyBody.push({ data: [datetime, log.nama, photoUrl], timestamp: log.timestamp || safeGetTime(log.tanggal, log.waktu) });
                 }
             });
 
-            historyBody.sort((a, b) => new Date(a.rawDateStr) - new Date(b.rawDateStr));
+            historyBody.sort((a, b) => a.timestamp - b.timestamp);
             let finalHistoryBody = historyBody.map(item => item.data);
 
             const tniTableData = getTableData(document.querySelector('#tabFoto table'));
@@ -1978,30 +1997,16 @@
                 </tr>
             `).join('');
 
-            eksporPDFUniversal(
-                "Laporan Rekap Foto TNI",
-                periode,
-                'Rekap_Foto_TNI_' + periode.replace(/ /g, '_') + '.pdf',
-                '#tabFoto table',
+            eksporPDFUniversal("Laporan Rekap Foto TNI", periode, 'Rekap_Foto_TNI_' + periode.replace(/ /g, '_') + '.pdf', '#tabFoto table',
                 {
-                    fontSize: 10,
-                    cellPadding: 5,
-                    headerColor: [146, 64, 14],
+                    fontSize: 10, cellPadding: 5, headerColor: [146, 64, 14],
                     callbackTambahan: (doc) => {
                         let finalY = doc.lastAutoTable.finalY || 90; 
                         doc.setFontSize(12); doc.text("Riwayat Kegiatan Foto TNI", 40, finalY + 40);
-                        doc.autoTable({ 
-                            head: [['Timestamp', 'Nama Personil', 'Link Foto Google Drive']], 
-                            body: finalHistoryBody, 
-                            startY: finalY + 55, 
-                            theme: 'grid', 
-                            headStyles: { fillColor: [87, 83, 78] }, 
-                            styles: { fontSize: 9, cellPadding: 4 } 
-                        });
+                        doc.autoTable({ head: [['Timestamp', 'Nama Personil', 'Link Foto Google Drive']], body: finalHistoryBody, startY: finalY + 55, theme: 'grid', headStyles: { fillColor: [87, 83, 78] }, styles: { fontSize: 9, cellPadding: 4 } });
                     }
                 },
-                () => `
-                    <div class="border-b border-stone-200 pb-4 mb-4"><h2 class="text-base font-black text-stone-900">Laporan Rekap Foto TNI</h2><p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p><p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p></div>
+                () => getHTMLHeaderPDF("Laporan Rekap Foto TNI", periode) + `
                     <div class="mb-5"><h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">1. Ringkasan Kegiatan</h3><div class="overflow-x-auto border border-stone-300 rounded-lg"><table class="w-full text-left border-collapse text-xs"><thead><tr class="bg-amber-800 text-white font-bold"><th class="px-3 py-2">Nama Personil</th><th class="px-3 py-2 text-center w-24">Jumlah</th></tr></thead><tbody>${tniRows}</tbody></table></div></div>
                     <div><h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">2. Riwayat Kegiatan</h3><div class="overflow-x-auto border border-stone-300 rounded-lg"><table class="w-full text-left border-collapse text-[11px]"><thead><tr class="bg-stone-700 text-white font-bold"><th class="px-2 py-1.5">Timestamp</th><th class="px-2 py-1.5">Nama Personil</th><th class="px-2 py-1.5">Link Foto Google Drive</th></tr></thead><tbody>${detailTniRows || '<tr><td colspan="3" class="text-center py-4 text-stone-400">Tidak ada riwayat detail</td></tr>'}</tbody></table></div></div>
                 `
@@ -2021,15 +2026,15 @@
 
             let bodyData = arrKpi.map(item => {
                 let grade = getGrade(item.skor);
+                let pelanggaranInfo = "";
+                if (item.terlambat > 0) pelanggaranInfo += `${item.terlambat}m tlt`;
+                if (item.pulangCepat > 0) pelanggaranInfo += `${pelanggaranInfo ? ', ' : ''}${item.pulangCepat}x pc`;
+                if (item.lupaAbsen > 0) pelanggaranInfo += `${pelanggaranInfo ? ', ' : ''}${item.lupaAbsen}x lupa`;
+                if (!pelanggaranInfo) pelanggaranInfo = "Nihil";
+
                 return [
-                    item.rank,
-                    item.nama,
-                    item.skor + " Poin",
-                    grade.letter,
-                    `${item.terlambat}m tlt, ${item.lupaAbsen}x lupa`, 
-                    `${item.patroli} ptrl, ${item.temuan} tmn`, 
-                    `${item.kejadian} kjd, ${item.tni} tni`, 
-                    `${item.backup} in, ${item.swap} swp` 
+                    item.rank, item.nama, item.skor + " Poin", grade.letter, pelanggaranInfo, 
+                    `${item.patroli} ptrl, ${item.temuan} tmn`, `${item.kejadian} kjd, ${item.tni} tni`, `Menolong: ${item.swap}x | Diganti: ${item.digantikanCount}x` 
                 ];
             });
 
@@ -2039,43 +2044,19 @@
                     <td class="px-2 py-2 font-bold text-stone-800">${escapeHtml(row[1])}</td>
                     <td class="px-2 py-2 text-center font-black text-emerald-700">${escapeHtml(row[2])}</td>
                     <td class="px-2 py-2 text-center font-black">${escapeHtml(row[3])}</td>
-                    <td class="px-2 py-2 text-[9px] text-red-600">${escapeHtml(row[4])}</td>
+                    <td class="px-2 py-2 text-[9px] text-red-600 font-medium">${escapeHtml(row[4])}</td>
                     <td class="px-2 py-2 text-[9px] text-stone-600">${escapeHtml(row[5])}</td>
                     <td class="px-2 py-2 text-[9px] text-stone-600">${escapeHtml(row[6])}</td>
                     <td class="px-2 py-2 text-[9px] text-blue-600">${escapeHtml(row[7])}</td>
                 </tr>
             `).join('');
 
-            eksporPDFUniversal(
-                "Laporan Rapor Kinerja (KPI) Sekuriti",
-                periode,
-                'Rapor_KPI_' + periode.replace(/ /g, '_') + '.pdf',
-                null,
-                {
-                    headerColor: [4, 120, 87],
-                    fontSize: 8,
-                    cellPadding: 4,
-                    customHead: [['Rnk', 'Nama Personil', 'Total Skor', 'Grade', 'Pelanggaran', 'Giat Patroli', 'Darurat/Sinergi', 'Kontribusi Ekstra']],
-                    customBody: bodyData
-                },
-                () => `
-                    <div class="border-b border-stone-200 pb-4 mb-4">
-                        <h2 class="text-base font-black text-stone-900">Laporan Rapor Kinerja (KPI) Sekuriti</h2>
-                        <p class="text-xs text-stone-500 font-bold mt-1">Periode: ${escapeHtml(periode)}</p>
-                        <p class="text-[10px] text-stone-400 mt-0.5">Waktu Unduh: ${new Date().toLocaleString('id-ID')} WIB</p>
-                    </div>
+            eksporPDFUniversal("Laporan Rapor Kinerja (KPI) Sekuriti", periode, 'Rapor_KPI_' + periode.replace(/ /g, '_') + '.pdf', null,
+                { headerColor: [4, 120, 87], fontSize: 8, cellPadding: 4, customHead: [['Rnk', 'Nama Personil', 'Total Skor', 'Grade', 'Pelanggaran', 'Giat Patroli', 'Darurat/Sinergi', 'Solidaritas Swap']], customBody: bodyData },
+                () => getHTMLHeaderPDF("Laporan Rapor Kinerja (KPI) Sekuriti", periode) + `
                     <div class="overflow-x-auto border border-stone-300 rounded-lg">
                         <table class="w-full text-left border-collapse text-xs">
-                            <thead><tr class="bg-emerald-700 text-white font-bold">
-                                <th class="px-2 py-2 text-center w-8">No</th>
-                                <th class="px-2 py-2">Nama Personil</th>
-                                <th class="px-2 py-2 text-center">Skor</th>
-                                <th class="px-2 py-2 text-center">Grade</th>
-                                <th class="px-2 py-2">Pelanggaran</th>
-                                <th class="px-2 py-2">Giat Patroli</th>
-                                <th class="px-2 py-2">Darurat/Sinergi</th>
-                                <th class="px-2 py-2">Ekstra</th>
-                            </tr></thead>
+                            <thead><tr class="bg-emerald-700 text-white font-bold"><th class="px-2 py-2 text-center w-8">No</th><th class="px-2 py-2">Nama Personil</th><th class="px-2 py-2 text-center">Skor</th><th class="px-2 py-2 text-center">Grade</th><th class="px-2 py-2">Pelanggaran</th><th class="px-2 py-2">Giat Patroli</th><th class="px-2 py-2">Darurat/Sinergi</th><th class="px-2 py-2">Solidaritas Swap</th></tr></thead>
                             <tbody>${rowsHtml}</tbody>
                         </table>
                     </div>
@@ -2083,7 +2064,7 @@
             );
         }
 
-        // === FUNGSI HELPER UNTUK PENGIRIMAN DATA KE GOOGLE APPS SCRIPT (DRY PRINCIPLE) ===
+        // === FUNGSI HELPER PENGIRIMAN DATA (POST API) ===
         async function kirimDataKeGAS(payloadData, btnId, pesanAreaId, btnWarnaAktif, teksBtnAwal, callbackSukses) {
             const btn = document.getElementById(btnId);
             const pesanArea = document.getElementById(pesanAreaId);
@@ -2202,6 +2183,47 @@
                 document.getElementById('fotoWatermarkBase64Kejadian').value = "";
                 document.getElementById('containerJenisLain').classList.add('hidden');
             });
+        });
+
+        // === SATU BLOK DOM CONTENT LOADED TERPADU (ANTI-STUCK / ZERO DUPLICATION) ===
+        window.addEventListener('DOMContentLoaded', () => {
+            setupPWA();
+
+            // 1. Gabungkan semua Event Listener navigasi bulan secara dinamis
+            document.querySelectorAll('[id^="btnPrevMonth"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentMonth--; 
+                    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                    updateSemuaTampilan();
+                });
+            });
+
+            document.querySelectorAll('[id^="btnNextMonth"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentMonth++; 
+                    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+                    updateSemuaTampilan();
+                });
+            });
+
+            // 2. Gabungkan pendaftaran semua aksi unduh PDF
+            const pdfActions = {
+                'btnDownloadJadwal': downloadJadwalPDF,
+                'btnDownloadKehadiran': downloadKehadiranPDF,
+                'btnDownloadFoto': downloadFotoTNIPDF,
+                'btnDownloadKinerja': downloadKinerjaPDF
+            };
+            Object.entries(pdfActions).forEach(([id, action]) => {
+                document.getElementById(id)?.addEventListener('click', action);
+            });
+
+            // 3. Inisialisasi Watermark Engine murni sekali pendaftaran
+            setupWatermarkEngine('foto', 'previewContainer', 'watermarkLoading', 'previewFoto', 'fotoWatermarkBase64');
+            setupWatermarkEngine('fotoPatroli', 'previewContainerPatroli', 'watermarkLoadingPatroli', 'previewFotoPatroli', 'fotoWatermarkBase64Patroli');
+            setupWatermarkEngine('fotoKejadian', 'previewContainerKejadian', 'watermarkLoadingKejadian', 'previewFotoKejadian', 'fotoWatermarkBase64Kejadian', { isKejadian: true });
+
+            // 4. Jalankan penarikan data utama dari server Google Apps Script
+            ambilDataDariGAS();
         });
 
     </script>
