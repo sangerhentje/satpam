@@ -7,6 +7,7 @@
     
     <!-- === PWA META TAGS === -->
     <meta name="theme-color" content="#92400e"> 
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sekuriti">
@@ -169,7 +170,7 @@
                     <form id="formKejadian" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-stone-700 mb-1.5">Petugas Pelapor</label>
-                            <div id="infoPetugasKejadian" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2 rounded-xl border border-stone-200">
+                            <div id="infoPetugasKejadian" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2.5 px-3 rounded-xl border border-stone-200">
                                 Mendeteksi petugas aktif...
                             </div>
                             <input type="hidden" id="namaKejadian" name="namaKejadian" required>
@@ -231,7 +232,7 @@
                     <form id="formPatroli" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-stone-700 mb-1.5">Petugas Patroli</label>
-                            <div id="infoPetugasPatroli" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2 rounded-xl border border-stone-200">
+                            <div id="infoPetugasPatroli" class="text-center text-xs font-bold text-stone-600 bg-stone-100 py-2.5 px-3 rounded-xl border border-stone-200">
                                 Mendeteksi petugas aktif...
                             </div>
                             <input type="hidden" id="namaPatroli" name="namaPatroli" required>
@@ -623,13 +624,8 @@
             const blobManifest = new Blob([JSON.stringify(manifestJSON)], {type: 'application/json'});
             document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(blobManifest));
 
-            try {
-                if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-                    const swCode = `self.addEventListener('install', (e) => self.skipWaiting()); self.addEventListener('activate', (e) => e.waitUntil(clients.claim())); self.addEventListener('fetch', (e) => {});`;
-                    const swBlob = new Blob([swCode], {type: 'application/javascript'});
-                    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(console.error);
-                }
-            } catch(e) { console.warn("Service Worker tidak dapat diregistrasi di lingkungan ini."); }
+            // Blob Service Worker dihapus karena memicu TypeError (URL protocol is not supported)
+            // di beberapa hosting/browser. Manifest di atas sudah cukup untuk trigger PWA di browser modern.
         }
 
         // === FUNGSI UTILITAS GLOBAL (DRY COMPLIANCE) ===
@@ -683,7 +679,8 @@
 
         function safeGetTime(tgl, wkt) {
             if (!tgl) return 0;
-            let d = tgl.split('-'), t = (wkt || "00:00").split(':');
+            let d = tgl.split('-');
+            let t = (wkt || "00:00").split(':');
             if (d.length !== 3) return 0;
             return new Date(parseInt(d[0], 10), parseInt(d[1], 10) - 1, parseInt(d[2], 10), parseInt(t[0]||0, 10), parseInt(t[1]||0, 10), 0).getTime();
         }
